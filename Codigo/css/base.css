@@ -1,0 +1,22 @@
+:root {
+  --color-primario: #dab17e;
+  --color-secundario: #efdeca;
+  --color-fondo: #e8d0b3;
+  --color-texto: #212615;
+  --color-acento: #5c8b39;
+  --color-acento2: #bf7f4a;
+  --color-titulo: #976133;
+  --color-borde: #cd9255;
+  --color-hover: #636a2f;
+  --color-boton: #c07436;
+  --color-boton-hover: #33511c;
+  --color-suave: #87b35c;
+}
+
+body {
+  background-color: var(--color-fondo);
+  font-family: 'Baloo 2', sans-serif;
+  color: var(--color-texto);
+  margin: 0;
+  padding: 0;
+}
