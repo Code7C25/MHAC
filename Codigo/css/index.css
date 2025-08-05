@@ -1,0 +1,42 @@
+main {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.destacado {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: var(--color-secundario);
+  border-left: 6px solid var(--color-acento);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.destacado h2 {
+  font-size: 28px;
+  color: var(--color-acento);
+  margin-bottom: 15px;
+}
+
+.destacado p {
+  font-size: 18px;
+  color: var(--color-texto);
+  margin-bottom: 20px;
+}
+
+.cta {
+  display: inline-block;
+  background-color: var(--color-boton);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.cta:hover {
+  background-color: var(--color-boton-hover);
+  transform: scale(1.05);
+}
