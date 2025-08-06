@@ -26,7 +26,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['usuario_id'] = $usuario['id'];
             $_SESSION['usuario_nombre'] = $usuario['nombre'];
             $_SESSION['usuario_rol'] = $usuario['rol'];
-            header("Location: index.php");
+
+            // Redirige según el rol
+            switch ($usuario['rol']) {
+                case 'adoptante':
+                    header("Location: panel_adoptante.php");
+                    break;
+                case 'refugio':
+                    header("Location: panel_refugio.php");
+                    break;
+                case 'voluntario':
+                    header("Location: panel_voluntario.php");
+                    break;
+                case 'veterinaria':
+                    header("Location: panel_veterinaria.php");
+                    break;
+                case 'donante':
+                    header("Location: panel_donante.php");
+                    break;
+                case 'hogar_transito':
+                    header("Location: panel_hogar_transito.php");
+                    break;
+                default:
+                    header("Location: index.php"); // por si acaso
+            }
             exit;
         } else {
             header("Location: login.php?error=Contraseña incorrecta.");
