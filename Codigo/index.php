@@ -6,15 +6,16 @@
     <head>
         <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/base.css">
-        <link rel="stylesheet" href="css/layout.css">
         <link rel="stylesheet" href="css/index.css">
-    </head>
-<body>
-    <header>
         <h1 class="titulo-animado">MHAC - Mis Huellitas a Casa</h1>
         <p class="subtitulo">Conectamos corazones con patitas 🐾</p>
-    </header>
-
+        <div class="user-session">
+            <form action="logout.php" method="post">
+                <button type="submit" class="boton">Cerrar Sesión</button>
+            </form>
+        </div>
+    </head>
+<body>
     <nav class="menu-principal">
         <a class="boton" href="#">Adopción</a>
         <a class="boton" href="#">Refugios</a>
