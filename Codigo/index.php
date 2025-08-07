@@ -8,19 +8,28 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
-<body>
 
+<body>
     <h1 class="titulo-animado">MHAC - Mis Huellitas a Casa</h1>
     <p class="subtitulo">Conectamos corazones con patitas 🐾</p>
 
     <div class="user-session">
         <?php if (isset($_SESSION['usuario_id'])): ?>
             <span class="bienvenida">Hola, <?= htmlspecialchars($_SESSION['usuario_nombre']) ?></span>
-            <a href="mi_perfil.php" class="boton">Mi perfil</a>
-            <a href="nuevo_post.php" class="boton">Nuevo post</a>
-            <form action="logout.php" method="post" style="display: inline;">
-                <button type="submit" class="boton">Cerrar sesión</button>
-            </form>
+
+            <div class="menu-usuario">
+                <button class="menu-toggle">☰</button>
+                <div class="menu-contenido">
+                    <a href="perfil.php">Mi perfil</a>
+                    <a href="nuevo_post.php">Nuevo post</a>
+                    <a href="#">Mis publicaciones</a>
+                    <a href="#">Configuración</a>
+                    <form action="logout.php" method="post">
+                        <button type="submit" class="logout-btn">Cerrar sesión</button>
+                    </form>
+                </div>
+            </div>
+
         <?php else: ?>
             <a href="login.php" class="boton">Iniciar sesión</a>
             <a href="registro.php" class="boton">Registrarse</a>
@@ -59,5 +68,6 @@
             </div>
         </div>
     </footer>
+
 </body>
 </html>

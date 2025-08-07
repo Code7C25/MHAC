@@ -1,0 +1,46 @@
+body {
+    font-family: 'Baloo 2', cursive;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+.perfil-container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #444;
+}
+
+p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.acciones {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.boton {
+    display: inline-block;
+    background-color: #ff8c42;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.boton:hover {
+    background-color: #e67e2c;
+}
