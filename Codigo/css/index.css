@@ -292,3 +292,141 @@ footer.footer {
 .menu-usuario:hover .menu-contenido {
     display: block;
 }
+
+/* ==== Slider novedades ==== */
+.slider-novedades {
+  max-width: 650px;
+  margin: 30px auto 50px auto;
+  background: var(--clr-card);
+  border-radius: 20px;
+  padding: 20px 30px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--clr-accent);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  position: relative;
+  height: 50px;
+  overflow: hidden;
+}
+
+.slider-novedades .slide {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.8s ease-in-out;
+  user-select: none;
+}
+
+.slider-novedades .slide.activo {
+  opacity: 1;
+  position: relative;
+}
+
+/* ==== Tarjetas de secciones ==== */
+.secciones-destacadas {
+  max-width: 1100px;
+  margin: 0 auto 50px auto;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+.tarjeta-seccion {
+  background: var(--clr-card);
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  flex: 1 1 280px;
+  padding: 25px 30px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tarjeta-seccion:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+.tarjeta-seccion h3 {
+  color: var(--clr-accent);
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.tarjeta-seccion p {
+  font-size: 1rem;
+  margin-bottom: 25px;
+  color: var(--clr-text);
+  line-height: 1.4;
+}
+
+.tarjeta-seccion .cta {
+  background: var(--clr-button);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.tarjeta-seccion .cta:hover {
+  background: var(--clr-button-hover);
+  transform: scale(1.05);
+}
+
+/* ==== Feed publicaciones ==== */
+.feed-publicaciones {
+  max-width: 650px;
+  margin: 0 auto 60px auto;
+  padding: 0 20px;
+}
+
+.feed-publicaciones .post {
+  background: var(--clr-card);
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  padding: 20px 25px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.feed-publicaciones .post:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.feed-publicaciones .post h4 {
+  color: var(--clr-accent);
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
+.feed-publicaciones .post p {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--clr-text);
+  margin-bottom: 10px;
+}
+
+.feed-publicaciones .post small {
+  font-size: 0.8rem;
+  color: var(--clr-text);
+  opacity: 0.7;
+}
+
+/* ==== Responsive ==== */
+@media (max-width: 700px) {
+  .secciones-destacadas {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feed-publicaciones, .slider-novedades {
+    max-width: 90%;
+  }
+}
