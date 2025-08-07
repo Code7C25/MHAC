@@ -1,21 +1,30 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>MHAC - Mis Huellitas a Casa</title>
-    <head>
-        <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="css/base.css">
-        <link rel="stylesheet" href="css/index.css">
-        <h1 class="titulo-animado">MHAC - Mis Huellitas a Casa</h1>
-        <p class="subtitulo">Conectamos corazones con patitas 🐾</p>
-        <div class="user-session">
-            <form action="logout.php" method="post">
-                <button type="submit" class="boton">Cerrar Sesión</button>
-            </form>
-        </div>
-    </head>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
 <body>
+
+    <h1 class="titulo-animado">MHAC - Mis Huellitas a Casa</h1>
+    <p class="subtitulo">Conectamos corazones con patitas 🐾</p>
+
+    <div class="user-session">
+        <?php if (isset($_SESSION['usuario_id'])): ?>
+            <a href="mi_perfil.php" class="boton">Mi perfil</a>
+            <a href="nuevo_post.php" class="boton">Nuevo post</a>
+            <form action="logout.php" method="post" style="display: inline;">
+                <button type="submit" class="boton">Cerrar sesión</button>
+            </form>
+        <?php else: ?>
+            <a href="login.php" class="boton">Iniciar sesión</a>
+        <?php endif; ?>
+    </div>
+
     <nav class="menu-principal">
         <a class="boton" href="#">Adopción</a>
         <a class="boton" href="#">Refugios</a>
@@ -32,13 +41,13 @@
 
     <footer class="footer">
         <div class="footer-container">
-          <div class="footer-logo">
-            <h3>MHAC - Mis Huellitas a Casa</h3>
-            <p>Un puente entre peluditos y hogares llenos de amor.</p>
-          </div>
-      
-        <div class="footer-bottom">
-          <p>&copy; 2025 MHAC. Todos los derechos reservados.</p>
+            <div class="footer-logo">
+                <h3>MHAC - Mis Huellitas a Casa</h3>
+                <p>Un puente entre peluditos y hogares llenos de amor.</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MHAC. Todos los derechos reservados.</p>
+            </div>
         </div>
     </footer>  
 </body>
