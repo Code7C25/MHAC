@@ -55,9 +55,9 @@
 
         <!-- Slider de novedades -->
         <section class="slider-novedades">
-            <div class="slide activo">🐾 Nueva campaña de adopción este fin de semana</div>
-            <div class="slide">🏠 Refugio "Peluditos felices" necesita voluntarios</div>
-            <div class="slide">❤️ Dona y ayuda a salvar vidas</div>
+            <div class="slide activo">Nueva campaña de adopción este fin de semana</div>
+            <div class="slide">Refugio "Peluditos felices" necesita voluntarios</div>
+            <div class="slide">Dona y ayuda a salvar vidas</div>
         </section>
 
         <!-- Tarjetas de secciones -->
@@ -65,17 +65,17 @@
             <article class="tarjeta-seccion">
                 <h3>Adopción</h3>
                 <p>Encuentra a tu nuevo mejor amigo peludo.</p>
-                <a href="#" class="cta">Ver mascotas</a>
+                <a href="adopcion.php" class="cta">Ver mascotas</a>
             </article>
             <article class="tarjeta-seccion">
                 <h3>Refugios</h3>
                 <p>Conoce los refugios y su labor.</p>
-                <a href="#" class="cta">Ver refugios</a>
+                <a href="refugios.php" class="cta">Ver refugios</a>
             </article>
             <article class="tarjeta-seccion">
                 <h3>Campañas</h3>
                 <p>Participa en nuestras campañas solidarias.</p>
-                <a href="#" class="cta">Ver campañas</a>
+                <a href="camapañas.php" class="cta">Ver campañas</a>
             </article>
         </section>
 
