@@ -15,6 +15,7 @@
 
     <div class="user-session">
         <?php if (isset($_SESSION['usuario_id'])): ?>
+            <span class="bienvenida">Hola, <?= htmlspecialchars($_SESSION['usuario_nombre']) ?></span>
             <a href="mi_perfil.php" class="boton">Mi perfil</a>
             <a href="nuevo_post.php" class="boton">Nuevo post</a>
             <form action="logout.php" method="post" style="display: inline;">
@@ -22,6 +23,7 @@
             </form>
         <?php else: ?>
             <a href="login.php" class="boton">Iniciar sesión</a>
+            <a href="registro.php" class="boton">Registrarse</a>
         <?php endif; ?>
     </div>
 
@@ -30,6 +32,13 @@
         <a class="boton" href="#">Refugios</a>
         <a class="boton" href="#">Campañas</a>
     </nav>
+
+    <?php if (!isset($_SESSION['usuario_id'])): ?>
+        <section class="alerta-inicio">
+            <h2>¿Todavía no iniciaste sesión?</h2>
+            <a href="login.php" class="cta">Iniciar sesión</a>
+        </section>
+    <?php endif; ?>
 
     <main>
         <section class="destacado">
@@ -49,6 +58,6 @@
                 <p>&copy; 2025 MHAC. Todos los derechos reservados.</p>
             </div>
         </div>
-    </footer>  
+    </footer>
 </body>
 </html>

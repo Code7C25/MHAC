@@ -211,3 +211,23 @@ footer.footer {
   nav.menu-principal { flex-wrap: wrap; gap: 8px; }
   .user-session .boton { padding: 6px 12px; }
 }
+
+.alerta-inicio {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 2px solid #ffeeba;
+    padding: 20px;
+    margin: 30px auto;
+    text-align: center;
+    width: 90%;
+    border-radius: 10px;
+}
+.alerta-inicio .cta {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #f0a500;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
