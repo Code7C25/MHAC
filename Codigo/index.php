@@ -10,8 +10,41 @@
 </head>
 
 <body>
-    <h1 class="titulo-animado">MHAC - Mis Huellitas a Casa</h1>
-    <p class="subtitulo">Conectamos corazones con patitas 🐾</p>
+<section class="hero-wag">
+  <div class="hero-wag-bg" style="background-image: url('imagenes/slide1.jpg');"></div>
+  <div class="hero-wag-content">
+    <div class="hero-wag-logo">
+      <img src="imagenes/logo.png" alt="Logo MHAC">
+    </div>
+    <div class="hero-wag-text">
+      <h1>MHAC - Mis Huellitas a Casa</h1>
+      <p>Conectamos corazones con patitas 🐾</p>
+      <span class="hero-wag-badge">Confiado por miles de familias</span>
+    </div>
+  </div>
+</section>
+<section class="servicios-wag">
+  <h2>¿Listo para ayudar o adoptar?</h2>
+  <p class="subtexto">Elige una opción para comenzar</p>
+  <div class="servicios-grid">
+    <a href="adopcion.php" class="servicio-card">
+      <div class="icono">🐶</div>
+      <h3>Adopción</h3>
+    </a>
+    <a href="refugios.php" class="servicio-card">
+      <div class="icono">🏠</div>
+      <h3>Refugios</h3>
+    </a>
+    <a href="campañas.php" class="servicio-card">
+      <div class="icono">❤️</div>
+      <h3>Campañas</h3>
+    </a>
+    <a href="donaciones.php" class="servicio-card">
+      <div class="icono">💰</div>
+      <h3>Donaciones</h3>
+    </a>
+  </div>
+</section>
 
     <div class="user-session">
         <?php if (isset($_SESSION['usuario_id'])): ?>
@@ -128,6 +161,24 @@
     slides[currentSlide].classList.add('activo');
   }, 4000);
 </script>
+<script>
+  // Cambio automático del fondo en hero-wag
+  const heroBg = document.querySelector('.hero-wag-bg');
+  const imagenesFondo = [
+    'imagenes/slide1.jpg',
+    'imagenes/slide2.jpg',
+    'imagenes/slide3.jpg'
+  ];
+  let fondoIndex = 0;
+
+  setInterval(() => {
+    fondoIndex = (fondoIndex + 1) % imagenesFondo.length;
+    heroBg.style.backgroundImage = `url('${imagenesFondo[fondoIndex]}')`;
+  }, 5000);
+</script>
+
+
+
 
 </body>
 </html>

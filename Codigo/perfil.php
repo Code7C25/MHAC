@@ -9,12 +9,15 @@ if (!isset($_SESSION['usuario_id'])) {
 require_once 'conexion.php';
 
 $id_usuario = $_SESSION['usuario_id'];
-$sql = "SELECT nombre, email, rol, fecha_registro FROM usuarios WHERE id = ?";
+$sql = "SELECT nombre, email, rol, fecha_registro, foto_perfil FROM usuarios WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 $resultado = $stmt->get_result();
 $usuario = $resultado->fetch_assoc();
+
+// Definir avatar por defecto si no hay foto
+$avatar = !empty($usuario['foto_perfil']) ? htmlspecialchars($usuario['foto_perfil']) : "imagenes/avatar_mascota.png";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -27,6 +30,9 @@ $usuario = $resultado->fetch_assoc();
 
     <div class="perfil-container">
         <h1>Mi Perfil</h1>
+
+        <!-- Foto de perfil -->
+        <img src="<?php echo $avatar; ?>" alt="Foto de perfil" class="foto-perfil">
 
         <p><strong>Nombre:</strong> <?php echo htmlspecialchars($usuario['nombre']); ?></p>
         <p><strong>Email:</strong> <?php echo htmlspecialchars($usuario['email']); ?></p>
