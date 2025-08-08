@@ -1,0 +1,218 @@
+/* ==== Estilos para listado de adopciones ==== */
+:root {
+  --clr-bg: #efdeca;
+  --clr-text: #212615;
+  --clr-header: #976133;
+  --clr-accent: #5c8b39;
+  --clr-accent2: #c07436;
+  --clr-button: #c07436;
+  --clr-button-hover: #bf7f4a;
+  --clr-card: #e8d0b3;
+}
+
+body {
+  background: var(--clr-bg);
+  font-family: 'Baloo 2', cursive;
+  color: var(--clr-text);
+  margin: 0;
+  padding: 0;
+}
+
+/* Encabezado */
+header {
+  background: linear-gradient(135deg, var(--clr-header), var(--clr-accent2));
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  text-shadow: 2px 2px rgba(0,0,0,0.3);
+}
+
+/* Contenedor principal */
+main {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Lista de adopciones */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+li {
+  background: var(--clr-card);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+li:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* Título de mascota */
+li h2 {
+  color: var(--clr-accent);
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+/* Texto */
+li p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+/* Imagen */
+li img {
+  display: block;
+  margin: 15px auto;
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Estado */
+li p strong {
+  color: var(--clr-header);
+}
+
+/* Mensaje si no hay adopciones */
+main > p {
+  background-color: #fff3cd;
+  border: 2px solid #ffeeba;
+  color: #856404;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+/* ==== Formulario de filtros ==== */
+form {
+  background: var(--clr-card);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+form label {
+  font-weight: bold;
+  color: var(--clr-header);
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+form input[type="text"],
+form select {
+  padding: 8px;
+  border: 2px solid var(--clr-header);
+  border-radius: 6px;
+  background: #fff;
+  font-family: inherit;
+}
+
+form button {
+  background: var(--clr-button);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+}
+
+form button:hover {
+  background: var(--clr-button-hover);
+  transform: scale(1.05);
+}
+
+form a {
+  color: var(--clr-accent2);
+  font-size: 0.9rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+form a:hover {
+  color: var(--clr-accent);
+}
+
+/* ==== Lista de adopciones ==== */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+li {
+  background: var(--clr-card);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+li h2 {
+  color: var(--clr-accent);
+  margin-bottom: 8px;
+}
+
+li p {
+  margin: 4px 0;
+}
+
+li img {
+  display: block;
+  margin: 10px auto;
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+/* ==== Botón "Ver detalles" ==== */
+li a {
+  background: var(--clr-button);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 8px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+li a:hover {
+  background: var(--clr-button-hover);
+  transform: scale(1.05);
+}
+
