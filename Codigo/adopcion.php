@@ -49,7 +49,6 @@ $result = $conn->query($sql);
 </header>
 
 <main>
-    <!-- FORMULARIO DE FILTROS - SIN ESTILOS INLINE -->
     <form method="GET">
         <label>
             Buscar por nombre
