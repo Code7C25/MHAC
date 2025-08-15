@@ -10,8 +10,10 @@ $result = $conn->query($sql);
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Refugios - MHAC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/refugios.css">
 </head>
 <body>
     <header>
@@ -27,14 +29,17 @@ $result = $conn->query($sql);
                         <p><strong>Dirección:</strong> <?= htmlspecialchars($refugio['direccion']) ?></p>
                         <p><strong>Teléfono:</strong> <?= htmlspecialchars($refugio['telefono']) ?></p>
                         <p><strong>Email:</strong> <?= htmlspecialchars($refugio['email']) ?></p>
-                        <p><?= nl2br(htmlspecialchars($refugio['descripcion'])) ?></p>
+                        <p><strong>Descripción:</strong> <?= nl2br(htmlspecialchars($refugio['descripcion'])) ?></p>
                     </li>
-                    <hr>
                 <?php endwhile; ?>
             </ul>
         <?php else: ?>
             <p>No hay refugios registrados por ahora.</p>
         <?php endif; ?>
     </main>
+    <a href="index.php" class="btn-volver">
+            <span class="btn-volver-icon">←</span>
+            Volver al inicio
+        </a>
 </body>
 </html>
