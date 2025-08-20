@@ -14,6 +14,10 @@ $result = $conn->query($sql);
     <title>Refugios - MHAC</title>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/refugios.css">
+    <a href="index.php" class="btn-volver">
+            <span class="btn-volver-icon">←</span>
+            Volver al inicio
+    </a>
 </head>
 <body>
     <header>
@@ -37,9 +41,5 @@ $result = $conn->query($sql);
             <p>No hay refugios registrados por ahora.</p>
         <?php endif; ?>
     </main>
-    <a href="index.php" class="btn-volver">
-            <span class="btn-volver-icon">←</span>
-            Volver al inicio
-        </a>
 </body>
 </html>

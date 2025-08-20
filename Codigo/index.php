@@ -28,19 +28,27 @@
   <p class="subtexto">Elige una opción para comenzar</p>
   <div class="servicios-grid">
     <a href="adopcion.php" class="servicio-card">
-      <div class="icono"> 🐕</div>
+       <div class="icono">
+        <img src="imagenes/icono-adopcion.png" alt="Adopción">
+      </div>
       <h3>Adopción</h3>
     </a>
     <a href="refugios.php" class="servicio-card">
-      <div class="icono">🏠</div>
+       <div class="icono">
+        <img src="imagenes/icono-refugios.png" alt="Refugios">
+      </div>
       <h3>Refugios</h3>
     </a>
     <a href="campañas.php" class="servicio-card">
-      <div class="icono">❤️</div>
+       <div class="icono">
+        <img src="imagenes/icono-campañas.png" alt="Campañas">
+      </div>
       <h3>Campañas</h3>
     </a>
     <a href="donaciones.php" class="servicio-card">
-      <div class="icono">💰</div>
+       <div class="icono">
+        <img src="imagenes/icono-donaciones.png" alt="Donaciones">
+      </div>
       <h3>Donaciones</h3>
     </a>
   </div>
