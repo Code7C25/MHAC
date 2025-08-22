@@ -27,18 +27,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['usuario_nombre'] = $usuario['nombre'];
             $_SESSION['rol'] = $usuario['rol'];
 
+            // 👇 Si el usuario es un refugio, obtener su refugio_id
+            if ($usuario['rol'] === 'refugio') {
+                $sql_ref = "SELECT id FROM refugios WHERE usuario_id = ?";
+                $stmt_ref = $conn->prepare($sql_ref);
+                $stmt_ref->bind_param("i", $usuario['id']);
+                $stmt_ref->execute();
+                $res_ref = $stmt_ref->get_result();
+
+                if ($fila_ref = $res_ref->fetch_assoc()) {
+                    $_SESSION['refugio_id'] = $fila_ref['id']; // ✅ guardamos el refugio_id real
+                }
+            }
+
             header("Location: index.php");
             exit;
-
-        } else {
-            header("Location: login.php?error=Contraseña incorrecta.");
-            exit;
         }
-    } else {
-        header("Location: login.php?error=Usuario no encontrado.");
-        exit;
-    }
-} else {
-    header("Location: login.php");
-    exit;
-}
+    }}

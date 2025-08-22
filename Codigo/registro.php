@@ -45,7 +45,7 @@ session_start();
     </div>
 
     <div class="form-group telefono full-width">
-      <input type="text" name="telefono" class="form-input" placeholder="Teléfono (opcional)">
+      <input type="text" name="telefono" class="form-input" placeholder="Teléfono" required>
       <label class="form-label">Teléfono</label>
     </div>
 
@@ -75,6 +75,18 @@ session_start();
     <p>¿Ya tenés cuenta? <a href="login.php" class="login-link">Iniciá sesión</a></p>
   </div>
 </div>
+
+<script>
+  document.getElementById("rol").addEventListener("change", function() {
+      let apellidoGroup = document.getElementById("apellido-group");
+      if (this.value === "refugio") {
+          apellidoGroup.classList.add("hidden");
+          apellidoGroup.querySelector("input").value = ""; // limpiar
+      } else {
+          apellidoGroup.classList.remove("hidden");
+      }
+  });
+</script>
 
 </body>
 </html>

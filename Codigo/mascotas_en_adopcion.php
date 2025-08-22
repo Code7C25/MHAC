@@ -6,27 +6,42 @@ require_once 'conexion.php';
 $filtro_especie = $_GET['especie'] ?? '';
 $buscar_nombre = $_GET['nombre'] ?? '';
 $orden = $_GET['orden'] ?? 'recientes';
+$filtro_dias = $_GET['dias'] ?? ''; // 👈 nuevo filtro
 
 // Construcción de la consulta
-$sql = "SELECT m.id, m.nombre, m.especie, m.raza, m.sexo, m.edad, m.tamano, m.descripcion, m.foto, r.nombre_refugio
+$sql = "SELECT m.id, m.nombre, m.especie, m.raza, m.sexo, 
+               m.edad_categoria, m.tamano, m.descripcion, 
+               m.foto, m.fecha_alta, 
+               DATEDIFF(NOW(), m.fecha_alta) AS dias_en_mhac, 
+               r.nombre_refugio
         FROM mascotas m
-        JOIN refugios r ON m.refugio_id = r.id
+        LEFT JOIN refugios r ON m.refugio_id = r.id
         WHERE m.estado = 'en_adopcion'";
 
+// Filtro especie
 if ($filtro_especie) {
     $sql .= " AND m.especie = '" . $conn->real_escape_string($filtro_especie) . "'";
 }
 
+// Filtro nombre
 if ($buscar_nombre) {
     $sql .= " AND m.nombre LIKE '%" . $conn->real_escape_string($buscar_nombre) . "%'";
 }
 
+// Filtro días en MHAC
+if ($filtro_dias == '7') {
+    $sql .= " AND DATEDIFF(NOW(), m.fecha_alta) <= 7";
+} elseif ($filtro_dias == '21') {
+    $sql .= " AND DATEDIFF(NOW(), m.fecha_alta) <= 21";
+} elseif ($filtro_dias == '60+') {
+    $sql .= " AND DATEDIFF(NOW(), m.fecha_alta) > 60";
+}
+
+// Orden
 if ($orden === 'edad_asc') {
     $sql .= " ORDER BY m.edad ASC";
 } elseif ($orden === 'edad_desc') {
     $sql .= " ORDER BY m.edad DESC";
-} else {
-    $sql .= " ORDER BY m.id DESC"; // recientes primero
 }
 
 $result = $conn->query($sql);
@@ -62,9 +77,18 @@ $result = $conn->query($sql);
         </label>
 
         <label>
+            Días en MHAC
+            <select name="dias">
+                <option value="">Todos</option>
+                <option value="7" <?= $filtro_dias=='7'?'selected':'' ?>>Últimos 7 días</option>
+                <option value="21" <?= $filtro_dias=='21'?'selected':'' ?>>Últimos 21 días</option>
+                <option value="60+" <?= $filtro_dias=='60+'?'selected':'' ?>>Más de 60 días</option>
+            </select>
+        </label>
+
+        <label>
             Ordenar por
             <select name="orden">
-                <option value="recientes" <?= $orden=='recientes'?'selected':'' ?>>Recientes primero</option>
                 <option value="edad_asc" <?= $orden=='edad_asc'?'selected':'' ?>>Edad (menor a mayor)</option>
                 <option value="edad_desc" <?= $orden=='edad_desc'?'selected':'' ?>>Edad (mayor a menor)</option>
             </select>
@@ -80,21 +104,25 @@ $result = $conn->query($sql);
             <?php while ($m = $result->fetch_assoc()): ?>
                 <li>
                     <h2><?= htmlspecialchars($m['nombre']) ?></h2>
-                    <p><strong>Especie:</strong> <?= htmlspecialchars($m['especie']) ?></p>
-                    <p><strong>Raza:</strong> <?= htmlspecialchars($m['raza']) ?></p>
-                    <p><strong>Sexo:</strong> <?= htmlspecialchars($m['sexo']) ?></p>
-                    <p><strong>Edad:</strong> <?= intval($m['edad']) ?> meses</p>
-                    <p><strong>Tamaño:</strong> <?= htmlspecialchars($m['tamano']) ?></p>
-                    <p><strong>Refugio:</strong> <?= htmlspecialchars($m['nombre_refugio']) ?></p>
+                    <p><strong>Especie:</strong> <?= ucfirst(htmlspecialchars($m['especie'])) ?></p>
+                    <p><strong>Raza:</strong> <?= ucfirst(htmlspecialchars($m['raza'])) ?></p>
+                    <p><strong>Sexo:</strong> <?= ucfirst(htmlspecialchars($m['sexo'])) ?></p>
+                    <p><strong>Edad:</strong> <?= ucfirst(htmlspecialchars($m['edad_categoria'])) ?></p>
+                    <p><strong>Tamaño:</strong> <?= ucfirst(htmlspecialchars($m['tamano'])) ?></p>
+                    <p><strong>Refugio:</strong> <?= $m['nombre_refugio'] ? ucfirst(htmlspecialchars($m['nombre_refugio'])) : "Publicado por usuario" ?></p>
                     <p><?= nl2br(htmlspecialchars($m['descripcion'])) ?></p>
 
                     <?php if ($m['foto']): ?>
                         <img src="<?= 'uploads/mascotas/' . htmlspecialchars($m['foto']) ?>" 
                              alt="Foto de <?= htmlspecialchars($m['nombre']) ?>" width="200">
                     <?php endif; ?>
-
+                    <p><strong>Publicado:</strong> <?= date("d/m/Y", strtotime($m['fecha_alta'])) ?></p>
                     <br>
-                    <a href="solicitar_adopcion.php?id=<?= $m['id'] ?>">Solicitar adopción</a>
+                    <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'adoptante'): ?>
+                        <a href="solicitar_adopcion.php?id=<?= $m['id'] ?>">🐾 Solicitar adopción</a>
+                    <?php else: ?>
+                        <em>Inicia sesión como adoptante para solicitar adopción</em>
+                    <?php endif; ?>
                 </li>
             <?php endwhile; ?>
         </ul>
