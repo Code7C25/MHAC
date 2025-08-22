@@ -9,6 +9,9 @@ session_start();
     <title>Registro - MHAC</title>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/registro.css">
+    <style>
+      .hidden { display: none; }
+    </style>
 </head>
 <body>
 
@@ -33,8 +36,8 @@ session_start();
         <input type="text" name="nombre" class="form-input" placeholder="Nombre" required>
         <label class="form-label">Nombre</label>
       </div>
-      <div class="form-group apellido">
-        <input type="text" name="apellido" class="form-input" placeholder="Apellido" required>
+      <div class="form-group apellido" id="apellido-group">
+        <input type="text" name="apellido" class="form-input" placeholder="Apellido">
         <label class="form-label">Apellido</label>
       </div>
     </div>
@@ -55,7 +58,7 @@ session_start();
         <label class="form-label">Contraseña</label>
       </div>
       <div class="form-group rol">
-        <select name="rol" class="form-select" required>
+        <select name="rol" id="rol" class="form-select" required>
           <option value="" disabled selected>Selecciona un rol</option>
           <option value="adoptante">Adoptante</option>
           <option value="refugio">Refugio</option>
