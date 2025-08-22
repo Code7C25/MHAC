@@ -4,7 +4,7 @@ require_once 'conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre']);
-    $apellido = trim($_POST['apellido']);
+    $apellido = ($rol === 'refugio') ? '' : trim($_POST['apellido']);
     $email = trim($_POST['email']);
     $telefono = trim($_POST['telefono']);
     $password = $_POST['password'];
