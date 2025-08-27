@@ -1,22 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap');
 
-:root {
-    --color-primario: #dab17e;
-    --color-secundario: #efdeca;
-    --color-fondo: #e8d0b3;
-    --color-texto: #212615;
-    --color-acento: #5c8b39;
-    --color-acento2: #bf7f4a;
-    --color-titulo: #976133;
-    --color-borde: #cd9255;
-    --color-hover: #636a2f;
-    --color-boton: #c07436;
-    --color-boton-hover: #33511c;
-    --color-suave: #87b35c;
-    --color-organizador: #8b5a3c;
-    --color-fecha: #7a9245;
-    --color-lugar: #a67d52;
-}
 
 * {
     margin: 0;

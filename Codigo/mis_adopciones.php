@@ -2,16 +2,35 @@
 session_start();
 require_once 'conexion.php';
 
+// Verificar sesión
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login.php");
+    exit();
+}
 
 $usuario_id = $_SESSION['usuario_id'];
 
-// Consulta: solicitudes del usuario logueado
-$sql = "SELECT a.id AS adopcion_id, a.fecha_adopcion, a.estado, 
-               m.nombre AS nombre_mascota, m.especie, m.raza, m.edad, m.foto
-        FROM adopciones a
-        JOIN mascotas m ON a.mascota_id = m.id
-        WHERE a.usuario_id = ?
-        ORDER BY a.fecha_adopcion DESC";
+// Traer las adopciones con datos de la mascota
+$sql = "SELECT 
+            a.id AS adopcion_id, 
+            a.fecha_solicitud, 
+            a.estado, 
+            a.nombre, 
+            a.email, 
+            a.telefono, 
+            a.domicilio, 
+            a.edad, 
+            a.vivienda, 
+            a.experiencia, 
+            m.nombre AS nombre_mascota, 
+            m.especie, 
+            m.raza, 
+            m.edad_categoria, 
+            m.foto 
+        FROM adopciones a 
+        JOIN mascotas m ON a.mascota_id = m.id 
+        WHERE a.usuario_id = ? 
+        ORDER BY a.fecha_solicitud DESC";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $usuario_id);
@@ -25,6 +44,10 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Solicitudes de Adopción - MHAC</title>
     <link rel="stylesheet" href="css/adopcion.css">
+    <a href="adopcion.php" class="">
+            <span class="">←</span>
+            Volver al inicio
+    </a>
 </head>
 <body>
 <header>
@@ -37,27 +60,36 @@ $result = $stmt->get_result();
             <?php while ($adopcion = $result->fetch_assoc()): ?>
                 <li>
                     <h2><?= htmlspecialchars($adopcion['nombre_mascota']) ?></h2>
-                    
-                    <p><strong>Especie:</strong> <?= htmlspecialchars($adopcion['especie']) ?></p>
+                    <p><strong>Especie:</strong> <?= ucfirst(htmlspecialchars($adopcion['especie'])) ?></p>
                     <p><strong>Raza:</strong> <?= htmlspecialchars($adopcion['raza']) ?></p>
-                    <p><strong>Edad:</strong> <?= intval($adopcion['edad']) ?> meses</p>
-                    <p><strong>Estado:</strong> <?= htmlspecialchars($adopcion['estado']) ?></p>
-                    <p><strong>Fecha de solicitud:</strong> <?= date('d/m/Y', strtotime($adopcion['fecha_adopcion'])) ?></p>
-
-                    <?php if ($adopcion['foto']): ?>
+                    <p><strong>Edad mascota:</strong> <?= ucfirst(htmlspecialchars($adopcion['edad_categoria'])) ?></p>
+                    <p><strong>Estado de solicitud:</strong> <?= ucfirst(htmlspecialchars($adopcion['estado'])) ?></p>
+                    <p><strong>Fecha de solicitud:</strong> <?= date('d/m/Y', strtotime($adopcion['fecha_solicitud'])) ?></p>
+                    <hr>
+                    <p><strong>Tu nombre:</strong> <?= htmlspecialchars($adopcion['nombre']) ?></p>
+                    <p><strong>Email:</strong> <?= htmlspecialchars($adopcion['email']) ?></p>
+                    <p><strong>Teléfono:</strong> <?= htmlspecialchars($adopcion['telefono']) ?></p>
+                    <p><strong>Domicilio:</strong> <?= htmlspecialchars($adopcion['domicilio']) ?></p>
+                    <p><strong>Edad:</strong> <?= intval($adopcion['edad']) ?></p>
+                    <p><strong>Tipo de vivienda:</strong> <?= htmlspecialchars($adopcion['vivienda']) ?></p>
+                    <p><strong>Experiencia con mascotas:</strong> <?= htmlspecialchars($adopcion['experiencia']) ?></p>
+                    
+                    <?php if (!empty($adopcion['foto'])): ?>
                         <img src="<?= 'uploads/mascotas/' . htmlspecialchars($adopcion['foto']) ?>" 
-                             alt="Foto de <?= htmlspecialchars($adopcion['nombre_mascota']) ?>">
+                             alt="Foto de <?= htmlspecialchars($adopcion['nombre_mascota']) ?>" 
+                             style="max-width:200px; border-radius:10px;">
                     <?php endif; ?>
-
+                    
+                    <br>
                     <a href="detalle_adopcion.php?id=<?= $adopcion['adopcion_id'] ?>">
-                       Ver detalles
+                        Ver detalles
                     </a>
                 </li>
             <?php endwhile; ?>
         </ul>
     <?php else: ?>
         <p>No tenés solicitudes de adopción todavía.  
-           <a href="mascotas.php">¡Mirá las mascotas disponibles!</a></p>
+           <a href="mascotas_en_adopcion.php">¡Mirá las mascotas disponibles!</a></p>
     <?php endif; ?>
 </main>
 </body>

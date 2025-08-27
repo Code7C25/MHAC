@@ -4,9 +4,9 @@ require_once 'conexion.php';
 
 // Filtros
 $filtro_especie = $_GET['especie'] ?? '';
-$buscar_nombre = $_GET['nombre'] ?? '';
-$orden = $_GET['orden'] ?? 'recientes';
-$filtro_dias = $_GET['dias'] ?? ''; // 👈 nuevo filtro
+$buscar_nombre  = $_GET['nombre'] ?? '';
+$orden          = $_GET['orden'] ?? 'recientes';
+$filtro_dias    = $_GET['dias'] ?? '';
 
 // Construcción de la consulta
 $sql = "SELECT m.id, m.nombre, m.especie, m.raza, m.sexo, 
@@ -52,6 +52,10 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <title>Mascotas en Adopción - MHAC</title>
     <link rel="stylesheet" href="css/adopcion.css">
+    <a href="adopcion.php" class="">
+            <span class="">←</span>
+            Volver
+    </a>
 </head>
 <body>
 <header>
@@ -59,7 +63,16 @@ $result = $conn->query($sql);
 </header>
 
 <main>
-    <!-- Formulario de búsqueda -->
+    <!-- Botón o mensaje de adopción -->
+    <div style="margin-bottom:20px;">
+        <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'adoptante'): ?>
+            <a href="solicitar_adopcion.php" class="btn-adoptar">🐾 Solicitar adopción</a>
+        <?php else: ?>
+            <em>Iniciá sesión como adoptante para solicitar la adopción</em>
+        <?php endif; ?>
+    </div>
+
+    <!-- Formulario de filtros -->
     <form method="GET">
         <label>
             Buscar por nombre
@@ -117,12 +130,6 @@ $result = $conn->query($sql);
                              alt="Foto de <?= htmlspecialchars($m['nombre']) ?>" width="200">
                     <?php endif; ?>
                     <p><strong>Publicado:</strong> <?= date("d/m/Y", strtotime($m['fecha_alta'])) ?></p>
-                    <br>
-                    <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'adoptante'): ?>
-                        <a href="solicitar_adopcion.php?id=<?= $m['id'] ?>">🐾 Solicitar adopción</a>
-                    <?php else: ?>
-                        <em>Inicia sesión como adoptante para solicitar adopción</em>
-                    <?php endif; ?>
                 </li>
             <?php endwhile; ?>
         </ul>
