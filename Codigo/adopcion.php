@@ -40,6 +40,11 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adopciones - MHAC</title>
     <link rel="stylesheet" href="css/adopcion.css">
+    <link rel="stylesheet" href="css/base.css">
+    <a href="index.php" class="">
+            <span class="">←</span>
+            Volver al inicio
+    </a>
 </head>
 <body>
 <header>
@@ -48,14 +53,14 @@ $result = $conn->query($sql);
 
 <!-- Tarjetas de navegación -->
 <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 30px;">
+  <a href="mis_adopciones.php" class="servicio-card">
+    <h3>Solicitud de adopciones</h3>
+  </a>
   <a href="adopcion.php" class="servicio-card">
     <h3>Adopciones aprobadas</h3>
   </a>
   <a href="mascotas_en_adopcion.php" class="servicio-card">
     <h3>Mascotas en adopción</h3>
-  </a>
-  <a href="solicitar_adopcion.php" class="servicio-card">
-    <h3>Adoptar</h3>
   </a>
 </div>
 

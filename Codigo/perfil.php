@@ -55,8 +55,8 @@ if (!empty($usuario['foto_perfil'])) {
     <title>Mi Perfil - MHAC</title>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/perfil.css">
-    <a href="index.php" class="btn-volver">
-            <span class="btn-volver-icon">←</span>
+    <a href="index.php" class="">
+            <span class="">←</span>
             Volver al inicio
     </a>
 </head>
