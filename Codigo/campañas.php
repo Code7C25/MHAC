@@ -29,7 +29,7 @@ $campanias_finalizadas = $conn->query($sql_finalizadas);
 
   <!-- Buscador y filtros -->
   <section class="buscador">
-    <form method="GET" action="campanias.php">
+    <form method="GET" action="campañas.php">
       <input type="text" name="q" placeholder="🔍 Buscar campañas...">
       <select name="estado">
         <option value="">-- Filtrar por estado --</option>
