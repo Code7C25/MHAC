@@ -2,10 +2,6 @@
 // campanias.php
 include("conexion.php");
 
-// ===============================
-// Consultas a la base de datos
-// ===============================
-
 // Campañas activas (próximas o en curso)
 $sql_activas = "SELECT * FROM campañas WHERE estado IN ('proxima','en_curso') ORDER BY fecha_inicio ASC";
 $campanias_activas = $conn->query($sql_activas);
@@ -20,7 +16,8 @@ $campanias_finalizadas = $conn->query($sql_finalizadas);
 <head>
   <meta charset="UTF-8">
   <title>Campañas MHAC</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Tus estilos -->
+  <link rel="stylesheet" href="styles.css">
+  
 </head>
 <body>
 
