@@ -10,50 +10,7 @@
 </head>
 
 <body>
-<section class="hero-wag">
-  <div class="hero-wag-bg" style="background-image: url('imagenes/slide1.jpg');"></div>
-  <div class="hero-wag-content">
-    <div class="hero-wag-logo">
-      <img src="imagenes/logo.png" alt="Logo MHAC">
-    </div>
-    <div class="hero-wag-text">
-      <h1>MHAC - Mis Huellitas a Casa</h1>
-      <p>Conectamos corazones con patitas 🐾</p>
-      <span class="hero-wag-badge">Confiado por miles de familias</span>
-    </div>
-  </div>
-</section>
-<section class="servicios-wag">
-  <h2>¿Listo para ayudar o adoptar?</h2>
-  <p class="subtexto">Elige una opción para comenzar</p>
-  <div class="servicios-grid">
-    <a href="adopcion.php" class="servicio-card">
-       <div class="icono">
-        <img src="imagenes/icono-adopcion.png" alt="Adopción">
-      </div>
-      <h3>Adopción</h3>
-    </a>
-    <a href="refugios.php" class="servicio-card">
-       <div class="icono">
-        <img src="imagenes/icono-refugios.png" alt="Refugios">
-      </div>
-      <h3>Refugios</h3>
-    </a>
-    <a href="campañas.php" class="servicio-card">
-       <div class="icono">
-        <img src="imagenes/icono-campañas.png" alt="Campañas">
-      </div>
-      <h3>Campañas</h3>
-    </a>
-    <a href="donaciones.php" class="servicio-card">
-       <div class="icono">
-        <img src="imagenes/icono-donaciones.png" alt="Donaciones">
-      </div>
-      <h3>Donaciones</h3>
-    </a>
-  </div>
-</section>
-
+<!-- Header con sesión de usuario -->
 <div class="user-session">
     <?php if (isset($_SESSION['usuario_id'])): ?>
         <span class="bienvenida">Hola, <?= htmlspecialchars($_SESSION['usuario_nombre']) ?></span>
@@ -74,22 +31,116 @@
     <?php endif; ?>
 </div>
 
+<!-- Menú principal con navegación -->
+<nav class="menu-principal">
+    <a href="adopcion.php">ADOPTAR O INVOLUCRARSE</a>
+    <a href="perros.php">PERROS Y CACHORROS</a>
+    <a href="gatos.php">GATOS Y GATITOS</a>
+    <a href="otros.php">OTROS TIPOS DE MASCOTAS</a>
+</nav>
+
+<!-- Hero section con imagen de fondo -->
+<section class="hero-wag">
+    <div class="hero-wag-bg" style="background-image: url('imagenes/slide1.jpg');"></div>
+    <div class="hero-wag-overlay"></div>
+    
+    <div class="hero-wag-content">
+        <div class="hero-wag-logo">
+            <img src="imagenes/logo.png" alt="Logo MHAC">
+        </div>
+        <div class="hero-wag-text">
+            <h1>Encuentra tu nuevo mejor amigo</h1>
+            <p>Explora mascotas de nuestra red de más de 100 refugios y rescates.</p>
+        </div>
+    </div>
+
+    <!-- Barra de búsqueda principal -->
+    <div class="search-container">
+        <form class="search-form" action="buscar.php" method="GET">
+            <div class="search-inputs">
+                <input type="text" name="tipo" placeholder="Buscar Perro, Gato, etc." class="search-input">
+                <input type="text" name="ubicacion" placeholder="Ingresa raza" class="search-input">
+                <button type="submit" class="search-button">🔍</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Sección de categorías principales -->
+<section class="categorias-principales">
+    <div class="categorias-grid">
+        <a href="adopcion.php" class="categoria-card">
+            <div class="categoria-icon">
+                <img src="imagenes/icono-adopcion.png" alt="Adopciones">
+            </div>
+            <h3>Adopciones</h3>
+        </a>
+        
+        <a href="refugios.php" class="categoria-card">
+            <div class="categoria-icon">
+                <img src="imagenes/icono-refugios.png" alt="Refugios">
+            </div>
+            <h3>Refugios</h3>
+        </a>
+        
+        <a href="rescates.php" class="categoria-card">
+            <div class="categoria-icon">
+                <img src="imagenes/icono-rescates.png" alt="Rescates/Historias">
+            </div>
+            <h3>Rescates/Historias</h3>
+        </a>
+        
+        <a href="comunidad.php" class="categoria-card">
+            <div class="categoria-icon">
+                <img src="imagenes/icono-comunidad.png" alt="Comunidad">
+            </div>
+            <h3>Comunidad</h3>
+        </a>
+    </div>
+</section>
+
 <?php if (!isset($_SESSION['usuario_id'])): ?>
     <section class="alerta-inicio">
         <h2>¿Todavía no iniciaste sesión?</h2>
+        <p>Únete a nuestra comunidad y ayuda a conectar corazones con patitas</p>
         <a href="login.php" class="cta">Iniciar sesión</a>
     </section>
 <?php endif; ?>
 
-<main>
-    <section class="destacado">
-        <h2>¿Buscando un nuevo amigo?</h2>
-        <p>Explorá las historias de cientos de animalitos que están esperando por vos.</p>
-        <a href="#" class="cta">Ver mascotas</a>
-    </section>
+<!-- Sección de servicios adicionales -->
+<section class="servicios-adicionales">
+    <h2>¿Cómo más podés ayudar?</h2>
+    <div class="servicios-grid">
+        <a href="donaciones.php" class="servicio-card">
+            <div class="icono">
+                <img src="imagenes/icono-donaciones.png" alt="Donaciones">
+            </div>
+            <h3>Donaciones</h3>
+            <p>Ayuda con donaciones para el cuidado de los animales</p>
+        </a>
+        
+        <a href="campañas.php" class="servicio-card">
+            <div class="icono">
+                <img src="imagenes/icono-campañas.png" alt="Campañas">
+            </div>
+            <h3>Campañas</h3>
+            <p>Participa en nuestras campañas de concientización</p>
+        </a>
+        
+        <a href="voluntariado.php" class="servicio-card">
+            <div class="icono">
+                <img src="imagenes/icono-voluntariado.png" alt="Voluntariado">
+            </div>
+            <h3>Voluntariado</h3>
+            <p>Únete como voluntario y marca la diferencia</p>
+        </a>
+    </div>
+</section>
 
+<main class="contenido-secundario">
     <!-- Slider de novedades -->
     <section class="slider-novedades">
+        <h3>Novedades</h3>
         <div class="slide activo">Nueva campaña de adopción este fin de semana</div>
         <div class="slide">Refugio "Peluditos felices" necesita voluntarios</div>
         <div class="slide">Dona y ayuda a salvar vidas</div>
@@ -97,6 +148,7 @@
 
     <!-- Feed de publicaciones -->
     <section class="feed-publicaciones">
+        <h3>Historias de éxito</h3>
         <article class="post">
             <h4>Max encontró un hogar</h4>
             <p>Gracias a todos los que ayudaron a Max a encontrar su familia.</p>
@@ -143,13 +195,12 @@
     currentSlide = (currentSlide + 1) % slides.length;
     slides[currentSlide].classList.add('activo');
   }, 4000);
-</script>
-<script>
+
   // Cambio automático del fondo en hero-wag
   const heroBg = document.querySelector('.hero-wag-bg');
   const imagenesFondo = [
     'imagenes/slide1.jpg',
-    'imagenes/slide2.jpg',
+    'imagenes/slide2.jpg', 
     'imagenes/slide3.jpg'
   ];
   let fondoIndex = 0;
