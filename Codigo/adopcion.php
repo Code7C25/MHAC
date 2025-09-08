@@ -8,8 +8,8 @@ $buscar_nombre = $_GET['nombre'] ?? '';
 $orden = $_GET['orden'] ?? 'fecha_desc';
 
 // Construcción de la consulta
-$sql = "SELECT a.id AS adopcion_id, a.fecha_adopcion, a.estado, 
-               m.nombre AS nombre_mascota, m.especie, m.raza, m.edad, m.foto
+$sql = "SELECT a.id AS adopcion_id, a.fecha_solicitud, a.estado, 
+               m.nombre AS nombre_mascota, m.especie, m.raza, m.edad_categoria, m.foto
         FROM adopciones a
         JOIN mascotas m ON a.mascota_id = m.id
         WHERE a.estado = 'aprobada'";
@@ -24,11 +24,11 @@ if ($buscar_nombre) {
 
 // Ordenamiento
 if ($orden === 'edad_asc') {
-    $sql .= " ORDER BY m.edad ASC";
+    $sql .= " ORDER BY m.edad_categoria ASC";
 } elseif ($orden === 'edad_desc') {
-    $sql .= " ORDER BY m.edad DESC";
+    $sql .= " ORDER BY m.edad_categoria DESC";
 } else {
-    $sql .= " ORDER BY a.fecha_adopcion DESC";
+    $sql .= " ORDER BY a.fecha_solicitud DESC";
 }
 
 $result = $conn->query($sql);
@@ -41,12 +41,13 @@ $result = $conn->query($sql);
     <title>Adopciones - MHAC</title>
     <link rel="stylesheet" href="css/adopcion.css">
     <link rel="stylesheet" href="css/base.css">
-    <a href="index.php" class="">
-            <span class="">←</span>
-            Volver al inicio
-    </a>
 </head>
 <body>
+<a href="index.php" class="">
+    <span class="">←</span>
+    Volver al inicio
+</a>
+
 <header>
     <h1>¿Buscando un nuevo amigo?</h1>
 </header>
@@ -64,4 +65,28 @@ $result = $conn->query($sql);
   </a>
 </div>
 
+<!-- Resultados -->
+<main class="contenido-principal">
+    <div class="resultados-busqueda">
+        <?php if ($result && $result->num_rows > 0): ?>
+            <div class="grid">
+                <?php while($row = $result->fetch_assoc()): ?>
+                    <div class="card">
+                        <img src="imagenes/<?= htmlspecialchars($row['foto']) ?>" alt="<?= htmlspecialchars($row['nombre_mascota']) ?>">
+                        <h3><?= htmlspecialchars($row['nombre_mascota']) ?></h3>
+                        <p><strong>Especie:</strong> <?= htmlspecialchars($row['especie']) ?></p>
+                        <p><strong>Raza:</strong> <?= htmlspecialchars($row['raza']) ?></p>
+                        <p><strong>Edad:</strong> <?= htmlspecialchars($row['edad_categoria']) ?></p>
+                        <p><strong>Estado:</strong> <?= htmlspecialchars($row['estado']) ?></p>
+                        <p><strong>Fecha solicitud:</strong> <?= htmlspecialchars($row['fecha_solicitud']) ?></p>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        <?php else: ?>
+            <p>No se encontraron adopciones aprobadas.</p>
+        <?php endif; ?>
+    </div>
+</main>
+
+</body>
 </html>

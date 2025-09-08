@@ -1,5 +1,5 @@
 <?php
-// campanias.php
+
 include("conexion.php");
 
 // Campañas activas (próximas o en curso)
@@ -16,7 +16,8 @@ $campanias_finalizadas = $conn->query($sql_finalizadas);
 <head>
   <meta charset="UTF-8">
   <title>Campañas MHAC</title>
-  <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="css/campañas.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   
 </head>
 <body>
@@ -43,7 +44,7 @@ $campanias_finalizadas = $conn->query($sql_finalizadas);
 
   <!-- Campañas activas -->
   <section class="campanias-activas">
-    <h2>🚀 Campañas Activas</h2>
+    <h2>Campañas Activas</h2>
     <div class="grid">
       <?php if ($campanias_activas->num_rows > 0): ?>
         <?php while($c = $campanias_activas->fetch_assoc()): ?>
@@ -51,7 +52,7 @@ $campanias_finalizadas = $conn->query($sql_finalizadas);
             <img src="<?= $c['imagen'] ?: 'imagenes/default.jpg' ?>" alt="Imagen campaña">
             <h3><?= htmlspecialchars($c['titulo']) ?></h3>
             <p><?= htmlspecialchars($c['descripcion']) ?></p>
-            <p><strong>📅 <?= $c['fecha_inicio'] ?> - <?= $c['fecha_fin'] ?></strong></p>
+            <p><strong> <?= $c['fecha_inicio'] ?> - <?= $c['fecha_fin'] ?></strong></p>
             
             <!-- Botones -->
             <div class="acciones">
@@ -69,7 +70,7 @@ $campanias_finalizadas = $conn->query($sql_finalizadas);
 
   <!-- Campañas finalizadas -->
   <section class="campanias-finalizadas">
-    <h2>📜 Historial de Campañas</h2>
+    <h2> Historial de Campañas</h2>
     <div class="grid">
       <?php if ($campanias_finalizadas->num_rows > 0): ?>
         <?php while($c = $campanias_finalizadas->fetch_assoc()): ?>
@@ -77,7 +78,7 @@ $campanias_finalizadas = $conn->query($sql_finalizadas);
             <img src="<?= $c['imagen'] ?: 'imagenes/default.jpg' ?>" alt="Imagen campaña">
             <h3><?= htmlspecialchars($c['titulo']) ?> <span class="badge">Finalizada</span></h3>
             <p><?= htmlspecialchars($c['descripcion']) ?></p>
-            <p><strong>📅 <?= $c['fecha_inicio'] ?> - <?= $c['fecha_fin'] ?></strong></p>
+            <p><strong> <?= $c['fecha_inicio'] ?> - <?= $c['fecha_fin'] ?></strong></p>
           </div>
         <?php endwhile; ?>
       <?php else: ?>
