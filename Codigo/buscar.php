@@ -3,8 +3,8 @@ session_start();
 include("conexion.php");
 
 // Obtener parámetros de búsqueda
-$especie = isset($_GET['tipo']) ? trim($_GET['tipo']) : ''; // usamos 'tipo' del form pero mapeamos a especie
-$raza = isset($_GET['ubicacion']) ? trim($_GET['ubicacion']) : ''; // usamos 'ubicacion' del form pero mapeamos a raza
+$especie = isset($_GET['tipo']) ? trim($_GET['tipo']) : ''; 
+$raza = isset($_GET['ubicacion']) ? trim($_GET['ubicacion']) : ''; 
 
 // Preparar consulta
 $sql = "SELECT * FROM mascotas WHERE 1=1";
@@ -39,8 +39,7 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <title>Resultados de búsqueda - MHAC</title>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/buscar.css">
 </head>
 
 <body>
@@ -56,7 +55,7 @@ $result = $stmt->get_result();
                         <h3><?= htmlspecialchars($m['nombre']) ?></h3>
                         <p><strong>Especie:</strong> <?= htmlspecialchars($m['especie']) ?></p>
                         <p><strong>Raza:</strong> <?= htmlspecialchars($m['raza']) ?></p>
-                        <p><strong>Edad:</strong> <?= htmlspecialchars($m['edad']) ?> meses</p>
+                        <p><strong>Edad:</strong> <?= htmlspecialchars($m['edad_categoria']) ?></p>
                         <p><?= htmlspecialchars($m['descripcion']) ?></p>
                     </div>
                 <?php endwhile; ?>

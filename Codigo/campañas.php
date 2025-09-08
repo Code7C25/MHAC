@@ -132,8 +132,10 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
 <head>
   <meta charset="UTF-8">
   <title>Campañas MHAC</title>
+<<<<<<< HEAD
   <link rel="stylesheet" href="css/campañas.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 <body>
   <header class="header">
@@ -158,6 +160,7 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
     </form>
   </section>
 
+<<<<<<< HEAD
   <!-- Mensajes de éxito/error -->
   <?php if (isset($mensaje_exito)): ?>
     <div class="mensaje exito"><i class="fas fa-check-circle"></i> <?= $mensaje_exito ?></div>
@@ -182,6 +185,20 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
             <p><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($c['lugar']) ?></p>
             <p><i class="fas fa-user"></i> Organiza: <?= htmlspecialchars($c['organizador_nombre']) ?></p>
             <p><strong>📅 <?= date('d/m/Y', strtotime($c['fecha_inicio'])) ?> - <?= date('d/m/Y', strtotime($c['fecha_fin'])) ?></strong></p>
+
+  <!-- Campañas activas -->
+  <section class="campanias-activas">
+    <h2>Campañas Activas</h2>
+    <div class="grid">
+      <?php if ($campanias_activas->num_rows > 0): ?>
+        <?php while($c = $campanias_activas->fetch_assoc()): ?>
+          <div class="card">
+            <img src="<?= $c['imagen'] ?: 'imagenes/default.jpg' ?>" alt="Imagen campaña">
+            <h3><?= htmlspecialchars($c['titulo']) ?></h3>
+            <p><?= htmlspecialchars($c['descripcion']) ?></p>
+            <p><strong> <?= $c['fecha_inicio'] ?> - <?= $c['fecha_fin'] ?></strong></p>
+            
+            <!-- Botones -->
             <div class="acciones">
               <a href="participar.php?id=<?= $c['id'] ?>" class="btn"><i class="fas fa-hand-paper"></i> Participar</a>
               <a href="detalle_campania.php?id=<?= $c['id'] ?>" class="btn secundario"><i class="fas fa-info-circle"></i> Ver más</a>
@@ -196,6 +213,7 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
   </div>
 </section>
 
+<<<<<<< HEAD
 <!-- Campañas finalizadas -->
 <section class="campanias-finalizadas">
   <h2>📜 Historial de Campañas</h2>
@@ -210,6 +228,19 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
             <p><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($c['lugar']) ?></p>
             <p><i class="fas fa-user"></i> Organizó: <?= htmlspecialchars($c['organizador_nombre']) ?></p>
             <p><strong>📅 <?= date('d/m/Y', strtotime($c['fecha_inicio'])) ?> - <?= date('d/m/Y', strtotime($c['fecha_fin'])) ?></strong></p>
+=======
+  <!-- Campañas finalizadas -->
+  <section class="campanias-finalizadas">
+    <h2> Historial de Campañas</h2>
+    <div class="grid">
+      <?php if ($campanias_finalizadas->num_rows > 0): ?>
+        <?php while($c = $campanias_finalizadas->fetch_assoc()): ?>
+          <div class="card finalizada">
+            <img src="<?= $c['imagen'] ?: 'imagenes/default.jpg' ?>" alt="Imagen campaña">
+            <h3><?= htmlspecialchars($c['titulo']) ?> <span class="badge">Finalizada</span></h3>
+            <p><?= htmlspecialchars($c['descripcion']) ?></p>
+            <p><strong> <?= $c['fecha_inicio'] ?> - <?= $c['fecha_fin'] ?></strong></p>
+>>>>>>> 98bf30a4adc5b6a1348d0393f6b1af95a61b5633
           </div>
         </div>
       <?php endwhile; ?>
