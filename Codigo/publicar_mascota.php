@@ -31,13 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
     }
 
-    // Determinar si es refugio o dador
+    // Determinar si es refugio o usuario común
     $refugio_id = null;
-    $dador_id = null;
+    $usuario_id = null;
     if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'refugio') {
         $refugio_id = $_SESSION['refugio_id'] ?? null;
     } elseif (isset($_SESSION['rol']) && $_SESSION['rol'] === 'dador') {
-        $dador_id = $_SESSION['usuario_id'] ?? null;
+        // acá usamos usuario_id en lugar de dador_id
+        $usuario_id = $_SESSION['usuario_id'] ?? null;
     }
 
     // Preparar columnas y valores
@@ -58,10 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $columns[] = 'refugio_id';
         $placeholders[] = '?';
         $values[] = $refugio_id;
-    } elseif ($dador_id !== null) {
-        $columns[] = 'dador_id';
+    } elseif ($usuario_id !== null) {
+        $columns[] = 'usuario_id';
         $placeholders[] = '?';
-        $values[] = $dador_id;
+        $values[] = $usuario_id;
     }
 
     // Preparar SQL

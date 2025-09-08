@@ -2,6 +2,14 @@
 session_start();
 require_once 'conexion.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require __DIR__ . '/PHPMailer/src/Exception.php';
+require __DIR__ . '/PHPMailer/src/PHPMailer.php';
+require __DIR__ . '/PHPMailer/src/SMTP.php';
+
+
 $mensaje = '';
 $exito = false;
 
@@ -62,13 +70,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt_insert->execute()) {
                 $mensaje = "Solicitud enviada con éxito.";
                 $exito = true;
-            } else {
-                $mensaje = "Error al enviar la solicitud: " . $conn->error;
+
+                // ---------- Envío de mail con PHPMailer ----------
+                $mail = new PHPMailer(true);
+                try {
+                    $mail->isSMTP();
+                    $mail->Host       = 'smtp.gmail.com';
+                    $mail->SMTPAuth   = true;
+                    $mail->Username   = 'equipo.mhac@gmail.com';
+                    $mail->Password   = 'eyon yplb kism xolj';
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                    $mail->Port       = 587;
+
+                    $mail->setFrom('equipo.mhac@gmail.com', 'MHAC');
+                    $mail->addAddress('equipo.mhac@gmail.com', 'Equipo MHAC');
+
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Nueva solicitud - MHAC';
+                    $mail->Body    = "
+                        <h2>Nueva solicitud de adopción</h2>
+                        <p><b>Mascota:</b> $mascota_id</p>
+                        <p><b>Nombre:</b> $nombre</p>
+                        <p><b>Email:</b> $email</p>
+                        <p><b>Teléfono:</b> $telefono</p>
+                        <p><b>Edad:</b> $edad</p>
+                        <p><b>Domicilio:</b> $domicilio</p>
+                        <p><b>Vivienda:</b> $vivienda</p>
+                        <p><b>Experiencia:</b> $experiencia</p>";
+
+                    $mail->send();
+                } catch (Exception $e) {
+                    $mensaje .= "<br>⚠️ No se pudo enviar el correo: {$mail->ErrorInfo}";
+                }
             }
         }
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

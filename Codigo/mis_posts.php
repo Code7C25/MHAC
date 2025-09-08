@@ -10,9 +10,9 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'dador') {
 $dador_id = $_SESSION['usuario_id'];
 
 // Traer mascotas del dador
-$sql = "SELECT * FROM mascotas WHERE dador_id = ? ORDER BY fecha_alta DESC";
+$sql = "SELECT * FROM mascotas WHERE usuario_id = ? ORDER BY fecha_alta DESC";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $dador_id);
+$stmt->bind_param("i", $_SESSION['id_usuario']); 
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
