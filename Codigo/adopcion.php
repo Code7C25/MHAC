@@ -62,7 +62,14 @@ $result = $conn->query($sql);
   <a href="mascotas_en_adopcion.php" class="servicio-card">
     <h3>Mascotas en adopción</h3>
   </a>
+
+  <?php if(isset($_SESSION['rol']) && $_SESSION['rol'] === 'dador'): ?>
+      <a href="mis_posts.php" class="servicio-card">
+          <h3>Mis publicaciones</h3>
+      </a>
+  <?php endif; ?>
 </div>
+
 
 <!-- Botón publicar mascota (solo rol dador) -->
 <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'dador'): ?>
