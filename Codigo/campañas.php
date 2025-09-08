@@ -1,4 +1,5 @@
 <?php
+
 include("conexion.php");
 session_start();
 
@@ -132,7 +133,13 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
 <head>
   <meta charset="UTF-8">
   <title>Campañas MHAC</title>
-<<<<<<< HEAD
+
+<link rel="stylesheet" href="css/campañas.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+ <link rel="stylesheet" href="css/campañas.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="css/campañas.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -160,7 +167,6 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
     </form>
   </section>
 
-<<<<<<< HEAD
   <!-- Mensajes de éxito/error -->
   <?php if (isset($mensaje_exito)): ?>
     <div class="mensaje exito"><i class="fas fa-check-circle"></i> <?= $mensaje_exito ?></div>
@@ -213,7 +219,7 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
   </div>
 </section>
 
-<<<<<<< HEAD
+
 <!-- Campañas finalizadas -->
 <section class="campanias-finalizadas">
   <h2>📜 Historial de Campañas</h2>
@@ -228,7 +234,6 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
             <p><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($c['lugar']) ?></p>
             <p><i class="fas fa-user"></i> Organizó: <?= htmlspecialchars($c['organizador_nombre']) ?></p>
             <p><strong>📅 <?= date('d/m/Y', strtotime($c['fecha_inicio'])) ?> - <?= date('d/m/Y', strtotime($c['fecha_fin'])) ?></strong></p>
-=======
   <!-- Campañas finalizadas -->
   <section class="campanias-finalizadas">
     <h2> Historial de Campañas</h2>
@@ -240,7 +245,7 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
             <h3><?= htmlspecialchars($c['titulo']) ?> <span class="badge">Finalizada</span></h3>
             <p><?= htmlspecialchars($c['descripcion']) ?></p>
             <p><strong> <?= $c['fecha_inicio'] ?> - <?= $c['fecha_fin'] ?></strong></p>
->>>>>>> 98bf30a4adc5b6a1348d0393f6b1af95a61b5633
+
           </div>
         </div>
       <?php endwhile; ?>
