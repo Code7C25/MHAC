@@ -65,6 +65,7 @@ $result = $conn->query($sql);
   </a>
 </div>
 
+dani
 <!-- Resultados -->
 <main class="contenido-principal">
     <div class="resultados-busqueda">
@@ -90,3 +91,4 @@ $result = $conn->query($sql);
 
 </body>
 </html>
+main
