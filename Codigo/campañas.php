@@ -2,10 +2,11 @@
 include("conexion.php");
 session_start();
 
+// Función para obtener ruta de imagen (siempre disponible)
 function obtenerRutaImagen($nombreImagen) {
-  $carpeta = "uploads/campañas/";
-  $ruta = $carpeta . $nombreImagen;
-  return (!empty($nombreImagen) && file_exists($ruta)) ? $ruta : "imagenes/default.jpg";
+    $carpeta = "uploads/campañas/";
+    $ruta = $carpeta . $nombreImagen;
+    return (!empty($nombreImagen) && file_exists($ruta)) ? $ruta : "imagenes/default.jpg";
 }
 
 // Verificar si el usuario está logueado
@@ -131,17 +132,13 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Campañas MHAC</title>
-
-<link rel="stylesheet" href="css/campañas.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
- <link rel="stylesheet" href="css/campañas.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <title>Campañas - MHAC</title>
+  <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/campañas.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+  <a href="index.php" class="volver-inicio">
+    <span>←</span> Volver al inicio
+  </a>
 </head>
 <body>
   <header class="header">
@@ -190,21 +187,7 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
             <p><?= htmlspecialchars(substr($c['descripcion'], 0, 100)) ?>...</p>
             <p><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($c['lugar']) ?></p>
             <p><i class="fas fa-user"></i> Organiza: <?= htmlspecialchars($c['organizador_nombre']) ?></p>
-            <p><strong>📅 <?= date('d/m/Y', strtotime($c['fecha_inicio'])) ?> - <?= date('d/m/Y', strtotime($c['fecha_fin'])) ?></strong></p>
-
-  <!-- Campañas activas -->
-  <section class="campanias-activas">
-    <h2>Campañas Activas</h2>
-    <div class="grid">
-      <?php if ($campanias_activas->num_rows > 0): ?>
-        <?php while($c = $campanias_activas->fetch_assoc()): ?>
-          <div class="card">
-            <img src="<?= $c['imagen'] ?: 'imagenes/default.jpg' ?>" alt="Imagen campaña">
-            <h3><?= htmlspecialchars($c['titulo']) ?></h3>
-            <p><?= htmlspecialchars($c['descripcion']) ?></p>
-            <p><strong> <?= $c['fecha_inicio'] ?> - <?= $c['fecha_fin'] ?></strong></p>
-            
-            <!-- Botones -->
+            <p><strong><?= date('d/m/Y', strtotime($c['fecha_inicio'])) ?> - <?= date('d/m/Y', strtotime($c['fecha_fin'])) ?></strong></p>
             <div class="acciones">
               <a href="participar.php?id=<?= $c['id'] ?>" class="btn"><i class="fas fa-hand-paper"></i> Participar</a>
               <a href="detalle_campania.php?id=<?= $c['id'] ?>" class="btn secundario"><i class="fas fa-info-circle"></i> Ver más</a>
@@ -218,20 +201,6 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
     <?php endif; ?>
   </div>
 </section>
-<!-- Campañas finalizadas -->
-<section class="campanias-finalizadas">
-  <h2>📜 Historial de Campañas</h2>
-  <div class="grid">
-    <?php if ($campanias_finalizadas->num_rows > 0): ?>
-      <?php while($c = $campanias_finalizadas->fetch_assoc()): ?>
-        <div class="card finalizada">
-          <img src="<?= obtenerRutaImagen($c['imagen']) ?>" alt="Imagen campaña">
-          <div class="card-body">
-            <h3><?= htmlspecialchars($c['titulo']) ?> <span class="badge finalizada">Finalizada</span></h3>
-            <p><?= htmlspecialchars($c['descripcion']) ?></p>
-            <p><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($c['lugar']) ?></p>
-            <p><i class="fas fa-user"></i> Organizó: <?= htmlspecialchars($c['organizador_nombre']) ?></p>
-            <p><strong>📅 <?= date('d/m/Y', strtotime($c['fecha_inicio'])) ?> - <?= date('d/m/Y', strtotime($c['fecha_fin'])) ?></strong></p>
 
   <!-- Campañas finalizadas -->
   <section class="campanias-finalizadas">
@@ -307,17 +276,14 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
   <?php endif; ?>
 
   <!-- Footer -->
-<footer class="footer">
-    <div class="footer-container">
-        <div class="footer-logo">
-            <h3>MHAC - Mis Huellitas a Casa</h3>
-            <p>Un puente entre peluditos y hogares llenos de amor.</p>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 MHAC. Todos los derechos reservados.</p>
-        </div>
-    </div>
-</footer>
+  <footer class="footer">
+    <p>🐾 Mis Huellitas a Casa - Proyecto Educativo</p>
+    <p>Síguenos en 
+      <a href="#"><i class="fab fa-facebook"></i></a> 
+      <a href="#"><i class="fab fa-instagram"></i></a> 
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </p>
+  </footer>
 
   <!-- Botón volver arriba -->
   <button id="btnTop" onclick="window.scrollTo({top:0, behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>

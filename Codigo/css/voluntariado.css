@@ -1,0 +1,451 @@
+/* voluntariado.css */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap');
+
+:root {
+    --color-primario: #dab17e;
+    --color-secundario: #fefdfc;
+    --color-fondo: #ffffff;
+    --color-texto: #212615;
+    --color-acento: #5c8b39;
+    --color-acento2: #bf7f4a;
+    --color-titulo: #976133;
+    --color-borde: #cd9255;
+    --color-hover: #636a2f;
+    --color-boton: #c07436;
+    --color-boton-hover: #33511c;
+    --color-suave: #87b35c;
+    --color-sombra: rgba(92, 139, 57, 0.1);
+    --degradado-hero: linear-gradient(135deg, var(--color-acento) 0%, var(--color-suave) 100%);
+    --degradado-boton: linear-gradient(135deg, var(--color-boton) 0%, var(--color-acento2) 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Baloo 2', cursive;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+    background-image: 
+        radial-gradient(circle at 5% 10%, rgba(218, 177, 126, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 95% 90%, rgba(92, 139, 57, 0.05) 0%, transparent 20%);
+}
+
+/* Header con efecto hero */
+header {
+    background: var(--degradado-hero);
+    color: white;
+    text-align: center;
+    padding: 4rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpath d='M0 0h10v10H0V0zm10 10h10v10H10V10z'/%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.3;
+}
+
+header h1 {
+    font-size: 3.2rem;
+    margin-bottom: 0.8rem;
+    position: relative;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeInDown 1s ease;
+}
+
+header p {
+    font-size: 1.4rem;
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    animation: fadeInUp 1s ease 0.3s both;
+}
+
+header hr {
+    border: none;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    width: 60%;
+    margin: 2rem auto;
+    animation: expandWidth 1.5s ease 0.5s both;
+}
+
+/* Main content */
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+/* Secciones con diseño de tarjeta elevada */
+section {
+    margin-bottom: 4rem;
+    padding: 3rem;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px var(--color-sombra);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(92, 139, 57, 0.15);
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--degradado-hero);
+}
+
+section h2 {
+    color: var(--color-titulo);
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    position: relative;
+    display: inline-block;
+}
+
+section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 50px;
+    height: 4px;
+    background: var(--degradado-hero);
+    border-radius: 2px;
+}
+
+section p {
+    margin-bottom: 1.2rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+/* Lista de actividades con iconos atractivos */
+ul {
+    list-style: none;
+    margin: 1.5rem 0;
+}
+
+li {
+    padding: 1rem 0 1rem 3rem;
+    margin-bottom: 0.8rem;
+    position: relative;
+    font-size: 1.1rem;
+    border-bottom: 1px dashed var(--color-borde);
+    transition: all 0.3s ease;
+}
+
+li:hover {
+    transform: translateX(5px);
+    border-bottom-color: var(--color-acento);
+}
+
+li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background-color: var(--color-acento);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+li:nth-child(1)::before { content: '🏠'; }
+li:nth-child(2)::before { content: '🐕'; }
+li:nth-child(3)::before { content: '🎨'; }
+li:nth-child(4)::before { content: '📦'; }
+li:nth-child(5)::before { content: '📸'; }
+
+/* Formulario de contacto mejorado */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 1.8rem;
+    position: relative;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+    color: var(--color-texto);
+    font-size: 1.1rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+    width: 100%;
+    padding: 16px 18px;
+    border: 2px solid var(--color-borde);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: rgba(218, 177, 126, 0.05);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--color-acento);
+    box-shadow: 0 0 0 4px rgba(92, 139, 57, 0.2);
+    background-color: white;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="tel"]::placeholder,
+textarea::placeholder {
+    color: #aaa;
+}
+
+/* Botón con efecto llamativo */
+button[type="submit"] {
+    background: var(--degradado-boton);
+    color: white;
+    border: none;
+    padding: 18px 36px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 6px 15px rgba(192, 116, 54, 0.4);
+    display: block;
+    margin: 2.5rem auto 0;
+    width: 100%;
+    max-width: 300px;
+    position: relative;
+    overflow: hidden;
+}
+
+button[type="submit"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: 0.5s;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(192, 116, 54, 0.5);
+}
+
+button[type="submit"]:hover::before {
+    left: 100%;
+}
+
+/* Sección de historias con testimonio ficticio */
+section:nth-child(4) {
+    background: linear-gradient(135deg, rgba(218, 177, 126, 0.1) 0%, rgba(254, 253, 252, 0.9) 100%);
+    border: 2px solid var(--color-primario);
+    text-align: center;
+}
+
+.testimonio {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 2rem 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    position: relative;
+}
+
+.testimonio::before {
+    content: '"';
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    font-size: 5rem;
+    color: var(--color-primario);
+    font-family: Georgia, serif;
+    opacity: 0.2;
+}
+
+.testimonio p {
+    font-style: italic;
+    color: var(--color-texto);
+    margin-bottom: 1rem;
+}
+
+.testimonio .autor {
+    font-weight: 700;
+    color: var(--color-acento);
+}
+
+/* Footer */
+footer {
+    background-color: var(--color-texto);
+    color: white;
+    text-align: center;
+    padding: 2.5rem;
+    margin-top: 4rem;
+}
+
+footer hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    width: 70%;
+    margin: 0 auto 1.5rem;
+}
+
+footer p {
+    opacity: 0.9;
+}
+
+/* Animaciones */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes expandWidth {
+    from { width: 0; }
+    to { width: 60%; }
+}
+
+/* Efectos de hover para elementos interactivos */
+li, button, input, textarea {
+    transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header {
+        padding: 3rem 1rem;
+    }
+    
+    header h1 {
+        font-size: 2.5rem;
+    }
+    
+    header p {
+        font-size: 1.2rem;
+    }
+    
+    main {
+        padding: 2rem 1rem;
+    }
+    
+    section {
+        padding: 2rem;
+    }
+    
+    li {
+        padding-left: 2.5rem;
+        font-size: 1rem;
+    }
+    
+    button[type="submit"] {
+        width: 100%;
+        max-width: none;
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    header p {
+        font-size: 1rem;
+    }
+    
+    section {
+        padding: 1.5rem;
+    }
+    
+    section h2 {
+        font-size: 1.6rem;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+        padding: 14px;
+    }
+    
+    li::before {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Elementos decorativos adicionales */
+.emoji-float {
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Efecto de brillo en botones y elementos interactivos */
+.hover-glow:hover {
+    filter: drop-shadow(0 0 8px rgba(218, 177, 126, 0.5));
+}
