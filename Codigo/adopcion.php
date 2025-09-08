@@ -70,6 +70,7 @@ $result = $conn->query($sql);
             <?php if (in_array($_SESSION['rol'], ['dador', 'refugio'])): ?>
                 <a href="mis_publicaciones.php">Mis mascotas publicaciones</a>
                 <a href="publicar_mascota.php">Publicar mascota</a>
+                <a href="solicitudes_adopcion_refugio_dador.php">Ver las solicitudes de mis mascotas publicadas</a>
             <?php endif; ?>
         </nav>
     <?php endif; ?>

@@ -1,0 +1,221 @@
+/* solicitud.css */
+
+/* Variables de colores para tema consistente */
+:root {
+  --primary-color: #4e89ae;
+  --secondary-color: #43658b;
+  --accent-color: #ed9b40;
+  --light-color: #f6f5f5;
+  --dark-color: #313638;
+  --success-color: #77dd77;
+  --error-color: #ff6b6b;
+  --warning-color: #ffd166;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+/* Estilos generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: var(--dark-color);
+  line-height: 1.6;
+  padding: 0;
+  margin: 0;
+}
+
+/* Header */
+header {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 1.5rem 2rem;
+  box-shadow: var(--box-shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Botón volver */
+.btn-volver {
+  display: inline-block;
+  background-color: white;
+  color: var(--primary-color);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  transition: var(--transition);
+  border: 2px solid transparent;
+}
+
+.btn-volver:hover {
+  background-color: transparent;
+  color: white;
+  border-color: white;
+}
+
+/* Main content */
+main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Alertas */
+.alert {
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.alert-ok {
+  background-color: var(--success-color);
+  color: #1a3c1a;
+  border-left: 5px solid #1a3c1a;
+}
+
+.alert-err {
+  background-color: var(--error-color);
+  color: #5c0e0e;
+  border-left: 5px solid #5c0e0e;
+}
+
+/* Cards */
+.card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card h2 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid var(--light-color);
+  padding-bottom: 0.5rem;
+}
+
+.card p {
+  margin-bottom: 0.8rem;
+}
+
+.card hr {
+  border: none;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 1rem 0;
+}
+
+/* Imagen de mascota */
+.mascota {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  object-fit: cover;
+}
+
+/* Botones de acción */
+.acciones {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.acciones form {
+  flex: 1;
+  min-width: 120px;
+}
+
+.acciones button {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.acciones button[name="accion"][value="aprobar"] {
+  background-color: var(--success-color);
+  color: #1a3c1a;
+}
+
+.acciones button[name="accion"][value="aprobar"]:hover {
+  background-color: #66c566;
+}
+
+.acciones button[name="accion"][value="rechazar"] {
+  background-color: var(--error-color);
+  color: #5c0e0e;
+}
+
+.acciones button[name="accion"][value="rechazar"]:hover {
+  background-color: #e55c5c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .btn-volver {
+    margin-top: 0.5rem;
+  }
+  
+  .acciones {
+    flex-direction: column;
+  }
+  
+  .acciones form {
+    width: 100%;
+  }
+}
+
+/* Estados de solicitud */
+.estado-pendiente {
+  color: var(--warning-color);
+  font-weight: bold;
+}
+
+.estado-aprobado {
+  color: var(--success-color);
+  font-weight: bold;
+}
+
+.estado-rechazado {
+  color: var(--error-color);
+  font-weight: bold;
+}

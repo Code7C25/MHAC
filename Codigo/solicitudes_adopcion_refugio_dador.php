@@ -13,8 +13,9 @@ if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['rol']) || !in_array($_S
 }
 
 $publicador_id = intval($_SESSION['usuario_id']);
+$rol = $_SESSION['rol'];
 
-// Consulta: traer las solicitudes (tabla "adopciones") para mascotas cuyo dueño es este usuario (mascotas.usuario_id)
+// Consulta: traer solicitudes para mascotas del publicador
 $sql = "
     SELECT 
         a.id AS solicitud_id,
@@ -35,7 +36,7 @@ $sql = "
         m.foto
     FROM adopciones a
     INNER JOIN mascotas m ON a.mascota_id = m.id
-    WHERE m.usuario_id = ?
+    WHERE " . ($rol === 'refugio' ? "m.refugio_id = ?" : "m.usuario_id = ?") . "
     ORDER BY a.fecha_solicitud DESC
 ";
 
@@ -47,7 +48,7 @@ $stmt->bind_param("i", $publicador_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Flash message (opcional, setiado por actualizar_solicitud.php)
+// Flash message
 $flash = isset($_SESSION['mensaje']) ? $_SESSION['mensaje'] : "";
 unset($_SESSION['mensaje']);
 ?>
@@ -57,12 +58,15 @@ unset($_SESSION['mensaje']);
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Solicitudes de Adopción - Mis Publicaciones</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/solicitudes_adopcion_refugio_dador.css">
+</head>
 </head>
 <body>
   <header>
     <h1>🐾 Solicitudes de Adopción - Tus Publicaciones</h1>
     <div>
-      <a class="btn-volver" href="perfil.php">← Volver al perfil</a>
+      <a class="btn-volver" href="index.php">← Volver al inicio</a>
     </div>
   </header>
 
@@ -76,8 +80,8 @@ unset($_SESSION['mensaje']);
     <?php if ($result && $result->num_rows > 0): ?>
       <?php while ($s = $result->fetch_assoc()): ?>
         <div class="card">
-          <h2 style="margin:0 0 8px 0;"><?= htmlspecialchars($s['nombre_mascota']) ?></h2>
-          <p class="muted" style="margin:0 0 8px 0;">
+          <h2><?= htmlspecialchars($s['nombre_mascota']) ?></h2>
+          <p>
             <strong>Especie:</strong> <?= htmlspecialchars(ucfirst($s['especie'])) ?>
             • <strong>Raza:</strong> <?= htmlspecialchars($s['raza']) ?>
             • <strong>Edad mascota:</strong> <?= htmlspecialchars(ucfirst($s['edad_categoria'] ?? '')) ?>
@@ -89,17 +93,14 @@ unset($_SESSION['mensaje']);
 
           <hr>
 
-          <div class="info-row">
-            <div class="info-col"><strong>Adoptante:</strong> <?= htmlspecialchars($s['nombre_adoptante']) ?></div>
-            <div class="info-col"><strong>Email:</strong> <?= htmlspecialchars($s['email']) ?></div>
-            <div class="info-col"><strong>Teléfono:</strong> <?= htmlspecialchars($s['telefono']) ?></div>
-          </div>
+          <p><strong>Adoptante:</strong> <?= htmlspecialchars($s['nombre_adoptante']) ?></p>
+          <p><strong>Email:</strong> <?= htmlspecialchars($s['email']) ?></p>
+          <p><strong>Teléfono:</strong> <?= htmlspecialchars($s['telefono']) ?></p>
+          <p><strong>Domicilio:</strong> <?= htmlspecialchars($s['domicilio']) ?></p>
+          <p><strong>Edad solicitante:</strong> <?= intval($s['edad']) ?> • <strong>Vivienda:</strong> <?= htmlspecialchars($s['vivienda']) ?></p>
+          <p><strong>Experiencia:</strong><br><?= nl2br(htmlspecialchars($s['experiencia'])) ?></p>
 
-          <p style="margin:8px 0;"><strong>Domicilio:</strong> <?= htmlspecialchars($s['domicilio']) ?></p>
-          <p style="margin:0 0 8px 0;"><strong>Edad solicitante:</strong> <?= intval($s['edad']) ?> • <strong>Vivienda:</strong> <?= htmlspecialchars($s['vivienda']) ?></p>
-          <p style="margin:0 0 8px 0;"><strong>Experiencia:</strong><br><?= nl2br(htmlspecialchars($s['experiencia'])) ?></p>
-
-          <p class="muted" style="margin:10px 0 0 0;">
+          <p>
             <strong>Fecha de solicitud:</strong> <?= date('d/m/Y H:i', strtotime($s['fecha_solicitud'])) ?>
             • <strong>Estado actual:</strong> <?= htmlspecialchars(ucfirst($s['estado'])) ?>
           </p>
@@ -108,23 +109,22 @@ unset($_SESSION['mensaje']);
             <div class="acciones">
               <form action="actualizar_solicitud.php" method="POST">
                 <input type="hidden" name="solicitud_id" value="<?= intval($s['solicitud_id']) ?>">
-                <button type="submit" name="accion" value="aprobar" class="btn-aprobar">✅ Aprobar</button>
+                <button type="submit" name="accion" value="aprobar">✅ Aprobar</button>
               </form>
 
               <form action="actualizar_solicitud.php" method="POST">
                 <input type="hidden" name="solicitud_id" value="<?= intval($s['solicitud_id']) ?>">
-                <button type="submit" name="accion" value="rechazar" class="btn-rechazar">❌ Rechazar</button>
+                <button type="submit" name="accion" value="rechazar">❌ Rechazar</button>
               </form>
             </div>
           <?php else: ?>
-            <p style="margin-top:10px;"><em>Esta solicitud ya fue <strong><?= htmlspecialchars($s['estado']) ?></strong>.</em></p>
+            <p><em>Esta solicitud ya fue <strong><?= htmlspecialchars($s['estado']) ?></strong>.</em></p>
           <?php endif; ?>
         </div>
       <?php endwhile; ?>
     <?php else: ?>
       <div class="card">
         <p>No hay solicitudes de adopción para tus publicaciones todavía.</p>
-        <p class="muted">Si sabés que hay una solicitud en la tabla <code>adopciones</code> pero no aparece aquí, chequeá que en la tabla <code>mascotas</code> la columna que guarda al publicador sea <code>usuario_id</code> y que el valor coincida con tu <code>$_SESSION['usuario_id']</code>.</p>
       </div>
     <?php endif; ?>
   </main>
