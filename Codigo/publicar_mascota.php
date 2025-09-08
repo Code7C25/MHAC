@@ -2,6 +2,9 @@
 session_start();
 require_once 'conexion.php';
 
+$mensaje = '';
+$exito = false;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Datos del formulario
     $nombre = trim($_POST['nombre'] ?? '');
@@ -22,19 +25,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!is_dir($target_dir)) {
             mkdir($target_dir, 0777, true);
         }
-        // sanitizar nombre de archivo básico
         $base = basename($_FILES["foto"]["name"]);
-        $foto = time() . "" . preg_replace('/[^A-Za-z0-9.-]/', '_', $base);
+        $foto = time() . "_" . preg_replace('/[^A-Za-z0-9.-]/', '_', $base);
         $target_file = $target_dir . $foto;
         move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
     }
 
-$refugio_id = null;
-if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'refugio') {
-    $refugio_id = $_SESSION['refugio_id'] ?? null; // ✅ id real del refugio
-}
+    // Determinar si es refugio o dador
+    $refugio_id = null;
+    $dador_id = null;
+    if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'refugio') {
+        $refugio_id = $_SESSION['refugio_id'] ?? null;
+    } elseif (isset($_SESSION['rol']) && $_SESSION['rol'] === 'dador') {
+        $dador_id = $_SESSION['usuario_id'] ?? null;
+    }
 
-    // Preparar INSERT dinámico: si hay refugio_id lo agregamos, si no no lo incluimos
+    // Preparar columnas y valores
     $columns = [
         'nombre', 'especie', 'raza', 'sexo',
         'edad_categoria', 'tamano', 'pelaje', 'color',
@@ -47,53 +53,46 @@ if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'refugio') {
         $comportamiento, $descripcion, $foto, 'en_adopcion', date('Y-m-d H:i:s')
     ];
 
+    // Agregar ID según rol
     if ($refugio_id !== null) {
-        // agrego columna y valor al final
         $columns[] = 'refugio_id';
         $placeholders[] = '?';
         $values[] = $refugio_id;
+    } elseif ($dador_id !== null) {
+        $columns[] = 'dador_id';
+        $placeholders[] = '?';
+        $values[] = $dador_id;
     }
 
+    // Preparar SQL
     $sql_insert = "INSERT INTO mascotas (" . implode(', ', $columns) . ")
                    VALUES (" . implode(', ', $placeholders) . ")";
-
     $stmt = $conn->prepare($sql_insert);
     if (!$stmt) {
-        die("Error en prepare: " . $conn->error);
-    }
-
-    // Construir tipos dinámicamente: 'i' para enteros, 's' para strings
-    $types = '';
-    foreach ($values as $v) {
-        $types .= is_int($v) ? 'i' : 's';
-    }
-
-    // Preparar parámetros por referencia para bind_param
-    $bind_names[] = $types;
-    for ($i = 0; $i < count($values); $i++) {
-        // casteo explícito para evitar surprises
-        if (is_int($values[$i])) {
-            $bind_val = $values[$i];
-        } else {
-            // si es NULL lo dejamos como null (bind_param aceptará string vacía si es necesario)
-            $bind_val = $values[$i];
-        }
-        $bind_names[] = &$values[$i];
-    }
-
-    // bind_param con call_user_func_array
-    call_user_func_array([$stmt, 'bind_param'], $bind_names);
-
-    if ($stmt->execute()) {
-        $id_mascota = $conn->insert_id;
-        echo "✅ Mascota publicada con éxito.";
-        echo "<br><a href='mascotas_en_adopcion.php'>Ver mascotas en adopción</a>";
+        $mensaje = "Error en prepare: " . $conn->error;
     } else {
-        echo "❌ Error al publicar: " . $stmt->error;
-    }
+        // Tipos dinámicos
+        $types = '';
+        foreach ($values as $v) {
+            $types .= is_int($v) ? 'i' : 's';
+        }
 
-    $stmt->close();
-    exit;
+        $bind_names[] = $types;
+        for ($i = 0; $i < count($values); $i++) {
+            $bind_names[] = &$values[$i];
+        }
+
+        call_user_func_array([$stmt, 'bind_param'], $bind_names);
+
+        if ($stmt->execute()) {
+            $mensaje = "Mascota publicada con éxito.";
+            $exito = true;
+        } else {
+            $mensaje = "Error al publicar: " . $stmt->error;
+        }
+
+        $stmt->close();
+    }
 }
 ?>
 
@@ -101,94 +100,173 @@ if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'refugio') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Publicar Mascota</title>
-    <link rel="stylesheet" href="css/adopcion.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Mascota - MHAC</title>
+    <link rel="stylesheet" href="css/publicar-mascota.css">
 </head>
 <body>
-    <h1>🐾 Publicar Mascota en Adopción</h1>
-    <form method="POST" enctype="multipart/form-data">
-        <label>Nombre: <input type="text" name="nombre" required></label><br>
+    <a href="index.php" class="btn-volver">
+        <span>←</span>
+        Volver al inicio
+    </a>
 
-        <label>Especie:
-            <select name="especie" required>
-                <option value="perro">Perro</option>
-                <option value="gato">Gato</option>
-                <option value="otro">Otro</option>
-            </select>
-        </label><br>
+    <header>
+        <h1>Publicar Mascota en Adopción</h1>
+        <p>Ayudá a esta mascota a encontrar su hogar para siempre</p>
+    </header>
 
-        <label>Raza: <input type="text" name="raza" placeholder="Ej: Labrador, Caniche, Mestizo"></label><br>
+    <main class="contenedor-principal">
+        <?php if ($mensaje): ?>
+            <div class="mensaje-contenedor <?= $exito ? 'exito' : 'error' ?>">
+                <div class="mensaje-icono">
+                    <?= $exito ? '✅' : '❌' ?>
+                </div>
+                <div class="mensaje-texto">
+                    <p><?= $mensaje ?></p>
+                    <div class="mensaje-acciones">
+                        <?php if ($exito): ?>
+                            <a href="mascotas_en_adopcion.php" class="btn-accion primario">Ver mascotas en adopción</a>
+                        <?php endif; ?>
+                        <a href="publicar_mascota.php" class="btn-accion secundario">Publicar otra mascota</a>
+                    </div>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="formulario-contenedor">
+                <form method="POST" enctype="multipart/form-data" class="formulario-publicar">
+                    
+                    <div class="seccion-formulario">
+                        <h2>Información básica</h2>
+                        <div class="campos-grupo">
+                            <div class="campo">
+                                <label for="nombre">Nombre de la mascota:</label>
+                                <input type="text" name="nombre" id="nombre" required placeholder="Ej: Max, Luna, Toby">
+                            </div>
 
-        <label>Sexo:
-            <select name="sexo" required>
-                <option value="macho">Macho</option>
-                <option value="hembra">Hembra</option>
-                <option value="desconocido">Desconocido</option>
-            </select>
-        </label><br>
+                            <div class="campo">
+                                <label for="especie">Especie:</label>
+                                <select name="especie" id="especie" required>
+                                    <option value="">Selecciona la especie</option>
+                                    <option value="perro">Perro</option>
+                                    <option value="gato">Gato</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
 
-        <label>Categoría de edad:
-            <select name="edad_categoria" required>
-                <option value="cachorro">Cachorro</option>
-                <option value="joven">Joven</option>
-                <option value="adulto">Adulto</option>
-                <option value="mayor">Adulto Mayor</option>
-            </select>
-        </label><br>
+                            <div class="campo">
+                                <label for="raza">Raza:</label>
+                                <input type="text" name="raza" id="raza" placeholder="Ej: Labrador, Caniche, Mestizo">
+                            </div>
 
-        <label>Tamaño:
-            <select name="tamano" required>
-                <option value="pequeño">Pequeño (hasta 10kg)</option>
-                <option value="mediano">Mediano (10–25kg)</option>
-                <option value="grande">Grande (25–40kg)</option>
-                <option value="extra_grande">Extra Grande (+40kg)</option>
-            </select>
-        </label><br>
+                            <div class="campo">
+                                <label for="sexo">Sexo:</label>
+                                <select name="sexo" id="sexo" required>
+                                    <option value="">Selecciona el sexo</option>
+                                    <option value="macho">Macho</option>
+                                    <option value="hembra">Hembra</option>
+                                    <option value="desconocido">Desconocido</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
-        <label>Largo del pelo:
-            <select name="pelaje">
-                <option value="sin_pelo">Sin pelo</option>
-                <option value="corto">Corto</option>
-                <option value="medio">Medio</option>
-                <option value="largo">Largo</option>
-            </select>
-        </label><br>
+                    <div class="seccion-formulario">
+                        <h2>Características físicas</h2>
+                        <div class="campos-grupo">
+                            <div class="campo">
+                                <label for="edad_categoria">Categoría de edad:</label>
+                                <select name="edad_categoria" id="edad_categoria" required>
+                                    <option value="">Selecciona la edad</option>
+                                    <option value="cachorro">Cachorro</option>
+                                    <option value="joven">Joven</option>
+                                    <option value="adulto">Adulto</option>
+                                    <option value="mayor">Adulto Mayor</option>
+                                </select>
+                            </div>
 
-        <label>Color:
-            <select name="color">
-                <option value="apricot">Apricot / Beige</option>
-                <option value="bicolor">Bicolor</option>
-                <option value="negro">Negro</option>
-                <option value="atigrado">Atigrado</option>
-                <option value="marron">Marrón / Chocolate</option>
-                <option value="dorado">Dorado</option>
-                <option value="gris">Gris / Azul / Plateado</option>
-                <option value="arlequin">Arlequín</option>
-                <option value="merle_azul">Merle Azul</option>
-                <option value="merle_rojo">Merle Rojo</option>
-                <option value="rojo">Rojo / Castaño / Naranja</option>
-                <option value="sable">Sable</option>
-                <option value="tricolor">Tricolor</option>
-                <option value="blanco">Blanco / Crema</option>
-                <option value="amarillo">Amarillo / Canela / Fawn</option>
-            </select>
-        </label><br>
+                            <div class="campo">
+                                <label for="tamano">Tamaño:</label>
+                                <select name="tamano" id="tamano" required>
+                                    <option value="">Selecciona el tamaño</option>
+                                    <option value="pequeño">Pequeño (hasta 10kg)</option>
+                                    <option value="mediano">Mediano (10–25kg)</option>
+                                    <option value="grande">Grande (25–40kg)</option>
+                                    <option value="extra_grande">Extra Grande (+40kg)</option>
+                                </select>
+                            </div>
 
-        <label>Cuidados & comportamiento:
-            <select name="comportamiento">
-                <option value="entrenado">Entrenado para casa</option>
-                <option value="cuidados_especiales">Cuidados especiales</option>
-                <option value="ninguno">Ninguno</option>
-            </select>
-        </label><br>
+                            <div class="campo">
+                                <label for="pelaje">Largo del pelo:</label>
+                                <select name="pelaje" id="pelaje">
+                                    <option value="">Selecciona el pelaje</option>
+                                    <option value="sin_pelo">Sin pelo</option>
+                                    <option value="corto">Corto</option>
+                                    <option value="medio">Medio</option>
+                                    <option value="largo">Largo</option>
+                                </select>
+                            </div>
 
-        <label>Descripción:<br>
-            <textarea name="descripcion" rows="4"></textarea>
-        </label><br>
+                            <div class="campo">
+                                <label for="color">Color:</label>
+                                <select name="color" id="color">
+                                    <option value="">Selecciona el color</option>
+                                    <option value="apricot">Apricot / Beige</option>
+                                    <option value="bicolor">Bicolor</option>
+                                    <option value="negro">Negro</option>
+                                    <option value="atigrado">Atigrado</option>
+                                    <option value="marron">Marrón / Chocolate</option>
+                                    <option value="dorado">Dorado</option>
+                                    <option value="gris">Gris / Azul / Plateado</option>
+                                    <option value="arlequin">Arlequín</option>
+                                    <option value="merle_azul">Merle Azul</option>
+                                    <option value="merle_rojo">Merle Rojo</option>
+                                    <option value="rojo">Rojo / Castaño / Naranja</option>
+                                    <option value="sable">Sable</option>
+                                    <option value="tricolor">Tricolor</option>
+                                    <option value="blanco">Blanco / Crema</option>
+                                    <option value="amarillo">Amarillo / Canela / Fawn</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
-        <label>Foto: <input type="file" name="foto"></label><br><br>
+                    <div class="seccion-formulario">
+                        <h2>Comportamiento y cuidados</h2>
+                        <div class="campo campo-completo">
+                            <label for="comportamiento">Cuidados & comportamiento:</label>
+                            <select name="comportamiento" id="comportamiento">
+                                <option value="">Selecciona el comportamiento</option>
+                                <option value="entrenado">Entrenado para casa</option>
+                                <option value="cuidados_especiales">Cuidados especiales</option>
+                                <option value="ninguno">Ninguno</option>
+                            </select>
+                        </div>
 
-        <button type="submit">Publicar</button>
-    </form>
+                        <div class="campo campo-completo">
+                            <label for="descripcion">Descripción:</label>
+                            <textarea name="descripcion" id="descripcion" rows="5" placeholder="Contanos sobre la personalidad, historia, cuidados especiales o cualquier información relevante sobre esta mascota..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="seccion-formulario">
+                        <h2>Foto de la mascota</h2>
+                        <div class="campo campo-completo">
+                            <label for="foto" class="label-foto">
+                                <span class="icono-foto">📷</span>
+                                <span class="texto-foto">Seleccionar foto</span>
+                                <input type="file" name="foto" id="foto" accept="image/*">
+                            </label>
+                            <p class="ayuda-foto">Elegí una foto clara y atractiva que muestre bien a la mascota</p>
+                        </div>
+                    </div>
+
+                    <div class="formulario-acciones">
+                        <button type="submit" class="btn-publicar">Publicar mascota</button>
+                        <a href="mascotas_en_adopcion.php" class="btn-cancelar">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        <?php endif; ?>
+    </main>
 </body>
 </html>

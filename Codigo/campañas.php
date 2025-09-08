@@ -1,5 +1,4 @@
 <?php
-
 include("conexion.php");
 session_start();
 
@@ -167,6 +166,7 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
     </form>
   </section>
 
+
   <!-- Mensajes de éxito/error -->
   <?php if (isset($mensaje_exito)): ?>
     <div class="mensaje exito"><i class="fas fa-check-circle"></i> <?= $mensaje_exito ?></div>
@@ -218,8 +218,6 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
     <?php endif; ?>
   </div>
 </section>
-
-
 <!-- Campañas finalizadas -->
 <section class="campanias-finalizadas">
   <h2>📜 Historial de Campañas</h2>
@@ -234,6 +232,7 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
             <p><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($c['lugar']) ?></p>
             <p><i class="fas fa-user"></i> Organizó: <?= htmlspecialchars($c['organizador_nombre']) ?></p>
             <p><strong>📅 <?= date('d/m/Y', strtotime($c['fecha_inicio'])) ?> - <?= date('d/m/Y', strtotime($c['fecha_fin'])) ?></strong></p>
+
   <!-- Campañas finalizadas -->
   <section class="campanias-finalizadas">
     <h2> Historial de Campañas</h2>
@@ -245,7 +244,6 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
             <h3><?= htmlspecialchars($c['titulo']) ?> <span class="badge">Finalizada</span></h3>
             <p><?= htmlspecialchars($c['descripcion']) ?></p>
             <p><strong> <?= $c['fecha_inicio'] ?> - <?= $c['fecha_fin'] ?></strong></p>
-
           </div>
         </div>
       <?php endwhile; ?>
