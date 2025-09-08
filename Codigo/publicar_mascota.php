@@ -2,97 +2,138 @@
 session_start();
 require_once 'conexion.php';
 
+$usuario_id = isset($_SESSION['usuario_id']) ? intval($_SESSION['usuario_id']) : 0;
+$rol = isset($_SESSION['rol']) ? $_SESSION['rol'] : null;
+
 $mensaje = '';
 $exito = false;
 
+// Solo DADOR o REFUGIO
+if (!$usuario_id || !in_array($rol, ['dador', 'refugio'])) {
+    header("Location: login.php");
+    exit();
+}
+
+/**
+ * Devuelve un nombre legible del publicador.
+ * Intenta distintos esquemas de BD sin romper si prepare() falla.
+ */
+function obtenerPublicadorNombre(mysqli $conn, int $usuario_id, string $rol): string {
+    // Default por rol
+    $default = ($rol === 'refugio') ? 'Refugio' : 'Dador';
+
+    // Consultas alternativas (por si tu PK es id o id_usuario)
+    $queries = [
+        // nombre + apellido, si no hay usa nickname, si no hay email
+        "SELECT COALESCE(NULLIF(CONCAT(TRIM(nombre),' ',TRIM(apellido)),''),
+                         NULLIF(nickname,''),
+                         email) AS display
+         FROM usuarios
+         WHERE id = ?",
+        "SELECT COALESCE(NULLIF(CONCAT(TRIM(nombre),' ',TRIM(apellido)),''),
+                         NULLIF(nickname,''),
+                         email) AS display
+         FROM usuarios
+         WHERE id_usuario = ?",
+    ];
+
+    foreach ($queries as $sql) {
+        $stmt = $conn->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("i", $usuario_id);
+            if ($stmt->execute()) {
+                $stmt->bind_result($display);
+                if ($stmt->fetch() && $display) {
+                    $stmt->close();
+                    return $display;
+                }
+            }
+            $stmt->close();
+        }
+        // si prepare() falla, probamos el siguiente SQL
+    }
+
+    return $default;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Datos del formulario
-    $nombre = trim($_POST['nombre'] ?? '');
-    $especie = $_POST['especie'] ?? '';
-    $raza = trim($_POST['raza'] ?? '');
-    $sexo = $_POST['sexo'] ?? '';
+    $nombre         = trim($_POST['nombre'] ?? '');
+    $especie        = $_POST['especie'] ?? '';
+    $raza           = trim($_POST['raza'] ?? '');
+    $sexo           = $_POST['sexo'] ?? '';
     $edad_categoria = $_POST['edad_categoria'] ?? '';
-    $tamano = $_POST['tamano'] ?? '';
-    $pelaje = $_POST['pelaje'] ?? '';
-    $color = $_POST['color'] ?? '';
+    $tamano         = $_POST['tamano'] ?? '';
+    $pelaje         = $_POST['pelaje'] ?? '';
+    $color          = $_POST['color'] ?? '';
     $comportamiento = $_POST['comportamiento'] ?? '';
-    $descripcion = trim($_POST['descripcion'] ?? '');
+    $descripcion    = trim($_POST['descripcion'] ?? '');
+    $estado         = "en_adopcion";
 
-    // Manejo de foto
-    $foto = null;
-    if (!empty($_FILES['foto']['name'])) {
-        $target_dir = __DIR__ . "/uploads/mascotas/";
-        if (!is_dir($target_dir)) {
-            mkdir($target_dir, 0777, true);
-        }
-        $base = basename($_FILES["foto"]["name"]);
-        $foto = time() . "_" . preg_replace('/[^A-Za-z0-9.-]/', '_', $base);
-        $target_file = $target_dir . $foto;
-        move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
-    }
-
-    // Determinar si es refugio o usuario común
-    $refugio_id = null;
-    $usuario_id = null;
-    if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'refugio') {
-        $refugio_id = $_SESSION['refugio_id'] ?? null;
-    } elseif (isset($_SESSION['rol']) && $_SESSION['rol'] === 'dador') {
-        // acá usamos usuario_id en lugar de dador_id
-        $usuario_id = $_SESSION['usuario_id'] ?? null;
-    }
-
-    // Preparar columnas y valores
-    $columns = [
-        'nombre', 'especie', 'raza', 'sexo',
-        'edad_categoria', 'tamano', 'pelaje', 'color',
-        'comportamiento', 'descripcion', 'foto', 'estado', 'fecha_alta'
-    ];
-    $placeholders = array_fill(0, count($columns), '?');
-    $values = [
-        $nombre, $especie, $raza, $sexo,
-        $edad_categoria, $tamano, $pelaje, $color,
-        $comportamiento, $descripcion, $foto, 'en_adopcion', date('Y-m-d H:i:s')
-    ];
-
-    // Agregar ID según rol
-    if ($refugio_id !== null) {
-        $columns[] = 'refugio_id';
-        $placeholders[] = '?';
-        $values[] = $refugio_id;
-    } elseif ($usuario_id !== null) {
-        $columns[] = 'usuario_id';
-        $placeholders[] = '?';
-        $values[] = $usuario_id;
-    }
-
-    // Preparar SQL
-    $sql_insert = "INSERT INTO mascotas (" . implode(', ', $columns) . ")
-                   VALUES (" . implode(', ', $placeholders) . ")";
-    $stmt = $conn->prepare($sql_insert);
-    if (!$stmt) {
-        $mensaje = "Error en prepare: " . $conn->error;
+    // Validación mínima servidor
+    if ($nombre === '' || $especie === '' || $sexo === '' || $edad_categoria === '' || $tamano === '') {
+        $mensaje = "Faltan campos obligatorios.";
     } else {
-        // Tipos dinámicos
-        $types = '';
-        foreach ($values as $v) {
-            $types .= is_int($v) ? 'i' : 's';
+        // Nombre del publicador
+        $publicador_nombre = obtenerPublicadorNombre($conn, $usuario_id, $rol);
+
+        // Manejo de foto
+        $foto = null;
+        if (!empty($_FILES['foto']['name'])) {
+            $target_dir = __DIR__ . "/uploads/mascotas/";
+            if (!is_dir($target_dir)) {
+                @mkdir($target_dir, 0777, true);
+            }
+            $base = basename($_FILES["foto"]["name"]);
+            $foto = time() . "_" . preg_replace('/[^A-Za-z0-9.-]/', '_', $base);
+            $target_file = $target_dir . $foto;
+
+            if (!@move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
+                // si falla la subida, no frenamos la publicación — solo dejamos foto en null
+                $foto = null;
+            }
         }
 
-        $bind_names[] = $types;
-        for ($i = 0; $i < count($values); $i++) {
-            $bind_names[] = &$values[$i];
-        }
+        // INSERT con todos los campos que mostraste
+        $sql_insert = "INSERT INTO mascotas 
+            (usuario_id, publicador_nombre, nombre, especie, raza, sexo, edad_categoria, 
+             tamano, pelaje, color, comportamiento, descripcion, foto, estado, fecha_alta) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
-        call_user_func_array([$stmt, 'bind_param'], $bind_names);
+        $stmt = $conn->prepare($sql_insert);
 
-        if ($stmt->execute()) {
-            $mensaje = "Mascota publicada con éxito.";
-            $exito = true;
+        if (!$stmt) {
+            // Mostramos error para depurar (podés cambiarlo por un log)
+            $mensaje = "Error al preparar la inserción: " . $conn->error;
         } else {
-            $mensaje = "Error al publicar: " . $stmt->error;
-        }
+            // 1 entero + 13 strings
+            $stmt->bind_param(
+                "isssssssssssss",
+                $usuario_id,
+                $publicador_nombre,
+                $nombre,
+                $especie,
+                $raza,
+                $sexo,
+                $edad_categoria,
+                $tamano,
+                $pelaje,
+                $color,
+                $comportamiento,
+                $descripcion,
+                $foto,
+                $estado
+            );
 
-        $stmt->close();
+            $exito = $stmt->execute();
+
+            if ($exito) {
+                $mensaje = "Mascota publicada con éxito 🎉";
+            } else {
+                $mensaje = "Error al guardar la mascota: " . $stmt->error;
+            }
+            $stmt->close();
+        }
     }
 }
 ?>

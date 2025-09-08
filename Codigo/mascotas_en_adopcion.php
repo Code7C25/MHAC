@@ -13,9 +13,14 @@ $sql = "SELECT m.id, m.nombre, m.especie, m.raza, m.sexo,
                m.edad_categoria, m.tamano, m.descripcion, 
                m.foto, m.fecha_alta, 
                DATEDIFF(NOW(), m.fecha_alta) AS dias_en_mhac, 
-               r.nombre_refugio
+               r.nombre_refugio,
+               u.nombre AS user_nombre,
+               u.apellido AS user_apellido,
+               u.telefono AS user_telefono,
+               u.email AS user_email
         FROM mascotas m
         LEFT JOIN refugios r ON m.refugio_id = r.id
+        LEFT JOIN usuarios u ON m.usuario_id = u.id
         WHERE m.estado = 'en_adopcion'";
 
 // Filtro especie
@@ -164,12 +169,30 @@ $result = $conn->query($sql);
                                 </div>
                                 
                                 <div class="info-adicional">
-                                    <p><strong>Refugio:</strong> 
-                                        <?= $m['nombre_refugio'] ? ucfirst(htmlspecialchars($m['nombre_refugio'])) : "Publicado por usuario" ?>
+                                    <p><strong>Publicado por:</strong>
+                                        <?php if ($m['nombre_refugio']): ?>
+                                            <?= htmlspecialchars($m['nombre_refugio']) ?>
+                                        <?php else: ?>
+                                            <?= htmlspecialchars($m['user_nombre']) ?>
+                                            <?php if (!empty($m['user_apellido'])): ?>
+                                                <?= ' ' . htmlspecialchars($m['user_apellido']) ?>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
                                     </p>
+
+                                    <p><strong>Contacto:</strong>
+                                        <?php 
+                                            $contactos = [];
+                                            if (!empty($m['user_telefono'])) $contactos[] = "📞 " . htmlspecialchars($m['user_telefono']);
+                                            if (!empty($m['user_email'])) $contactos[] = "✉ " . htmlspecialchars($m['user_email']);
+                                            echo $contactos ? implode(" | ", $contactos) : "No disponible";
+                                        ?>
+                                    </p>
+
                                     <p><strong>Publicado:</strong> <?= date("d/m/Y", strtotime($m['fecha_alta'])) ?></p>
                                     <p><strong>Días en MHAC:</strong> <?= $m['dias_en_mhac'] ?> días</p>
                                 </div>
+
                             </div>
                         </div>
                     <?php endwhile; ?>

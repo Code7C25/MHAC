@@ -54,30 +54,25 @@ $result = $conn->query($sql);
 <!-- Tarjetas de navegación -->
 <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 30px;">
   <a href="mis_adopciones.php" class="servicio-card">
-    <h3>Solicitud de adopciones</h3>
+    <h3>Mis solicitud de adopciones</h3>
   </a>
-  <a href="adopcion.php" class="servicio-card">
+  <a href="" class="servicio-card">
     <h3>Adopciones aprobadas</h3>
   </a>
   <a href="mascotas_en_adopcion.php" class="servicio-card">
     <h3>Mascotas en adopción</h3>
   </a>
-
-  <?php if(isset($_SESSION['rol']) && $_SESSION['rol'] === 'dador'): ?>
-      <a href="mis_posts.php" class="servicio-card">
-          <h3>Mis publicaciones</h3>
-      </a>
-  <?php endif; ?>
 </div>
 
-
-<!-- Botón publicar mascota (solo rol dador) -->
-<?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'dador'): ?>
-    <div style="text-align: center; margin-bottom: 30px;">
-        <a href="publicar_mascota.php" class="btn-publicar">🐾 Publicar mascota</a>
-    </div>
-<?php endif; ?>
-
+    <!-- Botón publicar mascota (solo rol dador) -->
+    <?php if (isset($_SESSION['usuario_id'])): ?>
+        <nav>
+            <?php if (in_array($_SESSION['rol'], ['dador', 'refugio'])): ?>
+                <a href="mis_publicaciones.php">Mis mascotas publicaciones</a>
+                <a href="publicar_mascota.php">Publicar mascota</a>
+            <?php endif; ?>
+        </nav>
+    <?php endif; ?>
 
 <!-- Resultados -->
 <main class="contenido-principal">

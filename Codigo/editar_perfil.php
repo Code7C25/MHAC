@@ -175,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="text" name="nombre" value="<?php echo htmlspecialchars($usuario['nombre']); ?>" required>
 
         <label for="apellido">Apellido:</label>
-        <input type="text" name="apellido" value="<?php echo htmlspecialchars($usuario['apellido']); ?>" required>
+        <input type="text" name="apellido" value="<?php echo htmlspecialchars($usuario['apellido']); ?>">
 
         <label for="email">Email:</label>
         <input type="email" name="email" value="<?php echo htmlspecialchars($usuario['email']); ?>" required>
