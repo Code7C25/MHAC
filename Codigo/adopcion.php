@@ -71,6 +71,7 @@ $result = $conn->query($sql);
     </div>
 <?php endif; ?>
 
+
 <!-- Resultados -->
 <main class="contenido-principal">
     <div class="resultados-busqueda">

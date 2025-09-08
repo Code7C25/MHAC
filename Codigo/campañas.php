@@ -16,9 +16,13 @@ $campanias_finalizadas = $conn->query($sql_finalizadas);
 <head>
   <meta charset="UTF-8">
   <title>Campañas MHAC</title>
+dani
 <link rel="stylesheet" href="css/campañas.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
+ <link rel="stylesheet" href="css/campañas.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+main
 </head>
 <body>
 
