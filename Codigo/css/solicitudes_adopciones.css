@@ -1,0 +1,213 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f8faf6;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Botón volver */
+head a, a[href*="adopcion.php"] {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #5c8b39;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    z-index: 1000;
+}
+
+head a:hover, a[href*="adopcion.php"]:hover {
+    background: #4a7230;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, #5c8b39, #87b35c);
+    color: white;
+    text-align: center;
+    padding: 80px 20px 40px;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Main */
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+}
+
+/* Lista */
+ul {
+    list-style: none;
+}
+
+/* Cards de solicitud */
+li {
+    background: white;
+    margin-bottom: 30px;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-top: 4px solid #5c8b39;
+}
+
+li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* Título mascota */
+li h2 {
+    color: #4a7230;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Párrafos */
+li p {
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+li p strong {
+    color: #4a7230;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 140px;
+}
+
+/* Estado destacado */
+li p:nth-of-type(4) {
+    background: #f8faf6;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border-left: 4px solid #5c8b39;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+/* Separador */
+hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+    margin: 20px 0;
+}
+
+/* Imagen */
+li img {
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+li img:hover {
+    transform: scale(1.02);
+}
+
+/* Botón ver detalles */
+li a[href*="detalle"] {
+    display: inline-block;
+    background: #c07436;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+li a[href*="detalle"]:hover {
+    background: #a0611f;
+    transform: translateY(-1px);
+}
+
+/* Sin solicitudes */
+main > p {
+    text-align: center;
+    background: white;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-size: 1.1rem;
+}
+
+main > p a {
+    display: inline-block;
+    background: #5c8b39;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+main > p a:hover {
+    background: #4a7230;
+}
+
+/* Enlaces generales */
+a {
+    color: #c07436;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #a0611f;
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header {
+        padding: 60px 15px 30px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    li {
+        padding: 20px;
+    }
+    
+    li p strong {
+        display: block;
+        margin-bottom: 5px;
+        min-width: auto;
+    }
+    
+    main {
+        padding: 0 15px 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    li {
+        padding: 15px;
+    }
+    
+    li h2 {
+        font-size: 1.5rem;
+    }
+}

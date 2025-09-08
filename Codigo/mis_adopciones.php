@@ -43,7 +43,7 @@ $result = $stmt->get_result();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Solicitudes de Adopción - MHAC</title>
-    <link rel="stylesheet" href="css/adopcion.css">
+    <link rel="stylesheet" href="css/solicitudes_adopciones.css">
     <a href="adopcion.php" class="">
             <span class="">←</span>
             Volver al inicio
@@ -81,9 +81,7 @@ $result = $stmt->get_result();
                     <?php endif; ?>
                     
                     <br>
-                    <a href="detalle_adopcion.php?id=<?= $adopcion['adopcion_id'] ?>">
-                        Ver detalles
-                    </a>
+                    
                 </li>
             <?php endwhile; ?>
         </ul>
