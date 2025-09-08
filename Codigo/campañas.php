@@ -163,6 +163,7 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
     </form>
   </section>
 
+
   <!-- Mensajes de éxito/error -->
   <?php if (isset($mensaje_exito)): ?>
     <div class="mensaje exito"><i class="fas fa-check-circle"></i> <?= $mensaje_exito ?></div>
@@ -201,20 +202,17 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
   </div>
 </section>
 
-<!-- Campañas finalizadas -->
-<section class="campanias-finalizadas">
-  <h2>📜 Historial de Campañas</h2>
-  <div class="grid">
-    <?php if ($campanias_finalizadas->num_rows > 0): ?>
-      <?php while($c = $campanias_finalizadas->fetch_assoc()): ?>
-        <div class="card finalizada">
-          <img src="<?= obtenerRutaImagen($c['imagen']) ?>" alt="Imagen campaña">
-          <div class="card-body">
-            <h3><?= htmlspecialchars($c['titulo']) ?> <span class="badge finalizada">Finalizada</span></h3>
+  <!-- Campañas finalizadas -->
+  <section class="campanias-finalizadas">
+    <h2> Historial de Campañas</h2>
+    <div class="grid">
+      <?php if ($campanias_finalizadas->num_rows > 0): ?>
+        <?php while($c = $campanias_finalizadas->fetch_assoc()): ?>
+          <div class="card finalizada">
+            <img src="<?= $c['imagen'] ?: 'imagenes/default.jpg' ?>" alt="Imagen campaña">
+            <h3><?= htmlspecialchars($c['titulo']) ?> <span class="badge">Finalizada</span></h3>
             <p><?= htmlspecialchars($c['descripcion']) ?></p>
-            <p><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($c['lugar']) ?></p>
-            <p><i class="fas fa-user"></i> Organizó: <?= htmlspecialchars($c['organizador_nombre']) ?></p>
-            <p><strong>📅 <?= date('d/m/Y', strtotime($c['fecha_inicio'])) ?> - <?= date('d/m/Y', strtotime($c['fecha_fin'])) ?></strong></p>
+            <p><strong> <?= $c['fecha_inicio'] ?> - <?= $c['fecha_fin'] ?></strong></p>
           </div>
         </div>
       <?php endwhile; ?>
