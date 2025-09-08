@@ -87,7 +87,7 @@
             <div class="categoria-icon">
                 <img src="imagenes/icono-rescates.png" alt="Rescates/Historias">
             </div>
-            <h3>Rescates/Historias</h3>
+            <h3>Rescates</h3>
         </a>
         
         <a href="comunidad.php" class="categoria-card">
