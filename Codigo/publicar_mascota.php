@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         // sanitizar nombre de archivo básico
         $base = basename($_FILES["foto"]["name"]);
-        $foto = time() . "_" . preg_replace('/[^A-Za-z0-9._-]/', '_', $base);
+        $foto = time() . "" . preg_replace('/[^A-Za-z0-9.-]/', '_', $base);
         $target_file = $target_dir . $foto;
         move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
     }

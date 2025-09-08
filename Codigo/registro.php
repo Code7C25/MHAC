@@ -66,6 +66,7 @@ session_start();
           <option value="hogar_transito">Hogar de tránsito</option>
           <option value="veterinario">Veterinario</option>
           <option value="donante">Donante</option>
+           <option value="dador">Dador</option>
         </select>
         <label class="form-label">Rol</label>
       </div>

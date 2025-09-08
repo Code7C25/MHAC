@@ -3,12 +3,12 @@ session_start();
 require_once 'conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $rol = $_POST['rol'];  // primero definimos el rol
     $nombre = trim($_POST['nombre']);
     $apellido = ($rol === 'refugio') ? '' : trim($_POST['apellido']);
     $email = trim($_POST['email']);
     $telefono = trim($_POST['telefono']);
     $password = $_POST['password'];
-    $rol = $_POST['rol'];
 
     // Validación básica
     if (strlen($password) < 6) {

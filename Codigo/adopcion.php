@@ -40,7 +40,6 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adopciones - MHAC</title>
     <link rel="stylesheet" href="css/adopcion.css">
-    <link rel="stylesheet" href="css/base.css">
 </head>
 <body>
 <a href="index.php" class="">
@@ -64,6 +63,13 @@ $result = $conn->query($sql);
     <h3>Mascotas en adopción</h3>
   </a>
 </div>
+
+<!-- Botón publicar mascota (solo rol dador) -->
+<?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'dador'): ?>
+    <div style="text-align: center; margin-bottom: 30px;">
+        <a href="publicar_mascota.php" class="btn-publicar">🐾 Publicar mascota</a>
+    </div>
+<?php endif; ?>
 
 <!-- Resultados -->
 <main class="contenido-principal">
