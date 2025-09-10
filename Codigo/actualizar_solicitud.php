@@ -43,25 +43,70 @@ if (!$res_check || $res_check->num_rows === 0) {
     $table = 'adopciones';
 }
 
-// Actualizar estado
+// Actualizar estado de la solicitud
 $sql_up = "UPDATE {$table} SET estado = ? WHERE id = ?";
 $stmt_up = $conn->prepare($sql_up);
 $stmt_up->bind_param("si", $nuevo_estado, $id);
 $stmt_up->execute();
 
-// Traer datos del adoptante, mascota y publicador
-$sql_datos = "SELECT sa.nombre AS adoptante, sa.email, sa.telefono, 
-                     m.nombre AS mascota, m.foto, m.especie, m.raza, m.edad_categoria, 
-                     m.tamano, m.pelaje, m.color, m.comportamiento, m.descripcion,
-                     u.nombre AS usuario_nombre, u.apellido AS usuario_apellido, 
-                     u.email AS usuario_email, u.telefono AS usuario_telefono,
-                     r.nombre_refugio
+// Actualizar estado de la mascota según el resultado
+if ($nuevo_estado === 'aprobada') {
+    // Mascota adoptada
+    $sql_get_mascota = "SELECT mascota_id FROM {$table} WHERE id = ?";
+    $stmt_get = $conn->prepare($sql_get_mascota);
+    $stmt_get->bind_param("i", $id);
+    $stmt_get->execute();
+    $res_get = $stmt_get->get_result();
+    $row = $res_get->fetch_assoc();
+    $mascota_id = $row['mascota_id'] ?? null;
+
+    if ($mascota_id) {
+        $nuevo_estado_mascota = $nuevo_estado === 'aprobada' ? 'adoptado' : 'en_adopcion';
+
+        $sql_update_mascota = "UPDATE mascotas SET estado = ? WHERE id = ?";
+        $stmt_mascota = $conn->prepare($sql_update_mascota);
+        $stmt_mascota->bind_param("si", $nuevo_estado_mascota, $mascota_id);
+        $stmt_mascota->execute();
+    }
+
+} elseif ($nuevo_estado === 'rechazada') {
+    // Mantenerla en adopción
+    $sql_mascota = "UPDATE mascotas 
+                    SET estado = 'en_adopcion' 
+                    WHERE id = (SELECT mascota_id FROM {$table} WHERE id = ?)";
+    $stmt_mascota = $conn->prepare($sql_mascota);
+    $stmt_mascota->bind_param("i", $id);
+    $stmt_mascota->execute();
+}
+
+$sql_datos = "SELECT 
+                    CONCAT(a.nombre, ' ', a.apellido) AS adoptante,
+                    a.email AS email,
+                    a.telefono AS telefono,
+                    m.nombre AS mascota,
+                    m.foto,
+                    m.especie,
+                    m.raza,
+                    m.edad_categoria,
+                    m.tamano,
+                    m.pelaje,
+                    m.color,
+                    m.comportamiento,
+                    m.descripcion,
+                    u.nombre AS usuario_nombre,
+                    u.apellido AS usuario_apellido,
+                    u.email AS usuario_email,
+                    u.telefono AS usuario_telefono
               FROM {$table} sa
               JOIN mascotas m ON sa.mascota_id = m.id
-              LEFT JOIN refugios r ON m.refugio_id = r.id
+              JOIN usuarios a ON sa.usuario_id = a.id
               LEFT JOIN usuarios u ON m.usuario_id = u.id
               WHERE sa.id = ?";
+
 $stmt_datos = $conn->prepare($sql_datos);
+if (!$stmt_datos) {
+    die("Error al preparar SELECT de solicitud: " . $conn->error);
+}
 $stmt_datos->bind_param("i", $id);
 $stmt_datos->execute();
 $result = $stmt_datos->get_result();

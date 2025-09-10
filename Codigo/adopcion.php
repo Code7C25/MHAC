@@ -9,9 +9,11 @@ $orden = $_GET['orden'] ?? 'fecha_desc';
 
 // Construcción de la consulta
 $sql = "SELECT a.id AS adopcion_id, a.fecha_solicitud, a.estado, 
-               m.nombre AS nombre_mascota, m.especie, m.raza, m.edad_categoria, m.foto
+               m.id AS mascota_id, m.nombre AS nombre_mascota, m.especie, m.raza, m.edad_categoria, m.foto,
+               u.nombre AS adoptante_nombre, u.apellido AS adoptante_apellido
         FROM adopciones a
         JOIN mascotas m ON a.mascota_id = m.id
+        JOIN usuarios u ON a.usuario_id = u.id
         WHERE a.estado = 'aprobada'";
 
 if ($filtro_especie) {
@@ -43,7 +45,7 @@ $result = $conn->query($sql);
 </head>
 <body>
 <a href="index.php" class="">
-    <span class="">←</span>
+    <span>←</span>
     Volver al inicio
 </a>
 
@@ -53,9 +55,12 @@ $result = $conn->query($sql);
 
 <!-- Tarjetas de navegación -->
 <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 30px;">
-  <a href="mis_adopciones.php" class="servicio-card">
-    <h3>Mis solicitud de adopciones</h3>
-  </a>
+  <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'adoptante'): ?>
+    <a href="mis_adopciones.php" class="servicio-card">
+      <h3>Mis solicitudes de adopción</h3>
+    </a>
+  <?php endif; ?>
+
   <a href="" class="servicio-card">
     <h3>Adopciones aprobadas</h3>
   </a>
@@ -64,11 +69,10 @@ $result = $conn->query($sql);
   </a>
 </div>
 
-    <!-- Botón publicar mascota (solo rol dador) -->
     <?php if (isset($_SESSION['usuario_id'])): ?>
         <nav>
             <?php if (in_array($_SESSION['rol'], ['dador', 'refugio'])): ?>
-                <a href="mis_publicaciones.php">Mis mascotas publicaciones</a>
+                <a href="mis_mascotas_publicadas.php">Mis mascotas publicadas</a>
                 <a href="publicar_mascota.php">Publicar mascota</a>
                 <a href="solicitudes_adopcion_refugio_dador.php">Ver las solicitudes de mis mascotas publicadas</a>
             <?php endif; ?>
@@ -82,13 +86,19 @@ $result = $conn->query($sql);
             <div class="grid">
                 <?php while($row = $result->fetch_assoc()): ?>
                     <div class="card">
-                        <img src="imagenes/<?= htmlspecialchars($row['foto']) ?>" alt="<?= htmlspecialchars($row['nombre_mascota']) ?>">
+                        <?php if ($row['foto']): ?>
+                            <div class="mascota-imagen">
+                                <img src="uploads/mascotas/<?= htmlspecialchars($row['foto']) ?>" 
+                                     alt="<?= htmlspecialchars($row['nombre_mascota']) ?>">
+                            </div>
+                        <?php endif; ?>
                         <h3><?= htmlspecialchars($row['nombre_mascota']) ?></h3>
                         <p><strong>Especie:</strong> <?= htmlspecialchars($row['especie']) ?></p>
                         <p><strong>Raza:</strong> <?= htmlspecialchars($row['raza']) ?></p>
                         <p><strong>Edad:</strong> <?= htmlspecialchars($row['edad_categoria']) ?></p>
                         <p><strong>Estado:</strong> <?= htmlspecialchars($row['estado']) ?></p>
                         <p><strong>Fecha solicitud:</strong> <?= htmlspecialchars($row['fecha_solicitud']) ?></p>
+                        <p><strong>Adoptante:</strong> <?= htmlspecialchars($row['adoptante_nombre'] . ' ' . $row['adoptante_apellido']) ?></p>
                     </div>
                 <?php endwhile; ?>
             </div>

@@ -1,12 +1,7 @@
 <?php
-// solicitudes_adopcion_refugio_dador.php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 session_start();
 require_once 'conexion.php';
 
-// Verificar sesión y rol (permitimos 'refugio' o 'dador')
 if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['rol']) || !in_array($_SESSION['rol'], ['refugio', 'dador'])) {
     header("Location: login.php");
     exit();
@@ -15,7 +10,6 @@ if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['rol']) || !in_array($_S
 $publicador_id = intval($_SESSION['usuario_id']);
 $rol = $_SESSION['rol'];
 
-// Consulta: traer solicitudes para mascotas del publicador
 $sql = "
     SELECT 
         a.id AS solicitud_id,
@@ -36,7 +30,7 @@ $sql = "
         m.foto
     FROM adopciones a
     INNER JOIN mascotas m ON a.mascota_id = m.id
-    WHERE " . ($rol === 'refugio' ? "m.refugio_id = ?" : "m.usuario_id = ?") . "
+    WHERE m.usuario_id = ?
     ORDER BY a.fecha_solicitud DESC
 ";
 
@@ -66,7 +60,7 @@ unset($_SESSION['mensaje']);
   <header>
     <h1>🐾 Solicitudes de Adopción - Tus Publicaciones</h1>
     <div>
-      <a class="btn-volver" href="index.php">← Volver al inicio</a>
+      <a class="btn-volver" href="adopcion.php">← Volver</a>
     </div>
   </header>
 
