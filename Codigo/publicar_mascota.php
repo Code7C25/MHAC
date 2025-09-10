@@ -50,7 +50,6 @@ function obtenerPublicadorNombre(mysqli $conn, int $usuario_id, string $rol): st
             }
             $stmt->close();
         }
-        // si prepare() falla, probamos el siguiente SQL
     }
 
     return $default;
@@ -89,12 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $target_file = $target_dir . $foto;
 
             if (!@move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
-                // si falla la subida, no frenamos la publicación — solo dejamos foto en null
                 $foto = null;
             }
         }
 
-        // INSERT con todos los campos que mostraste
         $sql_insert = "INSERT INTO mascotas 
             (usuario_id, publicador_nombre, nombre, especie, raza, sexo, edad_categoria, 
              tamano, pelaje, color, comportamiento, descripcion, foto, estado, fecha_alta) 
@@ -103,10 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $conn->prepare($sql_insert);
 
         if (!$stmt) {
-            // Mostramos error para depurar (podés cambiarlo por un log)
             $mensaje = "Error al preparar la inserción: " . $conn->error;
         } else {
-            // 1 entero + 13 strings
             $stmt->bind_param(
                 "isssssssssssss",
                 $usuario_id,
@@ -147,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/publicar-mascota.css">
 </head>
 <body>
-    <a href="index.php" class="btn-volver">
+    <a href="adopcion.php" class="btn-volver">
         <span>←</span>
         Volver al inicio
     </a>
@@ -294,11 +289,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h2>Foto de la mascota</h2>
                         <div class="campo campo-completo">
                             <label for="foto" class="label-foto">
-                                <span class="icono-foto">📷</span>
-                                <span class="texto-foto">Seleccionar foto</span>
-                                <input type="file" name="foto" id="foto" accept="image/*">
-                            </label>
-                            <p class="ayuda-foto">Elegí una foto clara y atractiva que muestre bien a la mascota</p>
+                            <span class="icono-foto">📷</span>
+                            <span class="texto-foto">Seleccionar foto</span>
+                            <input type="file" name="foto" id="foto" accept="image/*">
+                        </label>
+                        <p id="nombre-archivo" style="font-size:14px; color:#555; margin-top:5px;"></p>
+                        <p class="ayuda-foto">Elegí una foto clara y atractiva que muestre bien a la mascota</p>
                         </div>
                     </div>
 
@@ -310,5 +306,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
     </main>
+
+<script>
+document.getElementById('foto').addEventListener('change', function() {
+    const archivo = this.files[0];
+    const nombreArchivo = archivo ? archivo.name : "Ningún archivo seleccionado";
+    document.getElementById('nombre-archivo').textContent = nombreArchivo;
+});
+</script>
+
 </body>
 </html>

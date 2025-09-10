@@ -1,0 +1,408 @@
+/* mis_mascotas_publicadas.css */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap');
+
+:root {
+    --color-primario: #dab17e;
+    --color-secundario: #fefdfc;
+    --color-fondo: #ffffff;
+    --color-texto: #212615;
+    --color-acento: #5c8b39;
+    --color-acento2: #bf7f4a;
+    --color-titulo: #976133;
+    --color-borde: #cd9255;
+    --color-hover: #636a2f;
+    --color-boton: #c07436;
+    --color-boton-hover: #33511c;
+    --color-suave: #87b35c;
+    --color-sombra: rgba(92, 139, 57, 0.1);
+    --color-sombra-hover: rgba(92, 139, 57, 0.2);
+    --color-estado-activo: #e6f7ee;
+    --color-texto-activo: #0d6832;
+    --color-estado-inactivo: #fde8e8;
+    --color-texto-inactivo: #c53030;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Baloo 2', cursive;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(218, 177, 126, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(92, 139, 57, 0.05) 0%, transparent 25%);
+    min-height: 100vh;
+}
+
+/* Botón volver */
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    margin: 1.5rem;
+    padding: 0.7rem 1.2rem;
+    background-color: var(--color-primario);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-volver:hover {
+    background-color: var(--color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 1rem 1.5rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: var(--color-titulo);
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-acento), var(--color-suave));
+    border-radius: 2px;
+}
+
+header p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-texto);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Botón publicar */
+.btn-publicar {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--color-boton) 0%, var(--color-acento2) 100%);
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(192, 116, 54, 0.3);
+}
+
+.btn-publicar:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(192, 116, 54, 0.4);
+}
+
+/* Main */
+main {
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+    padding: 0 1.5rem;
+}
+
+/* Grid de mascotas */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* Tarjetas de mascotas */
+.card {
+    background-color: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px var(--color-sombra);
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px var(--color-sombra-hover);
+}
+
+.card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+.card-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card h3 {
+    color: var(--color-acento);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.card h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--color-primario);
+    border-radius: 2px;
+}
+
+.card p {
+    margin-bottom: 0.6rem;
+    font-size: 0.95rem;
+}
+
+.card p strong {
+    color: var(--color-titulo);
+    margin-right: 5px;
+}
+
+.descripcion {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--color-borde);
+    color: var(--color-texto);
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+/* Estado de la mascota */
+.card p:has(strong:contains("Estado")) {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.card p:has(strong:contains("Estado")) + .descripcion {
+    margin-top: 1.5rem;
+}
+
+/* Badge de estado */
+.estado-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.estado-badge.disponible {
+    background-color: var(--color-estado-activo);
+    color: var(--color-texto-activo);
+}
+
+.estado-badge.adoptado {
+    background-color: var(--color-estado-inactivo);
+    color: var(--color-texto-inactivo);
+}
+
+.estado-badge.pendiente {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Acciones */
+.acciones-card {
+    margin-top: 1.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--color-borde);
+    display: flex;
+    gap: 10px;
+}
+
+.btn-editar {
+    background-color: var(--color-acento);
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    flex: 1;
+    text-align: center;
+}
+
+.btn-editar:hover {
+    background-color: var(--color-boton-hover);
+    transform: translateY(-2px);
+}
+
+.btn-eliminar {
+    background-color: #e74c3c;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    flex: 1;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.btn-eliminar:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+/* Mensaje cuando no hay mascotas */
+main > p {
+    text-align: center;
+    padding: 3rem;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px var(--color-sombra);
+    font-size: 1.2rem;
+    color: var(--color-texto);
+    max-width: 600px;
+    margin: 2rem auto;
+    grid-column: 1 / -1;
+}
+
+/* Fecha de publicación */
+.card p:has(strong:contains("Fecha")) {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--color-borde);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    header p {
+        font-size: 1.1rem;
+    }
+    
+    .btn-volver {
+        margin: 1rem;
+        padding: 0.6rem 1rem;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .card-content {
+        padding: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    header {
+        padding: 1rem 1rem 1.5rem;
+    }
+    
+    .btn-publicar {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+    
+    .card-content {
+        padding: 1rem;
+    }
+    
+    .acciones-card {
+        flex-direction: column;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.2s; }
+.card:nth-child(4) { animation-delay: 0.3s; }
+.card:nth-child(5) { animation-delay: 0.4s; }
+
+/* Mejora de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Estilos para el focus visible */
+.btn-volver:focus-visible,
+.btn-publicar:focus-visible,
+.btn-editar:focus-visible,
+.btn-eliminar:focus-visible {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 2px;
+}

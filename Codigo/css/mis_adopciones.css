@@ -1,0 +1,398 @@
+/* mis_adopciones.css */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap');
+
+:root {
+    --color-primario: #dab17e;
+    --color-secundario: #fefdfc;
+    --color-fondo: #ffffff;
+    --color-texto: #212615;
+    --color-acento: #5c8b39;
+    --color-acento2: #bf7f4a;
+    --color-titulo: #976133;
+    --color-borde: #cd9255;
+    --color-hover: #636a2f;
+    --color-boton: #c07436;
+    --color-boton-hover: #33511c;
+    --color-suave: #87b35c;
+    --color-sombra: rgba(92, 139, 57, 0.1);
+    --color-sombra-hover: rgba(92, 139, 57, 0.2);
+    --color-estado-pendiente: #fff3cd;
+    --color-texto-pendiente: #856404;
+    --color-estado-aprobada: #d4edda;
+    --color-texto-aprobada: #155724;
+    --color-estado-rechazada: #f8d7da;
+    --color-texto-rechazada: #721c24;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Baloo 2', cursive;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(218, 177, 126, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(92, 139, 57, 0.05) 0%, transparent 25%);
+    min-height: 100vh;
+}
+
+/* Enlace volver */
+a[href="index.php"] {
+    display: inline-flex;
+    align-items: center;
+    margin: 1.5rem;
+    padding: 0.7rem 1.2rem;
+    background-color: var(--color-primario);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+a[href="index.php"]:hover {
+    background-color: var(--color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+a[href="index.php"] span {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 1rem 1.5rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: var(--color-titulo);
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-acento), var(--color-suave));
+    border-radius: 2px;
+}
+
+/* Filtros */
+div[style*="margin-bottom:20px"] {
+    max-width: 1000px;
+    margin: 0 auto 2rem;
+    padding: 0 1.5rem;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px var(--color-sombra);
+}
+
+select, input[type="text"] {
+    padding: 12px 15px;
+    border: 2px solid var(--color-borde);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    min-width: 180px;
+    background-color: rgba(218, 177, 126, 0.05);
+}
+
+input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+}
+
+select:focus, input[type="text"]:focus {
+    outline: none;
+    border-color: var(--color-acento);
+    box-shadow: 0 0 0 3px rgba(92, 139, 57, 0.2);
+}
+
+button[type="submit"] {
+    background: linear-gradient(135deg, var(--color-boton) 0%, var(--color-acento2) 100%);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(192, 116, 54, 0.3);
+}
+
+/* Main content */
+.contenido-principal {
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+    padding: 0 1.5rem;
+}
+
+/* Grid de tarjetas */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* Tarjetas de adopción */
+.card {
+    background-color: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px var(--color-sombra);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px var(--color-sombra-hover);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card h3 {
+    color: var(--color-acento);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.card h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--color-primario);
+    border-radius: 2px;
+}
+
+.card p {
+    margin-bottom: 0.6rem;
+    font-size: 0.95rem;
+}
+
+.card p strong {
+    color: var(--color-titulo);
+    margin-right: 5px;
+}
+
+/* Badges de estado */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.badge.pendiente {
+    background-color: var(--color-estado-pendiente);
+    color: var(--color-texto-pendiente);
+}
+
+.badge.aprobada {
+    background-color: var(--color-estado-aprobada);
+    color: var(--color-texto-aprobada);
+}
+
+.badge.rechazada {
+    background-color: var(--color-estado-rechazada);
+    color: var(--color-texto-rechazada);
+}
+
+/* Mensaje cuando no hay solicitudes */
+.contenido-principal > p {
+    text-align: center;
+    padding: 3rem;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px var(--color-sombra);
+    font-size: 1.2rem;
+    color: var(--color-texto);
+    max-width: 600px;
+    margin: 2rem auto;
+    grid-column: 1 / -1;
+}
+
+/* Indicador visual del estado en la tarjeta */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+}
+
+.card .badge.pendiente ~ .card::before {
+    background-color: var(--color-texto-pendiente);
+}
+
+.card .badge.aprobada ~ .card::before {
+    background-color: var(--color-texto-aprobada);
+}
+
+.card .badge.rechazada ~ .card::before {
+    background-color: var(--color-texto-rechazada);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    select, input[type="text"] {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .card-body {
+        padding: 1.2rem;
+    }
+    
+    a[href="index.php"] {
+        margin: 1rem;
+        padding: 0.6rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    header {
+        padding: 1rem 1rem 1.5rem;
+    }
+    
+    div[style*="margin-bottom:20px"] {
+        padding: 0 1rem;
+    }
+    
+    form {
+        padding: 1.2rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.2s; }
+.card:nth-child(4) { animation-delay: 0.3s; }
+.card:nth-child(5) { animation-delay: 0.4s; }
+
+/* Mejora de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Estilos para el focus visible */
+a[href="index.php"]:focus-visible,
+select:focus-visible,
+input[type="text"]:focus-visible,
+button[type="submit"]:focus-visible {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 2px;
+}
+
+/* Efecto de carga para imágenes */
+.card img {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}

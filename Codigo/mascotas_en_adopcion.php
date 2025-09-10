@@ -3,54 +3,66 @@ session_start();
 require_once 'conexion.php';
 
 // Filtros
-$filtro_especie = $_GET['especie'] ?? '';
-$buscar_nombre  = $_GET['nombre'] ?? '';
-$orden          = $_GET['orden'] ?? 'recientes';
-$filtro_dias    = $_GET['dias'] ?? '';
+$filtro_especie        = $_GET['especie'] ?? '';
+$buscar_nombre         = $_GET['nombre'] ?? '';
+$filtro_raza           = $_GET['raza'] ?? '';
+$filtro_sexo           = $_GET['sexo'] ?? '';
+$filtro_edad_categoria = $_GET['edad_categoria'] ?? '';
+$filtro_tamano         = $_GET['tamano'] ?? '';
+$filtro_pelaje         = $_GET['pelaje'] ?? '';
+$filtro_color          = $_GET['color'] ?? '';
+$filtro_comportamiento = $_GET['comportamiento'] ?? '';
+$orden                 = $_GET['orden'] ?? '';
+$filtro_dias           = $_GET['dias'] ?? '';
+
+$sql = "SELECT * FROM mascotas WHERE estado = 'en_adopcion'";
+
+// Aplicar filtros
+if ($filtro_especie)        $sql .= " AND especie = '" . $conn->real_escape_string($filtro_especie) . "'";
+if ($buscar_nombre)         $sql .= " AND nombre LIKE '%" . $conn->real_escape_string($buscar_nombre) . "%'";
+if ($filtro_raza)           $sql .= " AND raza LIKE '%" . $conn->real_escape_string($filtro_raza) . "%'";
+if ($filtro_sexo)           $sql .= " AND sexo = '" . $conn->real_escape_string($filtro_sexo) . "'";
+if ($filtro_edad_categoria) $sql .= " AND edad_categoria = '" . $conn->real_escape_string($filtro_edad_categoria) . "'";
+if ($filtro_tamano)         $sql .= " AND tamano = '" . $conn->real_escape_string($filtro_tamano) . "'";
+if ($filtro_pelaje)         $sql .= " AND pelaje = '" . $conn->real_escape_string($filtro_pelaje) . "'";
+if ($filtro_color)          $sql .= " AND color = '" . $conn->real_escape_string($filtro_color) . "'";
+if ($filtro_comportamiento) $sql .= " AND comportamiento = '" . $conn->real_escape_string($filtro_comportamiento) . "'";
+
+// Filtro días en MHAC
+if ($filtro_dias == '7') {
+    $sql .= " AND dias_mhac <= 7";
+} elseif ($filtro_dias == '21') {
+    $sql .= " AND dias_mhac <= 21";
+} elseif ($filtro_dias == '60+') {
+    $sql .= " AND dias_mhac > 60";
+}
+
+// Orden
+if ($orden === 'edad_asc') {
+    $sql .= " ORDER BY edad_categoria ASC";
+} elseif ($orden === 'edad_desc') {
+    $sql .= " ORDER BY edad_categoria DESC";
+} else {
+    $sql .= " ORDER BY fecha_alta DESC";
+}
 
 // Construcción de la consulta
 $sql = "SELECT m.id, m.nombre, m.especie, m.raza, m.sexo, 
                m.edad_categoria, m.tamano, m.descripcion, 
                m.foto, m.fecha_alta, 
                DATEDIFF(NOW(), m.fecha_alta) AS dias_en_mhac, 
-               r.nombre_refugio,
                u.nombre AS user_nombre,
                u.apellido AS user_apellido,
                u.telefono AS user_telefono,
                u.email AS user_email
         FROM mascotas m
-        LEFT JOIN refugios r ON m.refugio_id = r.id
         LEFT JOIN usuarios u ON m.usuario_id = u.id
         WHERE m.estado = 'en_adopcion'";
 
-// Filtro especie
-if ($filtro_especie) {
-    $sql .= " AND m.especie = '" . $conn->real_escape_string($filtro_especie) . "'";
-}
-
-// Filtro nombre
-if ($buscar_nombre) {
-    $sql .= " AND m.nombre LIKE '%" . $conn->real_escape_string($buscar_nombre) . "%'";
-}
-
-// Filtro días en MHAC
-if ($filtro_dias == '7') {
-    $sql .= " AND DATEDIFF(NOW(), m.fecha_alta) <= 7";
-} elseif ($filtro_dias == '21') {
-    $sql .= " AND DATEDIFF(NOW(), m.fecha_alta) <= 21";
-} elseif ($filtro_dias == '60+') {
-    $sql .= " AND DATEDIFF(NOW(), m.fecha_alta) > 60";
-}
-
-// Orden
-if ($orden === 'edad_asc') {
-    $sql .= " ORDER BY m.edad ASC";
-} elseif ($orden === 'edad_desc') {
-    $sql .= " ORDER BY m.edad DESC";
-}
-
+// Ejecutar consulta
 $result = $conn->query($sql);
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -100,6 +112,100 @@ $result = $conn->query($sql);
                             <option value="perro" <?= $filtro_especie=='perro'?'selected':'' ?>>Perro</option>
                             <option value="gato" <?= $filtro_especie=='gato'?'selected':'' ?>>Gato</option>
                             <option value="otro" <?= $filtro_especie=='otro'?'selected':'' ?>>Otro</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="filtro-grupo">
+                    <label>
+                        Filtrar por raza
+                        <input type="text" name="raza" value="<?= htmlspecialchars($filtro_raza) ?>" placeholder="Ej: Labrador">
+                    </label>
+                </div>
+
+                <div class="filtro-grupo">
+                    <label>
+                        Filtrar por sexo
+                        <select name="sexo">
+                            <option value="">Todos</option>
+                            <option value="macho" <?= $filtro_sexo=='macho'?'selected':'' ?>>Macho</option>
+                            <option value="hembra" <?= $filtro_sexo=='hembra'?'selected':'' ?>>Hembra</option>
+                            <option value="desconocido" <?= $filtro_sexo=='desconocido'?'selected':'' ?>>Desconocido</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="filtro-grupo">
+                    <label>
+                        Filtrar por edad
+                        <select name="edad_categoria">
+                            <option value="">Todas</option>
+                            <option value="cachorro" <?= $filtro_edad_categoria=='cachorro'?'selected':'' ?>>Cachorro</option>
+                            <option value="joven" <?= $filtro_edad_categoria=='joven'?'selected':'' ?>>Joven</option>
+                            <option value="adulto" <?= $filtro_edad_categoria=='adulto'?'selected':'' ?>>Adulto</option>
+                            <option value="mayor" <?= $filtro_edad_categoria=='mayor'?'selected':'' ?>>Adulto mayor</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="filtro-grupo">
+                    <label>
+                        Filtrar por tamaño
+                        <select name="tamano">
+                            <option value="">Todos</option>
+                            <option value="pequeño" <?= $filtro_tamano=='pequeño'?'selected':'' ?>>Pequeño</option>
+                            <option value="mediano" <?= $filtro_tamano=='mediano'?'selected':'' ?>>Mediano</option>
+                            <option value="grande" <?= $filtro_tamano=='grande'?'selected':'' ?>>Grande</option>
+                            <option value="extra_grande" <?= $filtro_tamano=='extra_grande'?'selected':'' ?>>Extra Grande</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="filtro-grupo">
+                    <label>
+                        Filtrar por pelaje
+                        <select name="pelaje">
+                            <option value="">Todos</option>
+                            <option value="sin_pelo" <?= $filtro_pelaje=='sin_pelo'?'selected':'' ?>>Sin pelo</option>
+                            <option value="corto" <?= $filtro_pelaje=='corto'?'selected':'' ?>>Corto</option>
+                            <option value="medio" <?= $filtro_pelaje=='medio'?'selected':'' ?>>Medio</option>
+                            <option value="largo" <?= $filtro_pelaje=='largo'?'selected':'' ?>>Largo</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="filtro-grupo">
+                    <label>
+                        Filtrar por color
+                        <select name="color">
+                            <option value="">Todos</option>
+                            <option value="apricot" <?= $filtro_color=='apricot'?'selected':'' ?>>Apricot / Beige</option>
+                            <option value="bicolor" <?= $filtro_color=='bicolor'?'selected':'' ?>>Bicolor</option>
+                            <option value="negro" <?= $filtro_color=='negro'?'selected':'' ?>>Negro</option>
+                            <option value="atigrado" <?= $filtro_color=='atigrado'?'selected':'' ?>>Atigrado</option>
+                            <option value="marron" <?= $filtro_color=='marron'?'selected':'' ?>>Marrón / Chocolate</option>
+                            <option value="dorado" <?= $filtro_color=='dorado'?'selected':'' ?>>Dorado</option>
+                            <option value="gris" <?= $filtro_color=='gris'?'selected':'' ?>>Gris / Azul / Plateado</option>
+                            <option value="arlequin" <?= $filtro_color=='arlequin'?'selected':'' ?>>Arlequín</option>
+                            <option value="merle_azul" <?= $filtro_color=='merle_azul'?'selected':'' ?>>Merle Azul</option>
+                            <option value="merle_rojo" <?= $filtro_color=='merle_rojo'?'selected':'' ?>>Merle Rojo</option>
+                            <option value="rojo" <?= $filtro_color=='rojo'?'selected':'' ?>>Rojo / Castaño / Naranja</option>
+                            <option value="sable" <?= $filtro_color=='sable'?'selected':'' ?>>Sable</option>
+                            <option value="tricolor" <?= $filtro_color=='tricolor'?'selected':'' ?>>Tricolor</option>
+                            <option value="blanco" <?= $filtro_color=='blanco'?'selected':'' ?>>Blanco / Crema</option>
+                            <option value="amarillo" <?= $filtro_color=='amarillo'?'selected':'' ?>>Amarillo / Canela / Fawn</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="filtro-grupo">
+                    <label>
+                        Filtrar por comportamiento
+                        <select name="comportamiento">
+                            <option value="">Todos</option>
+                            <option value="entrenado" <?= $filtro_comportamiento=='entrenado'?'selected':'' ?>>Entrenado</option>
+                            <option value="cuidados_especiales" <?= $filtro_comportamiento=='cuidados_especiales'?'selected':'' ?>>Cuidados especiales</option>
+                            <option value="ninguno" <?= $filtro_comportamiento=='ninguno'?'selected':'' ?>>Ninguno</option>
                         </select>
                     </label>
                 </div>
@@ -170,13 +276,9 @@ $result = $conn->query($sql);
                                 
                                 <div class="info-adicional">
                                     <p><strong>Publicado por:</strong>
-                                        <?php if ($m['nombre_refugio']): ?>
-                                            <?= htmlspecialchars($m['nombre_refugio']) ?>
-                                        <?php else: ?>
-                                            <?= htmlspecialchars($m['user_nombre']) ?>
-                                            <?php if (!empty($m['user_apellido'])): ?>
-                                                <?= ' ' . htmlspecialchars($m['user_apellido']) ?>
-                                            <?php endif; ?>
+                                        <?= htmlspecialchars($m['user_nombre']) ?>
+                                        <?php if (!empty($m['user_apellido'])): ?>
+                                            <?= ' ' . htmlspecialchars($m['user_apellido']) ?>
                                         <?php endif; ?>
                                     </p>
 
