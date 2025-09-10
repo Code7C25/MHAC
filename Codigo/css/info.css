@@ -1,0 +1,409 @@
+/* info.css - Cuidados y Consejos */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap');
+
+:root {
+    --color-primario: #dab17e;
+    --color-secundario: #fefdfc;
+    --color-fondo: #ffffff;
+    --color-texto: #212615;
+    --color-acento: #5c8b39;
+    --color-acento2: #bf7f4a;
+    --color-titulo: #976133;
+    --color-borde: #cd9255;
+    --color-hover: #636a2f;
+    --color-boton: #c07436;
+    --color-boton-hover: #33511c;
+    --color-suave: #87b35c;
+    --color-sombra: rgba(92, 139, 57, 0.1);
+    --color-sombra-hover: rgba(92, 139, 57, 0.2);
+    --color-veterinario: #3b82f6;
+    --color-refugio: #10b981;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Baloo 2', cursive;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(218, 177, 126, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(92, 139, 57, 0.05) 0%, transparent 25%);
+    min-height: 100vh;
+}
+
+/* Botón volver */
+.volver-inicio {
+    display: inline-flex;
+    align-items: center;
+    margin: 1.5rem;
+    padding: 0.7rem 1.2rem;
+    background-color: var(--color-primario);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.volver-inicio:hover {
+    background-color: var(--color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.volver-inicio span {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 1rem 1.5rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header h1 {
+    font-size: 2.8rem;
+    color: var(--color-titulo);
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-acento), var(--color-suave));
+    border-radius: 2px;
+}
+
+/* Botón nuevo cuidado */
+.btn-nuevo {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--color-boton) 0%, var(--color-acento2) 100%);
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(192, 116, 54, 0.3);
+    margin: 0 auto 2rem;
+    display: block;
+    text-align: center;
+    max-width: 250px;
+}
+
+.btn-nuevo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(192, 116, 54, 0.4);
+}
+
+/* Main content */
+main {
+    max-width: 1000px;
+    margin: 0 auto 3rem;
+    padding: 0 1.5rem;
+}
+
+/* Lista de cuidados */
+.cuidados-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Tarjetas de cuidado */
+.cuidado-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 20px var(--color-sombra);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border-left: 6px solid var(--color-acento);
+}
+
+.cuidado-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        var(--color-acento) 0%, 
+        var(--color-suave) 50%,
+        var(--color-primario) 100%);
+    opacity: 0.3;
+}
+
+.cuidado-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px var(--color-sombra-hover);
+}
+
+.cuidado-card h2 {
+    color: var(--color-acento);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    position: relative;
+    padding-bottom: 0.8rem;
+}
+
+.cuidado-card h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: var(--color-primario);
+    border-radius: 2px;
+}
+
+.cuidado-card p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-texto);
+    margin-bottom: 1.5rem;
+    white-space: pre-wrap;
+}
+
+/* Información del autor */
+.autor-info {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--color-borde);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.autor-info small {
+    font-size: 0.9rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Badge de rol */
+.autor-info small::after {
+    content: '';
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.autor-info small:contains("veterinario")::after {
+    content: 'Veterinario';
+    background-color: var(--color-veterinario);
+    color: white;
+}
+
+.autor-info small:contains("refugio")::after {
+    content: 'Refugio';
+    background-color: var(--color-refugio);
+    color: white;
+}
+
+/* Botón editar */
+.btn-editar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--color-primario);
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    margin-top: 1rem;
+}
+
+.btn-editar:hover {
+    background-color: var(--color-boton-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Mensaje cuando no hay cuidados */
+.cuidados-lista > p {
+    text-align: center;
+    padding: 3rem;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px var(--color-sombra);
+    font-size: 1.2rem;
+    color: var(--color-texto);
+    margin: 2rem auto;
+}
+
+/* Efectos especiales para diferentes roles */
+.cuidado-card[data-rol="veterinario"] {
+    border-left-color: var(--color-veterinario);
+}
+
+.cuidado-card[data-rol="refugio"] {
+    border-left-color: var(--color-refugio);
+}
+
+/* Indicador visual de autoría */
+.cuidado-card:has(.btn-editar)::after {
+    content: 'Tú';
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: var(--color-primario);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .cuidado-card {
+        padding: 2rem;
+    }
+    
+    .cuidado-card h2 {
+        font-size: 1.5rem;
+    }
+    
+    .volver-inicio {
+        margin: 1rem;
+        padding: 0.6rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    header {
+        padding: 1rem 1rem 1.5rem;
+    }
+    
+    .cuidado-card {
+        padding: 1.5rem;
+    }
+    
+    .cuidado-card h2 {
+        font-size: 1.3rem;
+    }
+    
+    .cuidado-card p {
+        font-size: 1rem;
+    }
+    
+    .autor-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cuidado-card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.cuidado-card:nth-child(1) { animation-delay: 0.1s; }
+.cuidado-card:nth-child(2) { animation-delay: 0.2s; }
+.cuidado-card:nth-child(3) { animation-delay: 0.3s; }
+.cuidado-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Mejora de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Estilos para el focus visible */
+.volver-inicio:focus-visible,
+.btn-nuevo:focus-visible,
+.btn-editar:focus-visible {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 2px;
+}
+
+/* Efecto de brillo sutil en hover */
+.cuidado-card:hover::before {
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+/* Estilo para el contenido con mejor legibilidad */
+.cuidado-card p {
+    text-align: justify;
+    hyphens: auto;
+}
+
+/* Separador decorativo entre tarjetas */
+.cuidados-lista {
+    position: relative;
+}
+
+.cuidados-lista::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, 
+        transparent, 
+        var(--color-borde), 
+        transparent);
+    transform: translateX(-50%);
+    z-index: -1;
+}

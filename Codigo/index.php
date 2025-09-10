@@ -137,6 +137,12 @@
     </div>
 </section>
 
+<div class="servicio-card">
+    <h2>Aprendé a Cuidarlos ❤️</h2>
+    <p>Descubrí consejos útiles sobre alimentación, salud y bienestar de tus mascotas. Solo los refugios y veterinarios pueden agregar contenido confiable.</p>
+    <a href="info.php" class="btn-info">Ir a la sección de información 🐾</a>
+</div>
+
 <main class="contenido-secundario">
     <!-- Slider de novedades -->
     <section class="slider-novedades">

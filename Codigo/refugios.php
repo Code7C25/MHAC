@@ -38,9 +38,13 @@ $result = $conn->query($sql);
 <ul class="lista-refugios" id="lista">
 <?php while ($ref = $result->fetch_assoc()): ?>
 <li class="refugio-card">
-  <?php if(!empty($ref['foto_perfil'])): ?>
-    <img src="imagenes/<?= htmlspecialchars($ref['foto_perfil']) ?>" alt="Foto">
+  <?php if (!empty($ref['foto_perfil'])): ?>
+    <img src="imagenes/<?= basename($ref['foto_perfil']) ?>" 
+        alt="Foto de perfil de <?= htmlspecialchars($ref['nombre_refugio'] ?: $ref['nombre']) ?>">
+  <?php else: ?>
+    <img src="imagenes/default.png" alt="Foto por defecto">
   <?php endif; ?>
+
   <h2><?= htmlspecialchars($ref['nombre_refugio'] ?: $ref['nombre']) ?></h2>
   <div class="refugio-meta"><strong>Responsable:</strong> <?= htmlspecialchars($ref['nombre'].' '.$ref['apellido']) ?></div>
   <?php if(!empty($ref['direccion'])): ?>
@@ -50,6 +54,12 @@ $result = $conn->query($sql);
   <div class="refugio-meta"><strong>Email:</strong> <?= htmlspecialchars($ref['email']) ?></div>
   <?php if(!empty($ref['descripcion'])): ?>
     <p><?= nl2br(htmlspecialchars($ref['descripcion'])) ?></p>
+  <?php endif; ?>
+
+    <?php if (isset($_SESSION['usuario_id'], $_SESSION['rol']) 
+            && $_SESSION['rol'] === 'refugio' 
+            && $_SESSION['usuario_id'] == $ref['id']): ?>
+      <a href="editar_refugio.php?id=<?= $ref['id'] ?>" class="btn-editar">✏️ Editar mi perfil</a>
   <?php endif; ?>
 </li>
 <?php endwhile; ?>
