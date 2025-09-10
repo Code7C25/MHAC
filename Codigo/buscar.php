@@ -43,6 +43,9 @@ $result = $stmt->get_result();
 </head>
 
 <body>
+<a href="index.php" class="btn-volver">
+    <span>←</span> Volver
+</a>
 <main class="contenido-principal">
     <div class="resultados-busqueda">
         <h1>Resultados de búsqueda</h1>
@@ -51,7 +54,13 @@ $result = $stmt->get_result();
             <div class="grid">
                 <?php while($m = $result->fetch_assoc()): ?>
                     <div class="card">
-                        <img src="imagenes/<?= htmlspecialchars($m['foto']) ?>" alt="<?= htmlspecialchars($m['nombre']) ?>">
+                        <?php if (!empty($m['foto'])): ?>
+                            <img src="uploads/mascotas/<?= htmlspecialchars($m['foto']) ?>" 
+                                alt="Foto de <?= htmlspecialchars($m['nombre']) ?>">
+                        <?php else: ?>
+                            <img src="imagenes/default.png" alt="Sin foto disponible">
+                        <?php endif; ?>
+
                         <h3><?= htmlspecialchars($m['nombre']) ?></h3>
                         <p><strong>Especie:</strong> <?= htmlspecialchars($m['especie']) ?></p>
                         <p><strong>Raza:</strong> <?= htmlspecialchars($m['raza']) ?></p>
