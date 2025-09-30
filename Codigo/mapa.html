@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Veterinarias - Vista previa Bing Maps</title>
+  <style>
+    :root{
+      --bg:#f6f8fb;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#2563eb;
+      --shadow: 0 10px 30px rgba(16,24,40,0.08);
+      --radius:14px;
+    }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg);
+      color:#0f172a;
+      padding:28px;
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    h1{
+      font-size:1.35rem;
+      margin:0;
+      letter-spacing:-0.2px;
+    }
+    p.lead{
+      margin:0;
+      color:var(--muted);
+      font-size:0.95rem;
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:0;
+    }
+
+    .map-wrap{
+      min-height:360px;
+      height:100%;
+      position:relative;
+    }
+    .map-frame{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+
+    .sidebar{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .place{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      border-radius:10px;
+      padding:10px;
+      transition:background .15s ease;
+    }
+    .place:hover{ background:#f3f6fb; }
+    .place .dot{
+      min-width:38px;
+      min-height:38px;
+      border-radius:8px;
+      background:linear-gradient(135deg,#10b981,#06b6d4);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-weight:700;
+    }
+    .place h3{
+      margin:0;
+      font-size:0.98rem;
+    }
+    .place p{ margin:4px 0 0 0; color:var(--muted); font-size:0.87rem; }
+
+    .actions{
+      margin-top:auto;
+      display:flex;
+      gap:10px;
+    }
+    .btn{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:600;
+      text-decoration:none;
+      cursor:pointer;
+      border:0;
+    }
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+    }
+    .btn-ghost{
+      background:transparent;
+      color:var(--accent);
+      border:1px solid rgba(37,99,235,0.12);
+    }
+
+    @media (max-width:880px){
+      .card{ grid-template-columns: 1fr; }
+      .map-wrap{ min-height:300px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Veterinarias — Alta Gracia (vista previa)</h1>
+        <p class="lead">Mapa con búsqueda de "veterinarias Alta Gracia" — preview embebible por Bing. Hacé click en "Abrir en Bing Maps" para ver todos los resultados en la página oficial.</p>
+      </div>
+    </header>
+
+    <section class="card" aria-label="Mapa y lista">
+      <div class="map-wrap">
+        <iframe
+          class="map-frame"
+          src="https://www.bing.com/maps/embed?h=600&w=900&cp=-31.634~-64.281&lvl=13&typ=d&sty=r&FORM=MBEDLD"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Mapa de veterinarias - Alta Gracia (Bing Maps)">
+        </iframe>
+      </div>
+
+      <aside class="sidebar">
+        <div class="place">
+          <div class="dot">A</div>
+          <div>
+            <h3>Veterinaria La Argentina</h3>
+            <p>Matienzo 70, X5186 Alta Gracia</p>
+          </div>
+        </div>
+
+        <div class="place">
+          <div class="dot">C</div>
+          <div>
+            <h3>Civet - Clínica Integral Veterinaria</h3>
+            <p>Int. Héctor Llorens 84, X5186 Alta Gracia</p>
+          </div>
+        </div>
+
+        <div class="place">
+          <div class="dot">A</div>
+          <div>
+            <h3>Veterinaria Alem</h3>
+            <p>Av. del Libertador Gral. San Martín 1820 Local 1, Cafferata, X5186OLN Alta Gracia</p>
+          </div>
+        </div>
+
+        <div class="place">
+          <div class="dot">S</div>
+          <div>
+            <h3>SNOOPY Sanatorio Veterinario</h3>
+            <p>Vélez Sársfield 191, X5186 Alta Gracia</p>
+          </div>
+        </div>
+
+        <div class="place">
+          <div class="dot">T</div>
+          <div>
+            <h3>Clínica Veterinaria Tunquelen</h3>
+            <p>Av. del Libertador Gral. San Martín 830, X5816 Alta Gracia</p>
+          </div>
+        </div>
+
+        <div class="place">
+          <div class="dot">G</div>
+          <div>
+            <h3>Clínica Veterinaria Alta Gracia</h3>
+            <p>Prudencio Bustos 616, X5186 Alta Gracia</p>
+          </div>
+        </div>
+
+        <div class="place">
+          <div class="dot">R</div>
+          <div>
+            <h3>Veterinaria La Rural</h3>
+            <p>Esquina Victor Hugo Cafferata y Av. del Libertador Gral. San Martín 1582, X5186 Alta Gracia</p>
+          </div>
+        </div>
+
+        <div class="place">
+          <div class="dot">E</div>
+          <div>
+            <h3>Veterinario El Algarrobo</h3>
+            <p>Liniers esquina Obispo Castellano, X5186 Alta Gracia</p>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a class="btn btn-primary"
+             href="https://www.bing.com/maps?q=veterinarias+alta+gracia"
+             target="_blank" rel="noopener noreferrer">
+            Abrir en Bing Maps
+          </a>
+
+          <a class="btn btn-ghost"
+             href="https://www.bing.com/maps?cp=-31.634~-64.281&lvl=13"
+             target="_blank" rel="noopener noreferrer">
+            Ver centro de Alta Gracia
+          </a>
+        </div>
+      </aside>
+    </section>
+  </div>
+</body>
+</html>

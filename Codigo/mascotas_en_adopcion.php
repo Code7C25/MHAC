@@ -48,16 +48,18 @@ if ($orden === 'edad_asc') {
 
 // Construcción de la consulta
 $sql = "SELECT m.id, m.nombre, m.especie, m.raza, m.sexo, 
-               m.edad_categoria, m.tamano, m.descripcion, 
-               m.foto, m.fecha_alta, 
-               DATEDIFF(NOW(), m.fecha_alta) AS dias_en_mhac, 
-               u.nombre AS user_nombre,
-               u.apellido AS user_apellido,
-               u.telefono AS user_telefono,
-               u.email AS user_email
-        FROM mascotas m
-        LEFT JOIN usuarios u ON m.usuario_id = u.id
-        WHERE m.estado = 'en_adopcion'";
+       m.edad_categoria, m.tamano, m.descripcion, 
+       m.foto, m.fecha_alta, 
+       DATEDIFF(NOW(), m.fecha_alta) AS dias_en_mhac, 
+       m.usuario_id,                         
+       u.nombre AS user_nombre,
+       u.apellido AS user_apellido,
+       u.telefono AS user_telefono,
+       u.email AS user_email
+FROM mascotas m
+LEFT JOIN usuarios u ON m.usuario_id = u.id
+WHERE m.estado = 'en_adopcion'
+";
 
 // Ejecutar consulta
 $result = $conn->query($sql);
@@ -274,14 +276,15 @@ $result = $conn->query($sql);
                                     <p><?= nl2br(htmlspecialchars($m['descripcion'])) ?></p>
                                 </div>
                                 
-                                <div class="info-adicional">
-                                    <p><strong>Publicado por:</strong>
-                                        <?= htmlspecialchars($m['user_nombre']) ?>
-                                        <?php if (!empty($m['user_apellido'])): ?>
-                                            <?= ' ' . htmlspecialchars($m['user_apellido']) ?>
-                                        <?php endif; ?>
-                                    </p>
-
+                                <div class="info-adicional"> 
+<p><strong>Publicado por:</strong>
+    <a href="perfil.php?id=<?= $m['usuario_id'] ?>" class="enlace-perfil">
+        <?= htmlspecialchars($m['user_nombre']) ?>
+        <?php if (!empty($m['user_apellido'])): ?>
+            <?= ' ' . htmlspecialchars($m['user_apellido']) ?>
+        <?php endif; ?>
+    </a>
+</p>
                                     <p><strong>Contacto:</strong>
                                         <?php 
                                             $contactos = [];
