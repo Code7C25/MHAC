@@ -5,20 +5,25 @@ require_once 'conexion.php';
 // ---------- Subir un nuevo post ----------
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['usuario_id'])) {
     $contenido = trim($_POST['contenido']);
-    $nombreArchivo = null;
+    $rutaImagen = null;
 
     // Procesar imagen si se subió
     if (!empty($_FILES['imagen']['name'])) {
-        $carpeta = __DIR__ . "/uploads/";
+        $carpeta = __DIR__ . "/imagenes/";
         if (!is_dir($carpeta)) mkdir($carpeta, 0777, true);
+        
         $nombreArchivo = time() . "_" . preg_replace('/[^A-Za-z0-9_\.-]/', '_', $_FILES['imagen']['name']);
-        $ruta = $carpeta . $nombreArchivo;
-        move_uploaded_file($_FILES['imagen']['tmp_name'], $ruta);
+        $rutaCompleta = $carpeta . $nombreArchivo;
+        
+        if (move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaCompleta)) {
+            // Guardar ruta relativa completa
+            $rutaImagen = "imagenes/" . $nombreArchivo;
+        }
     }
 
-    if ($contenido !== '' || $nombreArchivo) {
+    if ($contenido !== '' || $rutaImagen) {
         $stmt = $conn->prepare("INSERT INTO posts (usuario_id, contenido, imagen) VALUES (?, ?, ?)");
-        $stmt->bind_param("iss", $_SESSION['usuario_id'], $contenido, $nombreArchivo);
+        $stmt->bind_param("iss", $_SESSION['usuario_id'], $contenido, $rutaImagen);
         $stmt->execute();
         header("Location: comunidad.php");
         exit;
@@ -76,13 +81,26 @@ $posts = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
   <section class="feed">
   <?php foreach ($posts as $post): ?>
     <article class="post">
-      <header>
-        <strong><?= htmlspecialchars($post['nombre'].' '.$post['apellido']) ?></strong>
-        <small><?= date("d/m/Y H:i", strtotime($post['fecha'])) ?></small>
-      </header>
+    <header>
+  <a href="perfil.php?id=<?= $post['autor'] ?>" class="enlace-perfil">
+    <strong><?= htmlspecialchars($post['nombre'].' '.$post['apellido']) ?></strong>
+  </a>
+  <small><?= date("d/m/Y H:i", strtotime($post['fecha'])) ?></small>
+</header>
       <p><?= nl2br(htmlspecialchars($post['contenido'])) ?></p>
-      <?php if ($post['imagen']): ?>
-        <img class="post-img" src="uploads/<?= htmlspecialchars($post['imagen']) ?>" alt="imagen del post">
+      <?php if ($post['imagen']): 
+        // Corregir ruta si no tiene carpeta
+        $rutaImg = $post['imagen'];
+        if (!strpos($rutaImg, '/')) {
+          // Si solo es el nombre del archivo, buscar en imagenes/ o uploads/
+          if (file_exists('imagenes/' . $rutaImg)) {
+            $rutaImg = 'imagenes/' . $rutaImg;
+          } elseif (file_exists('uploads/' . $rutaImg)) {
+            $rutaImg = 'uploads/' . $rutaImg;
+          }
+        }
+      ?>
+        <img class="post-img" src="<?= htmlspecialchars($rutaImg) ?>" alt="imagen del post" onerror="this.style.display='none'">
       <?php endif; ?>
       <div class="acciones">
         <?php if (isset($_SESSION['usuario_id'])): ?>
