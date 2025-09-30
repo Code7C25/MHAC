@@ -2,6 +2,39 @@
 session_start();
 require_once 'conexion.php';
 
+// Función para corregir rutas de imágenes
+function corregir_ruta_imagen($ruta) {
+    if (empty($ruta)) return '';
+    
+    // Si es una URL completa, devolverla tal cual
+    if (strpos($ruta, 'http://') === 0 || strpos($ruta, 'https://') === 0) {
+        return $ruta;
+    }
+    
+    // Eliminar rutas absolutas del sistema de archivos
+    $ruta = str_replace('\\', '/', $ruta);
+    $ruta = preg_replace('/^[A-Z]:\//i', '', $ruta); // Eliminar C:/ D:/ etc
+    $ruta = preg_replace('/^\/var\/www\/html\//', '', $ruta);
+    $ruta = preg_replace('/^\/xampp\/htdocs\//', '', $ruta);
+    
+    // Eliminar múltiples barras
+    $ruta = preg_replace('/\/+/', '/', $ruta);
+    
+    // Asegurarse de que no empiece con /
+    $ruta = ltrim($ruta, '/');
+    
+    // Si la ruta no tiene carpeta, buscar en imagenes/ o uploads/mascotas/
+    if (!strpos($ruta, '/')) {
+        if (file_exists('imagenes/' . $ruta)) {
+            return 'imagenes/' . $ruta;
+        } elseif (file_exists('uploads/mascotas/' . $ruta)) {
+            return 'uploads/mascotas/' . $ruta;
+        }
+    }
+    
+    return $ruta;
+}
+
 // Ver si se pasa un id en la URL (perfil público)
 if (isset($_GET['id'])) {
     $id_usuario = intval($_GET['id']);
@@ -28,10 +61,19 @@ if (!$usuario) {
 
 // Avatar
 if (!empty($usuario['foto_perfil'])) {
-    $avatar = htmlspecialchars($usuario['foto_perfil']);
+    $avatar = corregir_ruta_imagen($usuario['foto_perfil']);
 } else {
-    $avatares = glob("imagenes/avatars/*.png");
-    $avatar = $avatares[array_rand($avatares)];
+    // Verificar si existe la carpeta de avatares
+    if (is_dir("imagenes/avatars")) {
+        $avatares = glob("imagenes/avatars/*.{png,jpg,jpeg}", GLOB_BRACE);
+        if (count($avatares) > 0) {
+            $avatar = $avatares[array_rand($avatares)];
+        } else {
+            $avatar = "imagenes/default-avatar.png"; // Avatar por defecto
+        }
+    } else {
+        $avatar = "imagenes/default-avatar.png";
+    }
 }
 
 // Saber si es mi perfil
@@ -67,13 +109,30 @@ $posts = $stmt_posts->get_result();
     <title>Perfil de <?php echo htmlspecialchars($usuario['nombre']); ?> - MHAC</title>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/perfil.css">
+    <style>
+        /* Estilos para imágenes que no cargan */
+        img {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+        }
+        img[alt]:after {
+            content: attr(alt);
+            display: block;
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     <div class="perfil-container">
         <h1>Perfil de <?php echo htmlspecialchars($usuario['nombre']); ?></h1>
 
         <div class="avatar-container">
-            <img src="<?php echo $avatar; ?>" alt="Foto de perfil" class="foto-perfil">
+            <img src="<?php echo htmlspecialchars($avatar); ?>" 
+                 alt="Foto de perfil" 
+                 class="foto-perfil"
+                 onerror="this.src='imagenes/default-avatar.png'; this.onerror=null;">
         </div>
 
         <p><strong>Nombre:</strong> <?php echo htmlspecialchars($usuario['nombre']) . " " . htmlspecialchars($usuario['apellido']); ?></p>
@@ -99,8 +158,15 @@ $posts = $stmt_posts->get_result();
         <?php if ($mascotas->num_rows > 0): ?>
             <?php while ($m = $mascotas->fetch_assoc()): ?>
                 <div class="mascota">
-                    <?php if (!empty($m['foto'])): ?>
-                        <img src="<?php echo htmlspecialchars($m['foto']); ?>" alt="Foto de <?php echo htmlspecialchars($m['nombre']); ?>" class="imagen-mascota">
+                    <?php if (!empty($m['foto'])): 
+                        $foto_mascota = corregir_ruta_imagen($m['foto']);
+                    ?>
+                        <img src="<?php echo htmlspecialchars($foto_mascota); ?>" 
+                             alt="Foto de <?php echo htmlspecialchars($m['nombre']); ?>" 
+                             class="imagen-mascota"
+                             onerror="this.style.display='none';">
+                        <!-- Debug: Mostrar ruta (comentar en producción) -->
+                        <!-- <small style="color: #999;">Ruta: <?php echo htmlspecialchars($foto_mascota); ?></small> -->
                     <?php endif; ?>
                     <p><strong><?php echo htmlspecialchars($m['nombre']); ?></strong> (<?php echo htmlspecialchars($m['especie']); ?>)</p>
                     <p><?php echo nl2br(htmlspecialchars($m['descripcion'])); ?></p>
@@ -119,8 +185,15 @@ $posts = $stmt_posts->get_result();
         <?php if ($posts->num_rows > 0): ?>
             <?php while ($p = $posts->fetch_assoc()): ?>
                 <div class="publicacion">
-                    <?php if (!empty($p['imagen'])): ?>
-                        <img src="<?php echo htmlspecialchars($p['imagen']); ?>" alt="Imagen del post" class="imagen-post">
+                    <?php if (!empty($p['imagen'])): 
+                        $foto_post = corregir_ruta_imagen($p['imagen']);
+                    ?>
+                        <img src="<?php echo htmlspecialchars($foto_post); ?>" 
+                             alt="Imagen del post" 
+                             class="imagen-post"
+                             onerror="this.style.display='none';">
+                        <!-- Debug: Mostrar ruta (comentar en producción) -->
+                        <!-- <small style="color: #999;">Ruta: <?php echo htmlspecialchars($foto_post); ?></small> -->
                     <?php endif; ?>
                     <p><?php echo nl2br(htmlspecialchars($p['contenido'])); ?></p>
                     <span class="fecha"><?php echo date("d/m/Y H:i", strtotime($p['fecha'])); ?></span>
@@ -130,5 +203,17 @@ $posts = $stmt_posts->get_result();
             <p>Este usuario aún no tiene posts.</p>
         <?php endif; ?>
     </div>
+
+    <script>
+        // Verificar imágenes rotas y mostrar info en consola
+        document.addEventListener('DOMContentLoaded', function() {
+            const imagenes = document.querySelectorAll('img');
+            imagenes.forEach(img => {
+                img.addEventListener('error', function() {
+                    console.error('Error cargando imagen:', this.src);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
