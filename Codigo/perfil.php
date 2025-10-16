@@ -107,22 +107,7 @@ $posts = $stmt_posts->get_result();
 <head>
     <meta charset="UTF-8">
     <title>Perfil de <?php echo htmlspecialchars($usuario['nombre']); ?> - MHAC</title>
-    <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/perfil.css">
-    <style>
-        /* Estilos para imágenes que no cargan */
-        img {
-            background-color: #f0f0f0;
-            border: 1px solid #ddd;
-        }
-        img[alt]:after {
-            content: attr(alt);
-            display: block;
-            text-align: center;
-            padding: 20px;
-            color: #666;
-        }
-    </style>
 </head>
 <body>
     <div class="perfil-container">
