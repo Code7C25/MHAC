@@ -1,7 +1,4 @@
 <?php
-// Archivo: consejo_tip_module.php
-
-// CLAVE: Asegúrate que $conn esté disponible antes de incluir este módulo.
 
 $sql_tip = "SELECT contenido FROM consejos_comunidad WHERE verificado = TRUE ORDER BY RAND() LIMIT 1";
 $result_tip = @$conn->query($sql_tip); 

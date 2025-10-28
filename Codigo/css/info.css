@@ -457,23 +457,62 @@ main {
 }
 
 /* ===========================================
-   2. Estilos del Módulo "Sabías que..."
+   Estilos: Módulo de Consejo Rápido (Caja Distinta)
    =========================================== */
-.sabias-que-banner {
-    background-color: #fff8e1; /* Color amarillo/durazno muy suave */
-    border-left: 6px solid #ffcc80; /* Línea de color de acento */
-    padding: 18px 25px;
-    margin: 20px auto;
+.consejo-rapido-box {
+    /* Diseño compacto y flotante */
+    background-color: #fcf8e3; /* Amarillo pastel/Crema para la nota */
+    border: 2px solid #ffeb3b; /* Borde amarillo brillante */
+    
+    padding: 15px;
+    margin: 10px 0 25px 0;
     border-radius: 8px;
-    font-size: 1.1em;
-    color: #333;
-    font-style: italic;
-    max-width: 900px;
+    
+    /* Configuración de Flexbox para alinear contenido */
+    display: flex;
+    flex-direction: column; /* Apila el texto y el botón verticalmente */
+    align-items: flex-start; /* Alinea los elementos a la izquierda */
+    
+    /* Le damos un tamaño más de 'caja' */
+    width: 280px; /* Ancho fijo para que parezca una nota */
+    float: right; /* CLAVE: Flota a la derecha para no bloquear el texto principal */
+    
+    box-shadow: 4px 4px 0px rgba(255, 235, 59, 0.7); /* Sombra 3D simple, distintiva */
+    transition: all 0.2s ease-in-out;
 }
 
-.sabias-que-banner p {
-    margin: 0;
+.consejo-rapido-box:hover {
+    box-shadow: 2px 2px 0px rgba(255, 235, 59, 0.7); /* La nota se 'pega' un poco más */
+    transform: translateY(1px);
+}
+
+.consejo-rapido-text {
+    /* Estilo del texto */
+    margin: 0 0 10px 0;
     line-height: 1.4;
+    font-size: 0.95em;
+    color: #555;
+    font-weight: 500;
+}
+
+.btn-sugerir-rapido {
+    /* Botón de sugerencia dentro de la caja */
+    padding: 6px 12px;
+    margin-top: 5px;
+    
+    background-color: #ffeb3b; /* Fondo amarillo */
+    color: #333; 
+    border-radius: 4px;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 0.8em;
+    font-weight: bold;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.btn-sugerir-rapido:hover {
+    background-color: #ffc107; /* Amarillo más oscuro al pasar el mouse */
 }
 
 
@@ -544,4 +583,17 @@ main {
     text-decoration: none;
     color: #00838f;
     font-weight: 500;
+}
+
+/* Estilo para distinguir si es Consejo o Dato Curioso en la moderación */
+.etiqueta-tipo-consejo {
+    display: inline-block;
+    padding: 3px 8px;
+    margin-right: 10px;
+    background-color: #ffe0b2; /* Amarillo suave/Naranja */
+    color: #ff9800;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.9em;
+    text-transform: uppercase;
 }

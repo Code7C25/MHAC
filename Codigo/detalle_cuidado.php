@@ -30,6 +30,7 @@ if ($result->num_rows === 0) {
 
 $cuidado_detalle = $result->fetch_assoc();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -38,6 +39,7 @@ $cuidado_detalle = $result->fetch_assoc();
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/info.css"> 
 </head>
+
 <body>
 <header>
   <h1><?= htmlspecialchars($cuidado_detalle['titulo']) ?></h1>
@@ -49,7 +51,7 @@ $cuidado_detalle = $result->fetch_assoc();
         <p class="categoria-tag-full">Categoría: <?= htmlspecialchars($cuidado_detalle['categoria']) ?></p>
         
         <div class="contenido-completo">
-            <?= nl2br(htmlspecialchars($cuidado_detalle['contenido'])) ?>
+            <?= $cuidado_detalle['contenido'] ?>
         </div>
 
         <div class="autor-info-full">
