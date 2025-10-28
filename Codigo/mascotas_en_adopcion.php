@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'conexion.php';
+include 'consejo_tip_module.php'; 
 
 // Filtros
 $filtro_especie        = $_GET['especie'] ?? '';
@@ -72,7 +73,9 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mascotas en Adopción - MHAC</title>
     <link rel="stylesheet" href="css/mascotas_en_adopcion.css">
+    <link rel="stylesheet" href="css/consejo_module.css">
 </head>
+
 <body>
     <a href="adopcion.php" class="btn-volver">
         <span>←</span>
@@ -309,5 +312,34 @@ $result = $conn->query($sql);
             <?php endif; ?>
         </section>
     </main>
+
+  <script>
+    // 1. Función para cerrar el consejo (llamada por el botón '✕')
+    function cerrarConsejo() {
+        const popup = document.getElementById("consejoPopup");
+        if (popup) {
+            popup.style.display = 'none'; // Oculta el elemento
+            // Opcional: podrías usar localStorage aquí para que no aparezca de nuevo
+            // localStorage.setItem('consejo_cerrado', 'true');
+        }
+    }
+
+    // 2. Lógica para hacer aparecer el popup al cargar la página
+    window.addEventListener("DOMContentLoaded", () => {
+        const popup = document.getElementById("consejoPopup");
+        // Agrega la clase 'visible' para activar la animación CSS
+        if (popup) {
+            // Un pequeño retraso para que la animación se vea mejor
+            setTimeout(() => {
+                popup.classList.add('visible');
+            }, 100); 
+
+            // Opcional: desaparecerlo automáticamente después de 15 segundos
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 15000); 
+        }
+    });
+</script>
 </body>
 </html>

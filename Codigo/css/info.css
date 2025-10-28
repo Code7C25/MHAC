@@ -407,3 +407,141 @@ main {
     transform: translateX(-50%);
     z-index: -1;
 }
+
+/* ===========================================
+   1. Estilos del Filtro de Categorías
+   =========================================== */
+.filtro-categorias {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f7f7f7; /* Gris muy claro */
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.filtro-categorias h3 {
+    font-size: 1.1em;
+    color: #4CAF50; /* Color amigable (verde suave) */
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.filtro-categorias a {
+    display: inline-block;
+    padding: 8px 15px;
+    margin: 5px 5px 5px 0;
+    border: 1px solid #A9D5E2; /* Borde suave */
+    border-radius: 20px; /* Bordes redondeados para un look amigable */
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s ease;
+    font-size: 0.9em;
+}
+
+.filtro-categorias a.active,
+.filtro-categorias a:hover {
+    background-color: #A9D5E2; /* Color suave de MHAC */
+    border-color: #79B8C9;
+    color: #000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para la etiqueta de categoría dentro de la tarjeta */
+.categoria-tag {
+    font-size: 0.9em;
+    color: #A9D5E2; 
+    font-weight: bold;
+    margin: 5px 0 10px 0;
+}
+
+/* ===========================================
+   2. Estilos del Módulo "Sabías que..."
+   =========================================== */
+.sabias-que-banner {
+    background-color: #fff8e1; /* Color amarillo/durazno muy suave */
+    border-left: 6px solid #ffcc80; /* Línea de color de acento */
+    padding: 18px 25px;
+    margin: 20px auto;
+    border-radius: 8px;
+    font-size: 1.1em;
+    color: #333;
+    font-style: italic;
+    max-width: 900px;
+}
+
+.sabias-que-banner p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+
+/* ===========================================
+   3. Estilos de la Búsqueda Externa (Simulada)
+   =========================================== */
+.busqueda-externa-simulada {
+    padding: 30px;
+    border: 1px dashed #dcdcdc;
+    background-color: #f4f8ff; /* Azul muy pálido para destacar la función */
+    margin-bottom: 25px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.busqueda-externa-simulada h3 {
+    color: #3498db; /* Azul de acción */
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.busqueda-externa-simulada form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.busqueda-externa-simulada input[type="text"] {
+    padding: 12px;
+    width: 60%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+}
+
+.busqueda-externa-simulada button {
+    padding: 12px 20px;
+    background-color: #4CAF50; /* Un verde amigable para la acción */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.busqueda-externa-simulada button:hover {
+    background-color: #45a049;
+}
+
+.nota-busqueda {
+    font-size: 0.85em;
+    color: #666;
+    margin-top: 15px;
+}
+
+/* Estilo para el botón de "Leer más" en las tarjetas de cuidado */
+.cuidado-card .btn-leer-mas {
+    display: block;
+    width: fit-content;
+    margin: 10px 0;
+    padding: 5px 10px;
+    background: #e0f7fa; /* Un color de enlace suave */
+    border-radius: 4px;
+    text-decoration: none;
+    color: #00838f;
+    font-weight: 500;
+}
