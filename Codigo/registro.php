@@ -43,14 +43,44 @@ session_start();
     </div>
 
     <div class="form-group email full-width">
-      <input type="email" name="email" class="form-input" placeholder="Correo electrónico" required>
+      <input 
+      type="email" 
+      name="email" 
+      class="form-input" 
+      placeholder="Correo electrónico" 
+      required 
+      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+      title="Ingresa una dirección de correo válida (ej: ejemplo@dominio.com)">
       <label class="form-label">Email</label>
     </div>
 
-    <div class="form-group telefono full-width">
-      <input type="text" name="telefono" class="form-input" placeholder="Teléfono" required>
-      <label class="form-label">Teléfono</label>
+<div class="form-group telefono-completo full-width">
+    
+    <select name="pais_codigo" id="pais-codigo" class="form-select-telefono" required>
+        <option value="" disabled selected>País</option>
+        <option value="+54" data-pais="AR">🇦🇷 Argentina (+54)</option>
+        <option value="+56" data-pais="CL">🇨🇱 Chile (+56)</option>
+        <option value="+57" data-pais="CO">🇨🇴 Colombia (+57)</option>
+        <option value="+52" data-pais="MX">🇲🇽 México (+52)</option>
+        <option value="+51" data-pais="PE">🇵🇪 Perú (+51)</option>
+        <option value="+598" data-pais="UY">🇺🇾 Uruguay (+598)</option>
+        </select>
+    
+    <div class="input-telefono-compuesto">
+        <span id="codigo-display" class="codigo-display">+XX</span>
+        
+        <input 
+            type="tel" 
+            name="telefono_numero" 
+            id="telefono-numero"
+            class="form-input-numero" 
+            placeholder="Nro. de ciudad y teléfono" 
+            required>
+        <input type="hidden" name="telefono_completo" id="telefono-completo">
     </div>
+
+    <label class="form-label">Teléfono</label>
+</div>
 
     <div class="form-row">
       <div class="form-group password">
@@ -90,6 +120,38 @@ session_start();
           apellidoGroup.classList.remove("hidden");
       }
   });
+
+    // ----------------------------------------------------
+    // Lógica para Teléfono y Código de País
+    // ----------------------------------------------------
+    const selectPais = document.getElementById("pais-codigo");
+    const codigoDisplay = document.getElementById("codigo-display");
+    const inputNumero = document.getElementById("telefono-numero");
+    const inputCompleto = document.getElementById("telefono-completo");
+
+    // Función para actualizar el código visible y concatenar el número final
+    function actualizarTelefono() {
+        let codigo = selectPais.value || "+XX";
+        let numero = inputNumero.value.trim();
+
+        // 1. Actualiza el display
+        codigoDisplay.textContent = codigo;
+        
+        // 2. Concatena el número completo y lo guarda en el campo oculto para PHP
+        if (codigo && numero) {
+            inputCompleto.value = codigo + numero;
+        } else {
+            inputCompleto.value = '';
+        }
+    }
+
+    // Eventos para actualizar
+    selectPais.addEventListener("change", actualizarTelefono);
+    inputNumero.addEventListener("input", actualizarTelefono);
+
+    // Inicializa el campo al cargar la página (por si se recarga con error)
+    actualizarTelefono();
+
 </script>
 
 </body>

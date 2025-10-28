@@ -10,6 +10,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telefono = trim($_POST['telefono']);
     $password = $_POST['password'];
 
+    $email = trim($_POST['email']);
+    
+    // CAMBIO CLAVE: Leer el campo oculto concatenado
+    $telefono = trim($_POST['telefono_completo']); 
+    
+    $password = $_POST['password'];
+
+    // ----------------------------------------------------
+    // VALIDACIÓN PHP DE FORMATO (BACKEND)
+    // ----------------------------------------------------
+    
+    // 1. Validación de Email (Refuerzo de seguridad)
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['registro_error'] = "El formato del correo electrónico no es válido.";
+        header("Location: registro.php");
+        exit;
+    }
+    
+    // 2. Validación de Teléfono
+    if (empty($telefono) || $telefono === '+') { // Verifica que no esté vacío
+        $_SESSION['registro_error'] = "Debes ingresar un número de teléfono válido, incluyendo el código de país.";
+        header("Location: registro.php");
+        exit;
+    }
+
     // Validación básica
     if (strlen($password) < 6) {
         $_SESSION['registro_error'] = "La contraseña debe tener al menos 6 caracteres.";
