@@ -377,3 +377,66 @@ body::before {
         transform: translateY(0) scale(1);
     }
 }
+
+/* Estilos para el campo de Teléfono Compuesto */
+
+.telefono-completo {
+    display: flex;
+    flex-wrap: wrap; /* Permite que el label se vaya abajo si es necesario */
+    align-items: flex-end; /* Alinea los elementos inferiores */
+}
+
+.form-select-telefono {
+    /* Estilo del selector de país */
+    width: 35%; 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-right: 5px;
+}
+
+.input-telefono-compuesto {
+    /* Contenedor del código y número */
+    display: flex;
+    flex-grow: 1; /* Ocupa el espacio restante */
+    align-items: center;
+    border: 1px solid #ccc; /* Agrupamos el código y el input */
+    border-radius: 4px;
+    height: 40px;
+}
+
+.codigo-display {
+    /* Display del código del país */
+    padding: 0 8px;
+    font-size: 0.95em;
+    color: #555;
+    background-color: #f5f5f5; /* Fondo ligeramente gris */
+    border-right: 1px solid #ccc;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.form-input-numero {
+    /* Input del número de teléfono */
+    flex-grow: 1;
+    border: none;
+    padding: 0 10px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Ajuste del Label para que se posicione correctamente */
+.telefono-completo .form-label {
+    position: absolute;
+    top: -25px; /* Lo subimos por encima del select y el input */
+    left: 0;
+    font-size: 0.85em;
+    color: #777;
+}
+
+/* Aseguramos que el label no interfiera con el diseño */
+.telefono-completo .form-group {
+    margin-bottom: 0; 
+}

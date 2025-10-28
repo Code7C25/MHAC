@@ -109,7 +109,12 @@ $posts = $stmt_posts->get_result();
     <title>Perfil de <?php echo htmlspecialchars($usuario['nombre']); ?> - MHAC</title>
     <link rel="stylesheet" href="css/perfil.css">
 </head>
+
 <body>
+    <a href="index.php" class="btn-volver">
+        <span>←</span>
+        Volver
+    </a>
     <div class="perfil-container">
         <h1>Perfil de <?php echo htmlspecialchars($usuario['nombre']); ?></h1>
 

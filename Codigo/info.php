@@ -60,11 +60,14 @@ $categorias = [
   <h1>Cuidados y Consejos para Animales</h1>
 </header>
 
-<section class="sabias-que-banner">
-    <p><?= htmlspecialchars($consejo_aleatorio) ?></p>
-</section>
-
 <main>
+    <section class="consejo-rapido-box">
+        <p class="consejo-rapido-text"><?= $consejo_aleatorio ?></p>
+        <?php if (isset($_SESSION['usuario_id'])): ?>
+            <a href="sugerir_consejo.php" class="btn-sugerir-rapido">Sugerir →</a>
+        <?php endif; ?>
+    </section>
+
     <?php if (isset($_SESSION['rol']) && in_array($_SESSION['rol'], ['veterinario','refugio'])): ?>
       <a href="agregar_info.php" class="btn-nuevo">Agregar cuidado</a>
     <?php endif; ?>
@@ -100,7 +103,7 @@ $categorias = [
               <h2><?= htmlspecialchars($c['titulo']) ?></h2>
               <p class="categoria-tag"><?= htmlspecialchars($c['categoria']) ?></p>
               
-              <p><?= nl2br(htmlspecialchars(substr($c['contenido'], 0, 200))) ?>...</p> 
+              <p><?= substr($c['contenido'], 0, 200) ?>...</p>
               <a href="detalle_cuidado.php?id=<?= $c['id'] ?>" class="btn-leer-mas">Leer más →</a>
 
               <div class="autor-info">
@@ -124,11 +127,6 @@ $categorias = [
         <?php endif; ?>
     </section>
 
-    <section class="sabias-que-banner">
-        <p><?= $consejo_aleatorio ?></p>
-        <a href="sugerir_consejo.php" class="btn-sugerir">Sugerir mi propio consejo</a>
-    </section>
-
     <?php if (isset($_SESSION['rol']) && in_array($_SESSION['rol'], ['veterinario','refugio'])): ?>
       <a href="verificar_consejos.php" class="btn-verificacion">Ir a Moderación de Consejos</a>
     <?php endif; ?>
@@ -144,8 +142,6 @@ $categorias = [
         const popup = document.getElementById("consejoPopup");
         if (popup) {
             popup.style.display = 'none'; // Oculta el elemento
-            // Opcional: podrías usar localStorage aquí para que no aparezca de nuevo
-            // localStorage.setItem('consejo_cerrado', 'true');
         }
     }
 

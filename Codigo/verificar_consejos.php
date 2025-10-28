@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // 3. OBTENER CONSEJOS PENDIENTES
-$sql = "SELECT id, contenido, autor_nombre, rol_autor, fecha_creacion FROM consejos_comunidad WHERE verificado = FALSE ORDER BY fecha_creacion ASC";
+$sql = "SELECT id, contenido, tipo, autor_nombre, rol_autor, fecha_creacion FROM consejos_comunidad WHERE verificado = FALSE ORDER BY fecha_creacion ASC";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -57,7 +57,7 @@ $result = $conn->query($sql);
 </head>
 <body>
 <header>
-  <h1>🔒 Moderación de Consejos de la Comunidad</h1>
+  <h1>Moderación de Consejos de la Comunidad</h1>
 </header>
 <main>
   <a href="info.php" class="volver-inicio"><span>←</span> Volver a Consejos</a>
@@ -69,7 +69,10 @@ $result = $conn->query($sql);
   <?php if ($result && $result->num_rows > 0): ?>
     <?php while ($c = $result->fetch_assoc()): ?>
       <div class="consejo-revision">
-        <p>Consejo: "<?= htmlspecialchars($c['contenido']) ?>"</p>
+        <p>
+            <span class="etiqueta-tipo-consejo"><?= htmlspecialchars($c['tipo']) ?>:</span>
+            "<?= htmlspecialchars($c['contenido']) ?>"
+        </p>
         <small>
           Sugerido por: <?= htmlspecialchars($c['autor_nombre']) ?> (<?= ucfirst($c['rol_autor']) ?>) 
           el <?= date("d/m/Y H:i", strtotime($c['fecha_creacion'])) ?>
