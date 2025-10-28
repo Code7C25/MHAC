@@ -1,4 +1,8 @@
-<?php session_start(); ?>
+<?php 
+session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/consejo_module.css">
 </head>
 
 <body>
@@ -168,6 +173,16 @@
             <small data-es="Publicado el 30/07/2025" data-en="Published on 30/07/2025">Publicado el 30/07/2025</small>
         </article>
     </section>
+
+    <section class="home-presentation">
+    </section>
+    
+    <section class="sidebar">
+        <?php 
+            require_once 'conexion.php'; // Si no está incluido arriba
+            include 'consejo_tip_module.php'; 
+        ?>
+    </section>
 </main>
 
 <footer class="footer">
@@ -277,6 +292,32 @@
     fondoIndex = (fondoIndex + 1) % imagenesFondo.length;
     heroBg.style.backgroundImage = `url('${imagenesFondo[fondoIndex]}')`;
   }, 5000);
+
+    function cerrarConsejo() {
+        const popup = document.getElementById("consejoPopup");
+        if (popup) {
+            popup.style.display = 'none'; // Oculta el elemento
+            // Opcional: podrías usar localStorage aquí para que no aparezca de nuevo
+            // localStorage.setItem('consejo_cerrado', 'true');
+        }
+    }
+
+    // 2. Lógica para hacer aparecer el popup al cargar la página
+    window.addEventListener("DOMContentLoaded", () => {
+        const popup = document.getElementById("consejoPopup");
+        // Agrega la clase 'visible' para activar la animación CSS
+        if (popup) {
+            // Un pequeño retraso para que la animación se vea mejor
+            setTimeout(() => {
+                popup.classList.add('visible');
+            }, 100); 
+
+            // Opcional: desaparecerlo automáticamente después de 15 segundos
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 15000); 
+        }
+    });
 </script>
 </body>
 </html>
