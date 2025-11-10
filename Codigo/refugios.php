@@ -59,7 +59,7 @@ $result = $conn->query($sql);
     <?php if (isset($_SESSION['usuario_id'], $_SESSION['rol']) 
             && $_SESSION['rol'] === 'refugio' 
             && $_SESSION['usuario_id'] == $ref['id']): ?>
-      <a href="editar_refugio.php?id=<?= $ref['id'] ?>" class="btn-editar">✏️ Editar mi perfil</a>
+      <a href="editar_perfil.php?id=<?= $ref['id'] ?>" class="btn-editar">Editar mi perfil</a>
   <?php endif; ?>
 </li>
 <?php endwhile; ?>

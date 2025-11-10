@@ -131,7 +131,7 @@ session_start();
                 <img src="imagenes/icono-campañas.png" alt="Campañas">
             </div>
             <h3 data-es="Campañas" data-en="Campaigns">Campañas</h3>
-            <p data-es="Participa en nuestras campañas de concientización" data-en="Participate in our awareness campaigns">Participa en nuestras campañas de concientización</p>
+            <p data-es="Participa en las campañas de concientización" data-en="Participate in our awareness campaigns">Participa en nuestras campañas de concientización</p>
         </a>
         
         <a href="voluntariado.php" class="servicio-card">
