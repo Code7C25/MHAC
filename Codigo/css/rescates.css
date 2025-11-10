@@ -1,0 +1,429 @@
+/* rescates.css - Estilos para la página de Historias de Rescate */
+
+/* Estilos generales para la página de rescates */
+body {
+    background: linear-gradient(135deg, #fff5f5 0%, #f0f8ff 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Volver al inicio */
+.volver-inicio {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: #ff6b6b;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.volver-inicio:hover {
+    background: #ff5252;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.volver-inicio span {
+    font-size: 1.2em;
+    margin-right: 8px;
+}
+
+/* Header styles */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    font-size: 2.8em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.refran-conmovedor {
+    font-style: italic;
+    font-size: 1.3em;
+    margin: 25px 0;
+    padding: 20px;
+    background: rgba(255,255,255,0.1);
+    border-left: 4px solid #ffd700;
+    border-radius: 8px;
+}
+
+header p {
+    font-size: 1.1em;
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0.9;
+}
+
+/* Sección del formulario */
+.seccion-formulario {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+}
+
+.seccion-formulario h2 {
+    color: #667eea;
+    font-size: 2.2em;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.seccion-formulario > p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+/* Estilos del formulario */
+.form-historia {
+    max-width: 100%;
+}
+
+.form-row {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.form-group.full-width {
+    flex: 0 0 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 1em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: inherit;
+}
+
+/* Estilos para el input de archivo */
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background: #fafafa;
+    transition: all 0.3s ease;
+}
+
+.form-group input[type="file"]:hover {
+    border-color: #667eea;
+    background: #f0f4ff;
+}
+
+/* Botón de publicar */
+.btn-publicar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+    margin: 30px auto 0;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-publicar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Listado de historias */
+.listado-historias {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+}
+
+.listado-historias h2 {
+    color: #667eea;
+    font-size: 2.2em;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Tarjetas de historias */
+.historia-card {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    border-left: 5px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.historia-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.historia-card h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+}
+
+.historia-excerpt {
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.historia-card small {
+    color: #888;
+    font-size: 0.9em;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 20px;
+    color: #666;
+}
+
+footer hr {
+    margin-bottom: 20px;
+    border: none;
+    border-top: 1px solid #e1e5e9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .seccion-formulario,
+    .listado-historias {
+        padding: 25px 20px;
+    }
+    
+    header h1 {
+        font-size: 2.2em;
+    }
+    
+    .refran-conmovedor {
+        font-size: 1.1em;
+        padding: 15px;
+    }
+    
+    .btn-publicar {
+        width: 100%;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 20px 15px;
+    }
+    
+    header h1 {
+        font-size: 1.8em;
+    }
+    
+    .seccion-formulario h2,
+    .listado-historias h2 {
+        font-size: 1.8em;
+    }
+    
+    .volver-inicio {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+/* Efectos de animación suaves */
+.seccion-formulario,
+.listado-historias,
+.historia-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estados de validación del formulario */
+.form-group input:invalid:not(:focus):not(:placeholder-shown) {
+    border-color: #ff6b6b;
+}
+
+.form-group input:valid:not(:focus):not(:placeholder-shown) {
+    border-color: #51cf66;
+}
+
+/* ===========================================
+   Estilos de Vista de Detalle (detalle_rescate.php)
+   =========================================== */
+
+.historia-detalle-full {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.historia-detalle-full h2 {
+    color: #e91e63; /* Rosa para la calidez */
+    margin-top: 20px;
+    font-size: 1.8em;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f8bbd0;
+}
+
+.foto-principal-rescate {
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover; 
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 3px solid #f8bbd0; /* Borde suave */
+}
+
+.sin-foto-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    background-color: #f0f0f0;
+    color: #999;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.relato-completo {
+    font-size: 1.1em;
+    line-height: 1.7;
+    color: #444;
+    margin-bottom: 30px;
+}
+
+.autor-info-full {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-bottom: 20px;
+}
+
+.volver-listado-rescate {
+    display: inline-block;
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    background-color: #fff0f5; /* Rosa muy pálido */
+    border-radius: 20px;
+    text-decoration: none;
+    color: #e91e63;
+    font-weight: 600;
+}
+
+.volver-listado-rescate:hover {
+    background-color: #f8bbd0;
+}
+
+/* ===========================================
+   Estilos del Botón de Ancla Flotante
+   =========================================== */
+.btn-flotante-compartir {
+    /* Fija el botón en la pantalla */
+    position: fixed;
+    bottom: 30px; 
+    right: 30px;
+    
+    /* Diseño llamativo */
+    background-color: #e91e63; /* Rosa fuerte de calidez/inspiración */
+    color: white;
+    padding: 15px 25px;
+    border-radius: 50px; /* Botón ovalado */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    
+    /* Asegurar que esté sobre otros elementos */
+    z-index: 900; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-flotante-compartir:hover {
+    background-color: #d81b60; /* Un poco más oscuro */
+    transform: scale(1.05); /* Ligeramente más grande al pasar el mouse */
+}
+
+/* Opcional: Esto suaviza el salto al hacer clic en el botón flotante */
+html {
+    scroll-behavior: smooth;
+}
