@@ -125,7 +125,14 @@ session_start();
             <h3 data-es="Donaciones" data-en="Donations">Donaciones</h3>
             <p data-es="Ayuda con donaciones para el cuidado de los animales" data-en="Help with donations for animal care">Ayuda con donaciones para el cuidado de los animales</p>
         </a>
-        
+        <a href="denuncias.html" class="servicio-card">
+    <div class="icono">
+        <img src="imagenes/amar.png" alt="Denuncias">
+    </div>
+    <h3 data-es="Denunciar maltrato animal" data-en="Report animal abuse">Denunciar maltrato animal</h3>
+    <p data-es="Información oficial y contactos para denunciar" data-en="Official info and contacts to report abuse">Información oficial y contactos para denunciar</p>
+</a>
+
         <a href="campañas.php" class="servicio-card">
             <div class="icono">
                 <img src="imagenes/icono-campañas.png" alt="Campañas">
@@ -144,10 +151,15 @@ session_start();
     </div>
 </section>
 
-<div class="servicio-card">
-    <h2 data-es="Aprendé a Cuidarlos ❤️" data-en="Learn to Care for Them ❤️">Aprendé a Cuidarlos ❤️</h2>
-    <p data-es="Descubrí consejos útiles sobre alimentación, salud y bienestar de tus mascotas. Solo los refugios y veterinarios pueden agregar contenido confiable." data-en="Discover useful tips about feeding, health and wellness for your pets. Only shelters and vets can add trusted content.">Descubrí consejos útiles sobre alimentación, salud y bienestar de tus mascotas. Solo los refugios y veterinarios pueden agregar contenido confiable.</p>
-    <a href="info.php" class="btn-info" data-es="Ir a la sección de información 🐾" data-en="Go to information section 🐾">Ir a la sección de información 🐾</a>
+<div class="servicio-card aprende-cuidarlos">
+    <div>
+        <h2>Aprendé a Cuidarlos ❤️</h2>
+        <p>Descubrí consejos útiles...</p>
+        <a href="info.php" class="btn-info">Ir a la sección 🐾</a>
+    </div>
+    <video controls style="width: 420px; height: 280px; border-radius: 12px;">
+        <source src="imagenes/video.mp4" type="video/mp4">
+    </video>
 </div>
 
 <main class="contenido-secundario">

@@ -148,16 +148,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #6a9b85;
             transform: scale(1.05);
         }
+        
 
-        .foto-perfil {
-            display: block;
-            margin: 0 auto 20px;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--color-accent);
-        }
     </style>
 </head>
 <body>
@@ -168,7 +160,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php 
     $avatar = !empty($usuario['foto_perfil']) ? htmlspecialchars($usuario['foto_perfil']) : "imagenes/avatar_mascota.png";
     ?>
-    <img src="<?php echo $avatar; ?>" alt="Foto de perfil" class="foto-perfil">
 
     <form method="POST" enctype="multipart/form-data">
         <label for="nombre">Nombre:</label>
@@ -182,9 +173,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label for="telefono">Teléfono:</label>
         <input type="tel" name="telefono" value="<?php echo htmlspecialchars($usuario['telefono']); ?>">
-
-        <label for="foto">Foto de perfil:</label>
-        <input type="file" name="foto" accept="image/*">
 
         <div class="acciones">
             <button type="submit" class="boton boton-guardar">Guardar Cambios</button>
