@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 require_once 'conexion.php';
 
@@ -6,24 +6,17 @@ require_once 'conexion.php';
 function corregir_ruta_imagen($ruta) {
     if (empty($ruta)) return '';
     
-    // Si es una URL completa, devolverla tal cual
     if (strpos($ruta, 'http://') === 0 || strpos($ruta, 'https://') === 0) {
         return $ruta;
     }
     
-    // Eliminar rutas absolutas del sistema de archivos
     $ruta = str_replace('\\', '/', $ruta);
-    $ruta = preg_replace('/^[A-Z]:\//i', '', $ruta); // Eliminar C:/ D:/ etc
+    $ruta = preg_replace('/^[A-Z]:\//i', '', $ruta);
     $ruta = preg_replace('/^\/var\/www\/html\//', '', $ruta);
     $ruta = preg_replace('/^\/xampp\/htdocs\//', '', $ruta);
-    
-    // Eliminar múltiples barras
     $ruta = preg_replace('/\/+/', '/', $ruta);
-    
-    // Asegurarse de que no empiece con /
     $ruta = ltrim($ruta, '/');
     
-    // Si la ruta no tiene carpeta, buscar en imagenes/ o uploads/mascotas/
     if (!strpos($ruta, '/')) {
         if (file_exists('imagenes/' . $ruta)) {
             return 'imagenes/' . $ruta;
@@ -47,7 +40,7 @@ if (isset($_GET['id'])) {
 }
 
 // Traer datos del usuario
-$sql = "SELECT id, nombre, apellido, email, rol, fecha_registro, foto_perfil 
+$sql = "SELECT id, nombre, apellido, email, telefono, rol, fecha_registro, foto_perfil 
         FROM usuarios WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_usuario);
@@ -63,13 +56,12 @@ if (!$usuario) {
 if (!empty($usuario['foto_perfil'])) {
     $avatar = corregir_ruta_imagen($usuario['foto_perfil']);
 } else {
-    // Verificar si existe la carpeta de avatares
     if (is_dir("imagenes/avatars")) {
         $avatares = glob("imagenes/avatars/*.{png,jpg,jpeg}", GLOB_BRACE);
         if (count($avatares) > 0) {
             $avatar = $avatares[array_rand($avatares)];
         } else {
-            $avatar = "imagenes/default-avatar.png"; // Avatar por defecto
+            $avatar = "imagenes/default-avatar.png";
         }
     } else {
         $avatar = "imagenes/default-avatar.png";
@@ -79,7 +71,7 @@ if (!empty($usuario['foto_perfil'])) {
 // Saber si es mi perfil
 $es_mi_perfil = isset($_SESSION['usuario_id']) && $_SESSION['usuario_id'] == $usuario['id'];
 
-// Traer mascotas publicadas (solo si es dador o refugio)
+// Traer mascotas del usuario
 $mascotas = null;
 if ($usuario['rol'] === 'dador' || $usuario['rol'] === 'refugio') {
     $sql_mascotas = "SELECT id, nombre, especie, raza, descripcion, foto, estado, fecha_alta
@@ -101,6 +93,15 @@ $stmt_posts = $conn->prepare($sql_posts);
 $stmt_posts->bind_param("i", $id_usuario);
 $stmt_posts->execute();
 $posts = $stmt_posts->get_result();
+
+// Crear link a WhatsApp
+$telefono = preg_replace('/[^0-9]/', '', $usuario['telefono'] ?? '');
+$whatsapp_link = "";
+
+if (!empty($telefono)) {
+    $mensaje = urlencode("Hola! Vi tu perfil en MHAC y quiero consultar por tus publicaciones.");
+    $whatsapp_link = "https://wa.me/$telefono?text=$mensaje";
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -115,6 +116,7 @@ $posts = $stmt_posts->get_result();
         <span>←</span>
         Volver
     </a>
+
     <div class="perfil-container">
         <h1>Perfil de <?php echo htmlspecialchars($usuario['nombre']); ?></h1>
 
@@ -129,6 +131,15 @@ $posts = $stmt_posts->get_result();
         <p><strong>Email:</strong> <?php echo htmlspecialchars($usuario['email']); ?></p>
         <p><strong>Rol:</strong> <?php echo ucfirst(htmlspecialchars($usuario['rol'])); ?></p>
         <p><strong>Miembro desde:</strong> <?php echo date("d/m/Y", strtotime($usuario['fecha_registro'])); ?></p>
+
+        <!-- BOTÓN WHATSAPP -->
+        <?php if (!empty($whatsapp_link)): ?>
+        <a href="<?= $whatsapp_link ?>"
+           target="_blank"
+           class="btn-whatsapp-grande">
+           💬 Contactar por WhatsApp
+        </a>
+        <?php endif; ?>
 
         <?php if ($es_mi_perfil): ?>
         <div class="acciones">
@@ -155,8 +166,6 @@ $posts = $stmt_posts->get_result();
                              alt="Foto de <?php echo htmlspecialchars($m['nombre']); ?>" 
                              class="imagen-mascota"
                              onerror="this.style.display='none';">
-                        <!-- Debug: Mostrar ruta (comentar en producción) -->
-                        <!-- <small style="color: #999;">Ruta: <?php echo htmlspecialchars($foto_mascota); ?></small> -->
                     <?php endif; ?>
                     <p><strong><?php echo htmlspecialchars($m['nombre']); ?></strong> (<?php echo htmlspecialchars($m['especie']); ?>)</p>
                     <p><?php echo nl2br(htmlspecialchars($m['descripcion'])); ?></p>
@@ -182,8 +191,6 @@ $posts = $stmt_posts->get_result();
                              alt="Imagen del post" 
                              class="imagen-post"
                              onerror="this.style.display='none';">
-                        <!-- Debug: Mostrar ruta (comentar en producción) -->
-                        <!-- <small style="color: #999;">Ruta: <?php echo htmlspecialchars($foto_post); ?></small> -->
                     <?php endif; ?>
                     <p><?php echo nl2br(htmlspecialchars($p['contenido'])); ?></p>
                     <span class="fecha"><?php echo date("d/m/Y H:i", strtotime($p['fecha'])); ?></span>
@@ -195,7 +202,6 @@ $posts = $stmt_posts->get_result();
     </div>
 
     <script>
-        // Verificar imágenes rotas y mostrar info en consola
         document.addEventListener('DOMContentLoaded', function() {
             const imagenes = document.querySelectorAll('img');
             imagenes.forEach(img => {

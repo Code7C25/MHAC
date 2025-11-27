@@ -6,25 +6,34 @@ $buscar_nombre  = $_GET['nombre'] ?? '';
 $orden          = $_GET['orden'] ?? '';
 $filtro_dias    = $_GET['dias'] ?? '';
 
-// Construcción de la consulta
-$sql = "SELECT m.id, m.nombre, m.especie, m.raza, m.sexo, 
-               m.edad_categoria, m.tamano, m.descripcion, 
-               m.foto, m.fecha_alta, 
-               DATEDIFF(NOW(), m.fecha_alta) AS dias_en_mhac, 
-               u.nombre AS user_nombre,
-               u.apellido AS user_apellido,
-               u.telefono AS user_telefono,
-               u.email AS user_email
+// ---------------------------
+// CONSULTA BASE
+// ---------------------------
+$sql = "SELECT 
+            m.id, m.nombre, m.especie, m.raza, m.sexo, 
+            m.edad_categoria, m.tamano, m.descripcion, 
+            m.foto, m.fecha_alta, 
+            DATEDIFF(NOW(), m.fecha_alta) AS dias_en_mhac, 
+            u.nombre AS user_nombre,
+            u.apellido AS user_apellido,
+            u.telefono AS user_telefono,
+            u.email AS user_email
         FROM mascotas m
         LEFT JOIN usuarios u ON m.usuario_id = u.id
         WHERE m.estado = 'en_adopcion'
           AND m.especie NOT IN ('perro','gato')";
 
+// ---------------------------
+// FILTRO POR NOMBRE
+// ---------------------------
 if ($buscar_nombre !== '') {
     $bn = $conn->real_escape_string($buscar_nombre);
     $sql .= " AND m.nombre LIKE '%$bn%'";
 }
 
+// ---------------------------
+// FILTRO POR DÍAS EN MHAC
+// ---------------------------
 if ($filtro_dias === '7') {
     $sql .= " AND DATEDIFF(NOW(), m.fecha_alta) <= 7";
 } elseif ($filtro_dias === '21') {
@@ -33,10 +42,14 @@ if ($filtro_dias === '7') {
     $sql .= " AND DATEDIFF(NOW(), m.fecha_alta) > 60";
 }
 
+// ---------------------------
+// ORDENAR POR EDAD O RECIENTES
+// ---------------------------
+// edad_categoria: cachorro → joven → adulto → mayor
 if ($orden === 'edad_asc') {
-    $sql .= " ORDER BY m.edad ASC";
+    $sql .= " ORDER BY FIELD(m.edad_categoria, 'cachorro','joven','adulto','mayor')";
 } elseif ($orden === 'edad_desc') {
-    $sql .= " ORDER BY m.edad DESC";
+    $sql .= " ORDER BY FIELD(m.edad_categoria, 'mayor','adulto','joven','cachorro')";
 } else {
     $sql .= " ORDER BY m.fecha_alta DESC";
 }
@@ -74,6 +87,7 @@ $result = $conn->query($sql);
         <section class="filtros">
             <h2>Filtros de búsqueda</h2>
             <form method="GET" class="form-filtros">
+
                 <div class="filtro-grupo">
                     <label>
                         Buscar por nombre
@@ -108,6 +122,7 @@ $result = $conn->query($sql);
                     <button type="submit" class="btn-filtrar">Aplicar filtros</button>
                     <a href="otros.php" class="btn-limpiar">Limpiar filtros</a>
                 </div>
+
             </form>
         </section>
 
@@ -115,66 +130,68 @@ $result = $conn->query($sql);
         <section class="mascotas-grid">
             <?php if ($result && $result->num_rows > 0): ?>
                 <div class="grid">
+
                     <?php while ($m = $result->fetch_assoc()): ?>
-                        <div class="mascota-card">
-                            <?php if ($m['foto']): ?>
-                                <div class="mascota-imagen">
-                                    <img src="uploads/mascotas/<?= htmlspecialchars($m['foto']) ?>" 
-                                         alt="Foto de <?= htmlspecialchars($m['nombre']) ?>">
-                                    <div class="mascota-badge">
-                                        <?php if ($m['dias_en_mhac'] <= 7): ?>
-                                            <span class="badge nuevo">NUEVO</span>
-                                        <?php elseif ($m['dias_en_mhac'] > 60): ?>
-                                            <span class="badge urgente">URGENTE</span>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
-                            
-                            <div class="mascota-info">
-                                <h3><?= htmlspecialchars($m['nombre']) ?></h3>
-                                
-                                <div class="info-basica">
-                                    <p><strong>Especie:</strong> <?= ucfirst(htmlspecialchars($m['especie'])) ?></p>
-                                    <p><strong>Raza:</strong> <?= ucfirst(htmlspecialchars($m['raza'])) ?></p>
-                                    <p><strong>Sexo:</strong> <?= ucfirst(htmlspecialchars($m['sexo'])) ?></p>
-                                    <p><strong>Edad:</strong> <?= ucfirst(htmlspecialchars($m['edad_categoria'])) ?></p>
-                                    <p><strong>Tamaño:</strong> <?= ucfirst(htmlspecialchars($m['tamano'])) ?></p>
-                                </div>
-                                
-                                <div class="descripcion">
-                                    <p><?= nl2br(htmlspecialchars($m['descripcion'])) ?></p>
-                                </div>
-                                
-                                <div class="info-adicional">
-                                    <p><strong>Publicado por:</strong>
-                                        <?= htmlspecialchars($m['user_nombre']) ?>
-                                        <?php if (!empty($m['user_apellido'])): ?>
-                                            <?= ' ' . htmlspecialchars($m['user_apellido']) ?>
-                                        <?php endif; ?>
-                                    </p>
+                    <div class="mascota-card">
 
-                                    <p><strong>Contacto:</strong>
-                                        <?php 
-                                            $contactos = [];
-                                            if (!empty($m['user_telefono'])) $contactos[] = "📞 " . htmlspecialchars($m['user_telefono']);
-                                            if (!empty($m['user_email'])) $contactos[] = "✉ " . htmlspecialchars($m['user_email']);
-                                            echo $contactos ? implode(" | ", $contactos) : "No disponible";
-                                        ?>
-                                    </p>
-
-                                    <p><strong>Publicado:</strong> <?= date("d/m/Y", strtotime($m['fecha_alta'])) ?></p>
-                                    <p><strong>Días en MHAC:</strong> <?= $m['dias_en_mhac'] ?> días</p>
+                        <?php if ($m['foto']): ?>
+                            <div class="mascota-imagen">
+                                <img src="uploads/mascotas/<?= htmlspecialchars($m['foto']) ?>" 
+                                     alt="Foto de <?= htmlspecialchars($m['nombre']) ?>">
+                                <div class="mascota-badge">
+                                    <?php if ($m['dias_en_mhac'] <= 7): ?>
+                                        <span class="badge nuevo">NUEVO</span>
+                                    <?php elseif ($m['dias_en_mhac'] > 60): ?>
+                                        <span class="badge urgente">URGENTE</span>
+                                    <?php endif; ?>
                                 </div>
+                            </div>
+                        <?php endif; ?>
 
+                        <div class="mascota-info">
+                            <h3><?= htmlspecialchars($m['nombre']) ?></h3>
+
+                            <div class="info-basica">
+                                <p><strong>Especie:</strong> <?= ucfirst(htmlspecialchars($m['especie'])) ?></p>
+                                <p><strong>Raza:</strong> <?= ucfirst(htmlspecialchars($m['raza'])) ?></p>
+                                <p><strong>Sexo:</strong> <?= ucfirst(htmlspecialchars($m['sexo'])) ?></p>
+                                <p><strong>Edad:</strong> <?= ucfirst(htmlspecialchars($m['edad_categoria'])) ?></p>
+                                <p><strong>Tamaño:</strong> <?= ucfirst(htmlspecialchars($m['tamano'])) ?></p>
+                            </div>
+
+                            <div class="descripcion">
+                                <p><?= nl2br(htmlspecialchars($m['descripcion'])) ?></p>
+                            </div>
+
+                            <div class="info-adicional">
+                                <p><strong>Publicado por:</strong>
+                                    <?= htmlspecialchars($m['user_nombre']) ?>
+                                    <?= !empty($m['user_apellido']) ? ' '.htmlspecialchars($m['user_apellido']) : '' ?>
+                                </p>
+
+                                <p><strong>Contacto:</strong>
+                                    <?php 
+                                        $contactos = [];
+                                        if (!empty($m['user_telefono'])) $contactos[] = "📞 " . htmlspecialchars($m['user_telefono']);
+                                        if (!empty($m['user_email'])) $contactos[] = "✉ " . htmlspecialchars($m['user_email']);
+                                        echo $contactos ? implode(" | ", $contactos) : "No disponible";
+                                    ?>
+                                </p>
+
+                                <p><strong>Publicado:</strong> <?= date("d/m/Y", strtotime($m['fecha_alta'])) ?></p>
+                                <p><strong>Días en MHAC:</strong> <?= $m['dias_en_mhac'] ?> días</p>
                             </div>
                         </div>
+
+                    </div>
                     <?php endwhile; ?>
+
                 </div>
             <?php else: ?>
-                <div class="sin-resultados"><p>No hay perros disponibles en adopción en este momento.</p></div>
+                <div class="sin-resultados"><p>No hay animales disponibles en adopción en este momento.</p></div>
             <?php endif; ?>
-    </section>
+        </section>
+
     </main>
 </body>
 </html>

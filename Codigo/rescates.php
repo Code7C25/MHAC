@@ -42,7 +42,7 @@ $result_listado = $conn->query($sql_listado);
 <body>
 
 <header>
-    <h1>💖 Historias de Rescate</h1>
+    <h1>Historias de Rescate</h1>
     <blockquote class="refran-conmovedor">
         "Rescatar un animal no cambiará el mundo, pero cambiará el mundo de ese animal."
     </blockquote>
