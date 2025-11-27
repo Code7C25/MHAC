@@ -31,7 +31,7 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="css/mis_mascotas_publicadas.css">
 </head>
 <body>
-    <a href="adopcion.php" class="btn-volver">← Volver</a>
+    <a href="adopcion.php" class="btn-volver">Volver</a>
 
     <header>
         <h1>Mis mascotas publicadas</h1>
@@ -62,7 +62,6 @@ $result = $stmt->get_result();
 
                         <div class="acciones-card">
                             <a href="editar_mascota.php?id=<?= $m['id'] ?>" class="btn-editar">Editar</a>
-                            <!-- Podés agregar botón de eliminar si querés -->
                         </div>
                     </div>
                 <?php endwhile; ?>

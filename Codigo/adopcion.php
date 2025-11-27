@@ -60,10 +60,6 @@ $result = $conn->query($sql);
       <h3>Mis solicitudes de adopción</h3>
     </a>
   <?php endif; ?>
-
-  <a href="" class="servicio-card">
-    <h3>Adopciones aprobadas</h3>
-  </a>
   <a href="mascotas_en_adopcion.php" class="servicio-card">
     <h3>Mascotas en adopción</h3>
   </a>
