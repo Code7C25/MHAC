@@ -481,6 +481,78 @@
     margin: var(--spacing-sm) 0 0 0;
 }
 
+/* ===== SECCIÓN APRENDÉ A CUIDARLOS (ESPECIAL) ===== */
+.servicio-card:has(h2) {
+    grid-column: 1 / -1;
+    max-width: 1200px;
+    margin: var(--spacing-2xl) auto;
+    padding: var(--spacing-2xl);
+    display: flex;
+    gap: var(--spacing-2xl);
+    align-items: center;
+    background: white;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-lg);
+    text-align: left;
+}
+
+.servicio-card:has(h2)::before {
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primario), var(--color-suave), var(--color-acento2));
+}
+
+.servicio-card h2 {
+    color: var(--color-titulo);
+    font-size: clamp(1.6rem, 4vw, 2rem);
+    margin: 0 0 var(--spacing-base) 0;
+    font-weight: 600;
+    font-family: 'Baloo 2', cursive;
+}
+
+.servicio-card:has(h2) p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: var(--spacing-lg);
+    opacity: 1;
+}
+
+.btn-info {
+    display: inline-block;
+    background: var(--color-boton);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-xl);
+    border-radius: var(--border-radius-lg);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-info:hover {
+    background: var(--color-boton-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-base);
+    text-decoration: none;
+    color: white;
+}
+
+/* Simulación de espacio para video */
+.servicio-card:has(h2)::after {
+    content: '🎥';
+    flex-shrink: 0;
+    width: 420px;
+    height: 280px;
+    background: linear-gradient(135deg, var(--color-secundario) 0%, #e8f5e0 100%);
+    border-radius: var(--border-radius-lg);
+    border: 2px solid var(--color-borde);
+    box-shadow: var(--shadow-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+}
+
 /* ===== CONTENIDO SECUNDARIO ===== */
 .contenido-secundario {
     max-width: 1200px;
@@ -629,6 +701,16 @@
         grid-template-columns: 1fr;
         gap: var(--spacing-lg);
     }
+    
+    .servicio-card:has(h2) {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+    
+    .servicio-card:has(h2)::after {
+        width: 100%;
+        max-width: 500px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -696,6 +778,15 @@
     .contenido-secundario {
         padding: var(--spacing-lg) var(--spacing-base);
     }
+    
+    .servicio-card:has(h2) {
+        padding: var(--spacing-lg);
+        margin: var(--spacing-xl) var(--spacing-base);
+    }
+    
+    .servicio-card:has(h2)::after {
+        height: 250px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -730,6 +821,15 @@
     .search-form {
         padding: var(--spacing-sm);
     }
+    
+    .servicio-card:has(h2)::after {
+        height: 200px;
+    }
+    
+    .btn-info {
+        width: 100%;
+        text-align: center;
+    }
 }
 
 /* ===== Estados de focus para accesibilidad ===== */
@@ -737,7 +837,8 @@
 .cta:focus,
 .menu-toggle:focus,
 .search-button:focus,
-.search-input:focus {
+.search-input:focus,
+.btn-info:focus {
     outline: 2px solid var(--color-primario);
     outline-offset: 2px;
 }
@@ -756,7 +857,7 @@
 }
 
 .categoria-card,
-.servicio-card {
+.servicio-card:not(:has(h2)) {
     animation: fadeIn 0.6s ease forwards;
 }
 
