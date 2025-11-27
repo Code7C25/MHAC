@@ -484,17 +484,15 @@
 /* ===== SECCIÓN APRENDÉ A CUIDARLOS (ESPECIAL) ===== */
 .servicio-card:has(h2) {
     grid-column: 1 / -1;
-    max-width: 1200px;
+    max-width: 800px;
     margin: var(--spacing-2xl) auto;
-    padding: var(--spacing-2xl);
-    display: flex;
-    gap: var(--spacing-2xl);
-    align-items: center;
-    background: white;
+    padding: var(--spacing-2xl) var(--spacing-3xl);
+    background: linear-gradient(135deg, var(--color-secundario) 0%, white 100%);
     border: 1px solid var(--color-borde);
     border-radius: var(--border-radius-xl);
     box-shadow: var(--shadow-lg);
-    text-align: left;
+    text-align: center;
+    position: relative;
 }
 
 .servicio-card:has(h2)::before {
@@ -502,31 +500,53 @@
     background: linear-gradient(90deg, var(--color-primario), var(--color-suave), var(--color-acento2));
 }
 
+.servicio-card:has(h2)::after {
+    content: '🐾';
+    position: absolute;
+    font-size: 12rem;
+    opacity: 0.08;
+    right: -20px;
+    bottom: -40px;
+    z-index: 0;
+    pointer-events: none;
+}
+
 .servicio-card h2 {
     color: var(--color-titulo);
-    font-size: clamp(1.6rem, 4vw, 2rem);
-    margin: 0 0 var(--spacing-base) 0;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    margin: 0 0 var(--spacing-lg) 0;
     font-weight: 600;
     font-family: 'Baloo 2', cursive;
+    position: relative;
+    z-index: 1;
 }
 
 .servicio-card:has(h2) p {
-    font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: var(--spacing-lg);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: var(--spacing-xl);
     opacity: 1;
+    color: var(--color-texto);
+    position: relative;
+    z-index: 1;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .btn-info {
     display: inline-block;
     background: var(--color-boton);
     color: white;
-    padding: var(--spacing-sm) var(--spacing-xl);
+    padding: var(--spacing-base) var(--spacing-2xl);
     border-radius: var(--border-radius-lg);
     text-decoration: none;
     font-weight: 600;
     transition: all var(--transition-base);
     box-shadow: var(--shadow-sm);
+    font-size: 1.05rem;
+    position: relative;
+    z-index: 1;
 }
 
 .btn-info:hover {
@@ -537,21 +557,7 @@
     color: white;
 }
 
-/* Simulación de espacio para video */
-.servicio-card:has(h2)::after {
-    content: '🎥';
-    flex-shrink: 0;
-    width: 420px;
-    height: 280px;
-    background: linear-gradient(135deg, var(--color-secundario) 0%, #e8f5e0 100%);
-    border-radius: var(--border-radius-lg);
-    border: 2px solid var(--color-borde);
-    box-shadow: var(--shadow-base);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-}
+/* Espacio para video removido - agregar video real en HTML si es necesario */
 
 /* ===== CONTENIDO SECUNDARIO ===== */
 .contenido-secundario {
@@ -703,13 +709,14 @@
     }
     
     .servicio-card:has(h2) {
-        flex-direction: column-reverse;
         text-align: center;
+        padding: var(--spacing-xl);
     }
     
     .servicio-card:has(h2)::after {
-        width: 100%;
-        max-width: 500px;
+        font-size: 8rem;
+        right: 10px;
+        bottom: -20px;
     }
 }
 
@@ -785,7 +792,9 @@
     }
     
     .servicio-card:has(h2)::after {
-        height: 250px;
+        font-size: 6rem;
+        right: 5px;
+        bottom: -15px;
     }
 }
 
@@ -823,12 +832,15 @@
     }
     
     .servicio-card:has(h2)::after {
-        height: 200px;
+        font-size: 5rem;
+        right: 0;
+        bottom: -10px;
     }
     
     .btn-info {
         width: 100%;
         text-align: center;
+        padding: var(--spacing-base) var(--spacing-lg);
     }
 }
 

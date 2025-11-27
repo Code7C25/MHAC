@@ -157,9 +157,10 @@ session_start();
         <p>Descubrí consejos útiles...</p>
         <a href="info.php" class="btn-info">Ir a la sección 🐾</a>
     </div>
-    <video controls style="width: 420px; height: 280px; border-radius: 12px;">
-        <source src="imagenes/video.mp4" type="video/mp4">
-    </video>
+  <video controls autoplay muted loop style="width: 420px; height: 280px; border-radius: 12px;">
+    <source src="imagenes/video.mp4" type="video/mp4">
+</video>
+
 </div>
 
 <main class="contenido-secundario">
