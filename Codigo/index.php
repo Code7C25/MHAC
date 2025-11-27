@@ -256,19 +256,13 @@ session_start();
 </style>
 
 <script>
-  // Sistema de traducción
+  // Sistema de traducción con persistencia en localStorage
   const btnIdioma = document.getElementById('btnIdioma');
   let idiomaActual = 'es';
 
-  btnIdioma.addEventListener('click', () => {
-    idiomaActual = idiomaActual === 'es' ? 'en' : 'es';
-    traducirPagina(idiomaActual);
-    btnIdioma.textContent = idiomaActual === 'es' ? '🌐 English' : '🌐 Español';
-    localStorage.setItem('idioma', idiomaActual);
-  });
-
+  // Función que traduce la página
   function traducirPagina(idioma) {
-    // Traducir elementos con data-es y data-en
+    // Traducir texto
     document.querySelectorAll('[data-es][data-en]').forEach(elemento => {
       const texto = idioma === 'es' ? elemento.dataset.es : elemento.dataset.en;
       if (elemento.tagName === 'INPUT' || elemento.tagName === 'TEXTAREA') {
@@ -282,14 +276,23 @@ session_start();
     document.querySelectorAll('[data-es-placeholder][data-en-placeholder]').forEach(input => {
       input.placeholder = idioma === 'es' ? input.dataset.esPlaceholder : input.dataset.enPlaceholder;
     });
+
+    // Cambiar texto del botón si existe
+    if (btnIdioma) btnIdioma.textContent = idioma === 'es' ? '🌐 English' : '🌐 Español';
   }
 
-  // Cargar idioma guardado
-  window.addEventListener('load', () => {
-    const idiomaSaved = localStorage.getItem('idioma') || 'es';
-    idiomaActual = idiomaSaved;
-    traducirPagina(idiomaSaved);
-    btnIdioma.textContent = idiomaSaved === 'es' ? '🌐 English' : '🌐 Español';
+  // Leer idioma guardado en localStorage
+  window.addEventListener('DOMContentLoaded', () => {
+    const idiomaGuardado = localStorage.getItem('idioma') || 'es';
+    idiomaActual = idiomaGuardado;
+    traducirPagina(idiomaActual);
+  });
+
+  // Cambiar idioma al hacer click en el botón
+  btnIdioma.addEventListener('click', () => {
+    idiomaActual = idiomaActual === 'es' ? 'en' : 'es';
+    localStorage.setItem('idioma', idiomaActual);
+    traducirPagina(idiomaActual);
   });
 
   // Toggle menú usuario
@@ -321,37 +324,24 @@ session_start();
     'imagenes/slide3.jpg'
   ];
   let fondoIndex = 0;
-
   setInterval(() => {
     fondoIndex = (fondoIndex + 1) % imagenesFondo.length;
     heroBg.style.backgroundImage = `url('${imagenesFondo[fondoIndex]}')`;
   }, 5000);
 
-    function cerrarConsejo() {
-        const popup = document.getElementById("consejoPopup");
-        if (popup) {
-            popup.style.display = 'none'; // Oculta el elemento
-            // Opcional: podrías usar localStorage aquí para que no aparezca de nuevo
-            // localStorage.setItem('consejo_cerrado', 'true');
-        }
+  function cerrarConsejo() {
+    const popup = document.getElementById("consejoPopup");
+    if (popup) popup.style.display = 'none';
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const popup = document.getElementById("consejoPopup");
+    if (popup) {
+      setTimeout(() => { popup.classList.add('visible'); }, 100); 
+      setTimeout(() => { popup.style.display = 'none'; }, 15000); 
     }
-
-    // 2. Lógica para hacer aparecer el popup al cargar la página
-    window.addEventListener("DOMContentLoaded", () => {
-        const popup = document.getElementById("consejoPopup");
-        // Agrega la clase 'visible' para activar la animación CSS
-        if (popup) {
-            // Un pequeño retraso para que la animación se vea mejor
-            setTimeout(() => {
-                popup.classList.add('visible');
-            }, 100); 
-
-            // Opcional: desaparecerlo automáticamente después de 15 segundos
-            setTimeout(() => {
-                popup.style.display = 'none';
-            }, 15000); 
-        }
-    });
+  });
 </script>
+
 </body>
 </html>
