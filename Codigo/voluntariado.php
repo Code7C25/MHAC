@@ -28,7 +28,6 @@ session_start();
   </header>
 
   <main>
-    <!-- Motivación -->
     <section>
       <h2>¿Por qué ser voluntario?</h2>
       <p>

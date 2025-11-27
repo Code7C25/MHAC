@@ -60,7 +60,7 @@ unset($_SESSION['mensaje']);
   <header>
     <h1>🐾 Solicitudes de Adopción - Tus Publicaciones</h1>
     <div>
-      <a class="btn-volver" href="adopcion.php">← Volver</a>
+      <a class="btn-volver" href="adopcion.php">Volver</a>
     </div>
   </header>
 
