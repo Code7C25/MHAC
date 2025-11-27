@@ -57,7 +57,7 @@ session_start();
         </div>
         <div class="hero-wag-text">
             <h1 data-es="Encuentra tu nuevo mejor amigo" data-en="Find your new best friend">Encuentra tu nuevo mejor amigo</h1>
-            <p data-es="Explora mascotas de nuestra red de más de 100 refugios y rescates." data-en="Explore pets from our network of over 100 shelters and rescues.">Explora mascotas de nuestra red de más de 100 refugios y rescates.</p>
+            <p data-es="Explora mascotas de nuestra red de refugios y rescates." data-en="Explore pets from our network of over 100 shelters and rescues.">Explora mascotas de nuestra red de más de 100 refugios y rescates.</p>
         </div>
     </div>
 
@@ -156,40 +156,6 @@ session_start();
 
 </div>
 
-<main class="contenido-secundario">
-    <!-- Slider de novedades -->
-    <section class="slider-novedades">
-        <h3 data-es="Novedades" data-en="News">Novedades</h3>
-        <div class="slide activo" data-es="Nueva campaña de adopción este fin de semana" data-en="New adoption campaign this weekend">Nueva campaña de adopción este fin de semana</div>
-        <div class="slide" data-es="Refugio 'Peluditos felices' necesita voluntarios" data-en="Shelter 'Happy Furbabies' needs volunteers">Refugio "Peluditos felices" necesita voluntarios</div>
-        <div class="slide" data-es="Dona y ayuda a salvar vidas" data-en="Donate and help save lives">Dona y ayuda a salvar vidas</div>
-    </section>
-
-    <!-- Feed de publicaciones -->
-    <section class="feed-publicaciones">
-        <h3 data-es="Historias de éxito" data-en="Success Stories">Historias de éxito</h3>
-        <article class="post">
-            <h4 data-es="Max encontró un hogar" data-en="Max found a home">Max encontró un hogar</h4>
-            <p data-es="Gracias a todos los que ayudaron a Max a encontrar su familia." data-en="Thanks to everyone who helped Max find his family.">Gracias a todos los que ayudaron a Max a encontrar su familia.</p>
-            <small data-es="Publicado el 01/08/2025" data-en="Published on 01/08/2025">Publicado el 01/08/2025</small>
-        </article>
-        <article class="post">
-            <h4 data-es="Nuevo voluntario destacado" data-en="Featured Volunteer">Nuevo voluntario destacado</h4>
-            <p data-es="Felicitaciones a Laura por su compromiso con los peluditos." data-en="Congratulations to Laura for her commitment to the animals.">Felicitaciones a Laura por su compromiso con los peluditos.</p>
-            <small data-es="Publicado el 30/07/2025" data-en="Published on 30/07/2025">Publicado el 30/07/2025</small>
-        </article>
-    </section>
-
-    <section class="home-presentation">
-    </section>
-    
-    <section class="sidebar">
-        <?php 
-            require_once 'conexion.php'; 
-            include 'consejo_tip_module.php'; 
-        ?>
-    </section>
-</main>
 <!-- Mapa de veterinarias en Alta Gracia -->
 <section class="mapa-veterinarias">
     <div class="mapa-veterinarias-header">
@@ -212,6 +178,115 @@ session_start();
         </iframe>
     </div>
 </section>
+
+<!-- Carrusel dinámico de mascotas en adopción -->
+<section class="novedades-carrusel">
+    <div class="carrusel-header">
+        <h3 data-es="Mascotas en adopción" data-en="Pets for Adoption">MASCOTAS EN ADOPCIÓN</h3>
+        <a href="mascotas_en_adopcion.php" class="btn-saber-mas" data-es="Saber más" data-en="Learn more">SABER MÁS</a>
+    </div>
+
+    <div class="carrusel-wrapper">
+        <div class="carrusel-container">
+            <?php
+            require_once 'conexion.php';
+            $query = $conn->query("SELECT nombre, descripcion, foto, fecha_alta FROM mascotas WHERE estado='en_adopcion' ORDER BY fecha_alta DESC");
+            while($row = $query->fetch_assoc()):
+            ?>
+                <div class="carrusel-slide">
+                    <?php if($row['foto']): ?>
+                        <img src="uploads/mascotas/<?php echo htmlspecialchars($row['foto']); ?>" alt="<?php echo htmlspecialchars($row['nombre']); ?>">
+                    <?php endif; ?>
+                    <div class="slide-info">
+                        <h4><?php echo htmlspecialchars($row['nombre']); ?></h4>
+                        <p><?php echo htmlspecialchars($row['descripcion']); ?></p>
+                        <small><?php echo date("d/m/Y", strtotime($row['fecha_alta'])); ?></small>
+                    </div>
+                </div>
+            <?php endwhile; ?>
+        </div>
+
+        <button class="carrusel-nav prev" aria-label="Anterior">‹</button>
+        <button class="carrusel-nav next" aria-label="Siguiente">›</button>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.querySelector('.carrusel-container');
+    const slides = document.querySelectorAll('.carrusel-slide');
+    const prevBtn = document.querySelector('.carrusel-nav.prev');
+    const nextBtn = document.querySelector('.carrusel-nav.next');
+
+    let index = 0;
+    let slidesPerView = getSlidesPerView();
+    let autoplayInterval;
+
+    function getSlidesPerView() {
+        const width = window.innerWidth;
+        if (width < 480) return 1;
+        if (width < 768) return 2;
+        if (width < 1024) return 3;
+        if (width < 1280) return 4;
+        return 5;
+    }
+
+    function getSlideWidth() {
+        return slides[0].offsetWidth + parseInt(getComputedStyle(container).gap || 16);
+    }
+
+    function updateCarousel() {
+        const desplazamiento = -index * getSlideWidth();
+        container.style.transform = `translateX(${desplazamiento}px)`;
+    }
+
+    function nextSlide() {
+        index++;
+        if(index > slides.length - slidesPerView) index = 0;
+        updateCarousel();
+    }
+
+    function prevSlide() {
+        index--;
+        if(index < 0) index = slides.length - slidesPerView;
+        updateCarousel();
+    }
+
+    nextBtn.addEventListener('click', () => { nextSlide(); resetAutoplay(); });
+    prevBtn.addEventListener('click', () => { prevSlide(); resetAutoplay(); });
+
+    function startAutoplay() {
+        autoplayInterval = setInterval(nextSlide, 3000);
+    }
+
+    function stopAutoplay() {
+        clearInterval(autoplayInterval);
+    }
+
+    function resetAutoplay() {
+        stopAutoplay();
+        startAutoplay();
+    }
+
+    window.addEventListener('resize', () => {
+        slidesPerView = getSlidesPerView();
+        index = 0;
+        updateCarousel();
+    });
+
+    // Swipe support
+    let touchStartX = 0;
+    container.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+    container.addEventListener('touchend', (e) => {
+        let touchEndX = e.changedTouches[0].screenX;
+        if(touchStartX - touchEndX > 50) nextSlide();
+        if(touchEndX - touchStartX > 50) prevSlide();
+    });
+
+    startAutoplay();
+});
+</script>
+
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-logo">
