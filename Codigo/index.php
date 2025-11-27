@@ -125,13 +125,6 @@ session_start();
             <h3 data-es="Donaciones" data-en="Donations">Donaciones</h3>
             <p data-es="Ayuda con donaciones para el cuidado de los animales" data-en="Help with donations for animal care">Ayuda con donaciones para el cuidado de los animales</p>
         </a>
-        <a href="denuncias.html" class="servicio-card">
-    <div class="icono">
-        <img src="imagenes/amar.png" alt="Denuncias">
-    </div>
-    <h3 data-es="Denunciar maltrato animal" data-en="Report animal abuse">Denunciar maltrato animal</h3>
-    <p data-es="Información oficial y contactos para denunciar" data-en="Official info and contacts to report abuse">Información oficial y contactos para denunciar</p>
-</a>
 
         <a href="campañas.php" class="servicio-card">
             <div class="icono">
@@ -342,6 +335,11 @@ session_start();
     }
   });
 </script>
-
+<a href="denuncias.html" 
+   class="btn-denuncias-flotante" 
+   data-tooltip="Denunciar maltrato animal"
+   aria-label="Denunciar maltrato animal">
+    <img src="imagenes/amar.png" alt="Denuncias" class="icono-denuncias">
+</a>
 </body>
 </html>
