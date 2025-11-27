@@ -1012,3 +1012,109 @@
         display: none;
     }
 }
+/* ===== BOTÓN FLOTANTE DE DENUNCIAS ===== */
+.btn-denuncias-flotante {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    z-index: 9999;
+    text-decoration: none;
+    border: 3px solid white;
+    animation: pulseAlert 2s ease-in-out infinite;
+}
+
+.btn-denuncias-flotante:hover {
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 12px 30px rgba(231, 76, 60, 0.6);
+    text-decoration: none;
+}
+
+.btn-denuncias-flotante:active {
+    transform: scale(1.05);
+}
+
+.btn-denuncias-flotante .icono-denuncias {
+    width: 40px;
+    height: 40px;
+    filter: brightness(0) invert(1);
+    transition: transform var(--transition-base);
+}
+
+.btn-denuncias-flotante:hover .icono-denuncias {
+    transform: rotate(10deg) scale(1.1);
+}
+
+/* Tooltip para el botón flotante */
+.btn-denuncias-flotante::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 80px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all var(--transition-base);
+    font-weight: 500;
+}
+
+.btn-denuncias-flotante:hover::before {
+    opacity: 1;
+    left: 85px;
+}
+
+/* Animación de pulso sutil */
+@keyframes pulseAlert {
+    0%, 100% {
+        box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+    }
+    50% {
+        box-shadow: 0 8px 20px rgba(231, 76, 60, 0.6), 0 0 0 8px rgba(231, 76, 60, 0.2);
+    }
+}
+
+/* Responsive para el botón flotante */
+@media (max-width: 768px) {
+    .btn-denuncias-flotante {
+        width: 60px;
+        height: 60px;
+        bottom: 20px;
+        left: 20px;
+    }
+    
+    .btn-denuncias-flotante .icono-denuncias {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .btn-denuncias-flotante::before {
+        display: none; /* Ocultar tooltip en móvil */
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-denuncias-flotante {
+        width: 55px;
+        height: 55px;
+        bottom: 15px;
+        left: 15px;
+    }
+    
+    .btn-denuncias-flotante .icono-denuncias {
+        width: 30px;
+        height: 30px;
+    }
+}

@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/moderacion.php'; // o la ruta correcta a tu moderacion.php
+require __DIR__ . '/moderacion.php';
 
 $texto = "Este es un mensaje de prueba.";
 
