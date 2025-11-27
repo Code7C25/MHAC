@@ -16,25 +16,27 @@ if (!$usuario_id || !in_array($rol, ['dador', 'refugio'])) {
 
 /**
  * Devuelve un nombre legible del publicador.
- * Intenta distintos esquemas de BD sin romper si prepare() falla.
+ * Usa solo columnas reales: nombre, apellido, email.
  */
 function obtenerPublicadorNombre(mysqli $conn, int $usuario_id, string $rol): string {
     // Default por rol
     $default = ($rol === 'refugio') ? 'Refugio' : 'Dador';
 
-    // Consultas alternativas (por si tu PK es id o id_usuario)
+    // Consultas utilizando solo columnas que existen
     $queries = [
-        // nombre + apellido, si no hay usa nickname, si no hay email
-        "SELECT COALESCE(NULLIF(CONCAT(TRIM(nombre),' ',TRIM(apellido)),''),
-                         NULLIF(nickname,''),
-                         email) AS display
-         FROM usuarios
-         WHERE id = ?",
-        "SELECT COALESCE(NULLIF(CONCAT(TRIM(nombre),' ',TRIM(apellido)),''),
-                         NULLIF(nickname,''),
-                         email) AS display
-         FROM usuarios
-         WHERE id_usuario = ?",
+        "SELECT COALESCE(
+            NULLIF(CONCAT(TRIM(nombre),' ',TRIM(apellido)),''), 
+            email
+        ) AS display
+        FROM usuarios
+        WHERE id = ?",
+
+        "SELECT COALESCE(
+            NULLIF(CONCAT(TRIM(nombre),' ',TRIM(apellido)),''), 
+            email
+        ) AS display
+        FROM usuarios
+        WHERE id_usuario = ?"
     ];
 
     foreach ($queries as $sql) {
@@ -289,12 +291,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h2>Foto de la mascota</h2>
                         <div class="campo campo-completo">
                             <label for="foto" class="label-foto">
-                            <span class="icono-foto">📷</span>
-                            <span class="texto-foto">Seleccionar foto</span>
-                            <input type="file" name="foto" id="foto" accept="image/*">
-                        </label>
-                        <p id="nombre-archivo" style="font-size:14px; color:#555; margin-top:5px;"></p>
-                        <p class="ayuda-foto">Elegí una foto clara y atractiva que muestre bien a la mascota</p>
+                                <span class="icono-foto">📷</span>
+                                <span class="texto-foto">Seleccionar foto</span>
+                                <input type="file" name="foto" id="foto" accept="image/*">
+                            </label>
+                            <p id="nombre-archivo" style="font-size:14px; color:#555; margin-top:5px;"></p>
+                            <p class="ayuda-foto">Elegí una foto clara y atractiva que muestre bien a la mascota</p>
                         </div>
                     </div>
 

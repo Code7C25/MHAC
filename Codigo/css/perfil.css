@@ -627,3 +627,24 @@ hr {
         border: 2px solid currentColor;
     }
 }
+.btn-whatsapp-grande {
+    display: block;
+    width: 90%;
+    margin: 20px auto;
+    background-color: #25D366;
+    color: white;
+    padding: 18px 25px;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border-radius: 15px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: 0.2s ease;
+}
+
+.btn-whatsapp-grande:hover {
+    background-color: #1ebe5a;
+    transform: scale(1.03);
+}
+
