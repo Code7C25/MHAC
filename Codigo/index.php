@@ -192,12 +192,33 @@ session_start();
     
     <section class="sidebar">
         <?php 
-            require_once 'conexion.php'; // Si no está incluido arriba
+            require_once 'conexion.php'; 
             include 'consejo_tip_module.php'; 
         ?>
     </section>
 </main>
-
+<!-- Mapa de veterinarias en Alta Gracia -->
+<section class="mapa-veterinarias">
+    <div class="mapa-veterinarias-header">
+        <h2 data-es="Veterinarias en Alta Gracia 🐾" data-en="Veterinary Clinics in Alta Gracia 🐾">
+            Veterinarias en Alta Gracia 🐾
+        </h2>
+        <p data-es="Encuentra las clínicas veterinarias más cercanas para el cuidado de tu mascota" 
+           data-en="Find the nearest veterinary clinics for your pet's care">
+            Encuentra las clínicas veterinarias más cercanas para el cuidado de tu mascota
+        </p>
+    </div>
+    
+    <div class="mapa-container">
+        <iframe 
+            src="https://www.google.com/maps/d/u/0/embed?mid=1jeIdRftDtBaRK4yuDoS6eGOuj6YgrC0&ehbc=2E312F&noprof=1" 
+            width="640" 
+            height="480"
+            loading="lazy"
+            title="Mapa de veterinarias en Alta Gracia">
+        </iframe>
+    </div>
+</section>
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-logo">
