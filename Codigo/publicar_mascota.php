@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'conexion.php';
+require_once 'moderacion.php'; // ← AGREGADO
 
 $usuario_id = isset($_SESSION['usuario_id']) ? intval($_SESSION['usuario_id']) : 0;
 $rol = isset($_SESSION['rol']) ? $_SESSION['rol'] : null;
@@ -16,13 +17,10 @@ if (!$usuario_id || !in_array($rol, ['dador', 'refugio'])) {
 
 /**
  * Devuelve un nombre legible del publicador.
- * Usa solo columnas reales: nombre, apellido, email.
  */
 function obtenerPublicadorNombre(mysqli $conn, int $usuario_id, string $rol): string {
-    // Default por rol
     $default = ($rol === 'refugio') ? 'Refugio' : 'Dador';
 
-    // Consultas utilizando solo columnas que existen
     $queries = [
         "SELECT COALESCE(
             NULLIF(CONCAT(TRIM(nombre),' ',TRIM(apellido)),''), 
@@ -71,10 +69,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $descripcion    = trim($_POST['descripcion'] ?? '');
     $estado         = "en_adopcion";
 
-    // Validación mínima servidor
+    // VALIDACIÓN DE CAMPOS VACÍOS
     if ($nombre === '' || $especie === '' || $sexo === '' || $edad_categoria === '' || $tamano === '') {
         $mensaje = "Faltan campos obligatorios.";
-    } else {
+    } 
+    // 🔥 FILTRO DE MODERACIÓN — PROHÍBE TEXTO SENSIBLE / INSULTOS
+    elseif (moderar_texto($nombre) || moderar_texto($raza) || moderar_texto($descripcion)) {
+        $mensaje = "El texto contiene palabras inapropiadas o contenido no permitido.";
+    }
+    else {
         // Nombre del publicador
         $publicador_nombre = obtenerPublicadorNombre($conn, $usuario_id, $rol);
 
@@ -94,6 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
+        // Guardar mascota
         $sql_insert = "INSERT INTO mascotas 
             (usuario_id, publicador_nombre, nombre, especie, raza, sexo, edad_categoria, 
              tamano, pelaje, color, comportamiento, descripcion, foto, estado, fecha_alta) 

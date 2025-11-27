@@ -2,6 +2,9 @@
 // --- Conexión a la BD ---
 include 'conexion.php';
 
+// --- Moderación ---
+require_once 'moderacion.php';
+
 // --- Verificar ID recibido ---
 if (!isset($_GET['id'])) {
     die("ID de mascota no especificado.");
@@ -35,6 +38,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $comportamiento = $_POST['comportamiento'];
     $descripcion = $_POST['descripcion'];
     $estado = $_POST['estado'];
+
+    // --- MODERAR TODOS LOS CAMPOS DE TEXTO ---
+    $campos_a_moderar = [
+        $nombre,
+        $raza,
+        $color,
+        $descripcion
+    ];
+
+    foreach ($campos_a_moderar as $campo) {
+        if (moderar_texto($campo)) {
+            echo "<script>
+                alert('Uno de los campos contiene lenguaje inapropiado. Por favor revisa el contenido.');
+                history.back();
+            </script>";
+            exit;
+        }
+    }
 
     // --- Manejo de foto ---
     $foto_final = $mascota["foto"]; // mantener foto anterior
@@ -72,12 +93,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Editar mascota</title>
-          <link rel="stylesheet" href="css/editar_mascota.css">
+    <link rel="stylesheet" href="css/editar_mascota.css">
 </head>
 <body>
 
@@ -116,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <label>Tamaño:</label>
     <select name="tamano">
         <option value="pequeño" <?= $mascota['tamano']=='pequeño'?'selected':''?>>Pequeño</option>
-        <option value="mediano" <?= $mascota['tamano']=='mediano'?'selected':''?>>Mediano</option>
+        <option value="mededio" <?= $mascota['tamano']=='mediano'?'selected':''?>>Mediano</option>
         <option value="grande" <?= $mascota['tamano']=='grande'?'selected':''?>>Grande</option>
         <option value="desconocido" <?= $mascota['tamano']=='desconocido'?'selected':''?>>Desconocido</option>
     </select><br><br>

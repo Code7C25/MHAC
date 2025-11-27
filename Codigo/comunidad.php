@@ -1,32 +1,38 @@
 <?php
 session_start();
 require_once 'conexion.php';
+require_once 'moderacion.php'; // ← AGREGADO
 
 // ---------- Subir un nuevo post ----------
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['usuario_id'])) {
     $contenido = trim($_POST['contenido']);
     $rutaImagen = null;
 
-    // Procesar imagen si se subió
-    if (!empty($_FILES['imagen']['name'])) {
-        $carpeta = __DIR__ . "/imagenes/";
-        if (!is_dir($carpeta)) mkdir($carpeta, 0777, true);
-        
-        $nombreArchivo = time() . "_" . preg_replace('/[^A-Za-z0-9_\.-]/', '_', $_FILES['imagen']['name']);
-        $rutaCompleta = $carpeta . $nombreArchivo;
-        
-        if (move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaCompleta)) {
-            // Guardar ruta relativa completa
-            $rutaImagen = "imagenes/" . $nombreArchivo;
+    // --- FILTRO DE MODERACIÓN ---
+    if (moderar_texto($contenido)) {
+        $mensaje = "El contenido de tu publicación contiene palabras inapropiadas o sensibles.";
+    } else {
+        // Procesar imagen si se subió
+        if (!empty($_FILES['imagen']['name'])) {
+            $carpeta = __DIR__ . "/imagenes/";
+            if (!is_dir($carpeta)) mkdir($carpeta, 0777, true);
+            
+            $nombreArchivo = time() . "_" . preg_replace('/[^A-Za-z0-9_\.-]/', '_', $_FILES['imagen']['name']);
+            $rutaCompleta = $carpeta . $nombreArchivo;
+            
+            if (move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaCompleta)) {
+                // Guardar ruta relativa
+                $rutaImagen = "imagenes/" . $nombreArchivo;
+            }
         }
-    }
 
-    if ($contenido !== '' || $rutaImagen) {
-        $stmt = $conn->prepare("INSERT INTO posts (usuario_id, contenido, imagen) VALUES (?, ?, ?)");
-        $stmt->bind_param("iss", $_SESSION['usuario_id'], $contenido, $rutaImagen);
-        $stmt->execute();
-        header("Location: comunidad.php");
-        exit;
+        if ($contenido !== '' || $rutaImagen) {
+            $stmt = $conn->prepare("INSERT INTO posts (usuario_id, contenido, imagen) VALUES (?, ?, ?)");
+            $stmt->bind_param("iss", $_SESSION['usuario_id'], $contenido, $rutaImagen);
+            $stmt->execute();
+            header("Location: comunidad.php");
+            exit;
+        }
     }
 }
 
@@ -68,6 +74,13 @@ $posts = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 <main class="comunidad-container">
   <h1>Comunidad de Huellitas</h1>
 
+  <?php if (isset($mensaje)): ?>
+    <div class="mensaje-contenedor error">
+      <div class="mensaje-icono">❌</div>
+      <div class="mensaje-texto"><p><?= htmlspecialchars($mensaje) ?></p></div>
+    </div>
+  <?php endif; ?>
+
   <?php if (isset($_SESSION['usuario_id'])): ?>
   <form class="form-post" method="post" enctype="multipart/form-data">
     <textarea name="contenido" rows="3" placeholder="Comparte algo..." required></textarea>
@@ -81,18 +94,16 @@ $posts = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
   <section class="feed">
   <?php foreach ($posts as $post): ?>
     <article class="post">
-    <header>
-  <a href="perfil.php?id=<?= $post['autor'] ?>" class="enlace-perfil">
-    <strong><?= htmlspecialchars($post['nombre'].' '.$post['apellido']) ?></strong>
-  </a>
-  <small><?= date("d/m/Y H:i", strtotime($post['fecha'])) ?></small>
-</header>
+      <header>
+        <a href="perfil.php?id=<?= $post['autor'] ?>" class="enlace-perfil">
+          <strong><?= htmlspecialchars($post['nombre'].' '.$post['apellido']) ?></strong>
+        </a>
+        <small><?= date("d/m/Y H:i", strtotime($post['fecha'])) ?></small>
+      </header>
       <p><?= nl2br(htmlspecialchars($post['contenido'])) ?></p>
       <?php if ($post['imagen']): 
-        // Corregir ruta si no tiene carpeta
         $rutaImg = $post['imagen'];
         if (!strpos($rutaImg, '/')) {
-          // Si solo es el nombre del archivo, buscar en imagenes/ o uploads/
           if (file_exists('imagenes/' . $rutaImg)) {
             $rutaImg = 'imagenes/' . $rutaImg;
           } elseif (file_exists('uploads/' . $rutaImg)) {
