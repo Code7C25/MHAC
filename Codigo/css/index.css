@@ -1322,7 +1322,6 @@
 }
 
 .slide-info h4::before {
-    content: '🐕';
     font-size: 1.2rem;
     flex-shrink: 0;
 }
