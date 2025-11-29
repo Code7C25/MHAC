@@ -1,0 +1,91 @@
+:root {
+            --color-bg: #faf7f2;
+            --color-primary: #f4a261;
+            --color-primary-dark: #e76f51;
+            --color-accent: #81b29a;
+            --color-text: #3e3e3e;
+        }
+
+        body {
+            font-family: 'Baloo 2', cursive;
+            background-color: var(--color-bg);
+            margin: 0;
+            padding: 0;
+            color: var(--color-text);
+        }
+
+        .contenedor-form {
+            max-width: 520px;
+            margin: 60px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-top: 6px solid var(--color-primary);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--color-primary-dark);
+            font-size: 2rem;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: var(--color-text);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid var(--color-accent);
+            background-color: #fdfaf7;
+            color: var(--color-text);
+            margin-top: 5px;
+            font-size: 15px;
+        }
+
+        .acciones {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .boton {
+            display: inline-block;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin: 5px;
+        }
+
+        .boton-guardar {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .boton-guardar:hover {
+            background-color: var(--color-primary-dark);
+            transform: scale(1.05);
+        }
+
+        .boton-cancelar {
+            background-color: var(--color-accent);
+            color: white;
+        }
+
+        .boton-cancelar:hover {
+            background-color: #6a9b85;
+            transform: scale(1.05);
+        }
