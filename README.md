@@ -69,3 +69,17 @@ Siguiendo los requisitos de entrega, el proyecto se organiza así:
 
 ## Capturas del Sistema
 
+| Vista Inicio | Vista Adopción |
+|:---:|:---:|
+| ![Inicio](assets/captura_index.png) | ![Adopción](assets/captura_mascotas.png) |
+*(Estas imágenes muestran la interfaz limpia y amigable que diseñamos)*
+
+---
+
+## Enlaces Multimedia
+**Spot Publicitario (Reel):** https://www.instagram.com/reel/DRqIRCCDpuh/?igsh=MTJsbXh5eWNhM2szOA==
+**Manual de Usuario:** Disponible en la carpeta `/docs`.
+
+---
+
+Hecho con ❤️ por Sol, Dani & Tomi.
