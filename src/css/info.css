@@ -39,30 +39,43 @@ body {
     min-height: 100vh;
 }
 
-/* Botón volver */
+/* ===== BOTÓN VOLVER AL INICIO ===== */
 .volver-inicio {
     display: inline-flex;
     align-items: center;
-    margin: 1.5rem;
-    padding: 0.7rem 1.2rem;
-    background-color: var(--color-primario);
-    color: white;
+    gap: 0.5rem;             /* Reemplazado var(--spacing-sm) */
+    margin: 1rem 1.5rem;     /* Reemplazado var(--spacing-lg) */
+    padding: 0.5rem 1.5rem;  /* Reemplazado var(--spacing-sm/lg) */
+    background: white;
+    color: var(--color-primario);
     text-decoration: none;
-    border-radius: 25px;
+    border-radius: 50px;     /* Reemplazado var(--border-radius-xl) */
     font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.volver-inicio:hover {
-    background-color: var(--color-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Reemplazado var(--shadow-sm) */
+    border: 2px solid var(--color-primario);
+    transition: all 0.3s ease; /* Reemplazado var(--transition-base) */
+    font-size: 0.95rem;
+    
+    /* Aseguramos que se ponga encima del fondo */
+    position: relative; 
+    z-index: 10;
 }
 
 .volver-inicio span {
-    margin-right: 0.5rem;
     font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.volver-inicio:hover {
+    background: var(--color-primario);
+    color: white;
+    transform: translateX(-4px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    text-decoration: none;
+}
+
+.volver-inicio:hover span {
+    transform: translateX(-2px);
 }
 
 /* Header */

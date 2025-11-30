@@ -63,16 +63,12 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gatos y Gatitos en Adopción - MHAC</title>
     <link rel="stylesheet" href="css/mascotas_en_adopcion.css">
-    <link rel="stylesheet" href="css/base.css">
 
 <a href="#" onclick="history.back(); return false;" class="volver-inicio">
     <span>←</span> Volver
 </a>
 </head>
 <body>
-
-<a href="index.php" class="btn-volver"><span>←</span> Volver</a>
-
 <header>
     <h1>Gatos y Gatitos en Adopción</h1>
 </header>

@@ -103,6 +103,5 @@ $result = $conn->query($sql);
         <?php endif; ?>
     </div>
 </main>
-
 </body>
 </html>

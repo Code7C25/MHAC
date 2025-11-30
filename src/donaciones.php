@@ -29,14 +29,15 @@ if ($refugios_stmt) {
 <head>
     <meta charset="UTF-8">
     <title>Donaciones - MHAC</title>
-    <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/donaciones.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
 <a href="#" onclick="history.back(); return false;" class="volver-inicio">
     <span>←</span> Volver
 </a>
-</head>
-<body>
+
   <div class="registro-container">
   </div>
 
@@ -142,11 +143,6 @@ if ($refugios_stmt) {
             </p>
         </section>
     </main>
-
-    <footer>
-        <hr>
-        <p>&copy; <?= date("Y") ?> Mis Huellitas a Casa - Todos los derechos reservados</p>
-    </footer>
 
 </body>
 </html>
