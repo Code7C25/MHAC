@@ -41,14 +41,14 @@ $result = $conn->query($sql);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adopciones - MHAC</title>
+    <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/adopcion.css">
-</head>
-<body>
-<a href="index.php" class="">
-    <span>←</span>
-    Volver al inicio
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
 </a>
+</head>
 
+<body>
 <header>
     <h1>¿Buscando un nuevo amigo?</h1>
 </header>

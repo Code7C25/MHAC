@@ -52,26 +52,6 @@ header h1 {
     margin: 0;
 }
 
-/* ===== ENLACE VOLVER ===== */
-a[href="index.php"] {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: var(--color-primario);
-    color: white;
-    text-decoration: none;
-    border-radius: var(--border-radius-xl);
-    margin: 1rem;
-    transition: all var(--transition-base);
-    font-weight: 600;
-}
-
-a[href="index.php"]:hover {
-    background: var(--color-hover);
-    transform: translateX(-4px);
-}
-
 /* ===== NAVEGACIÓN PRINCIPAL (nav) ===== */
 nav {
     max-width: 900px;

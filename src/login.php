@@ -15,6 +15,10 @@ if (isset($_SESSION['usuario_id'])) {
     <title>Iniciar sesión - MHAC</title>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/login.css">
+
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
 </head>
 <body>
 

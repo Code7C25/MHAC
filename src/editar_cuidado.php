@@ -98,6 +98,9 @@ $autor_valor = $_POST['autor'] ?? $cuidado_data['autor'];
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/info.css">
   <script src="https://cdn.tiny.cloud/1/lqoycqy6vgr0fym1udkfuqvgxz5nfoa5mu1v2mtjcco049yl/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
 </head>
 
 <body>

@@ -115,13 +115,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitud de adopción - MHAC</title>
     <link rel="stylesheet" href="css/solicitar_adopcion.css">
+    <link rel="stylesheet" href="css/base.css">
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
 </head>
-<body>
-    <a href="index.php" class="btn-volver">
-        <span>←</span>
-        Volver al inicio
-    </a>
 
+<body>
     <header>
         <h1>Formulario de Solicitud de Adopción</h1>
         <p>Tu solicitud será revisada por nuestro equipo de MHAC</p>

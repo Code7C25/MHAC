@@ -136,10 +136,12 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/campañas.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <a href="index.php" class="volver-inicio">
-    <span>←</span> Volver al inicio
-  </a>
+
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
 </head>
+
 <body>
   <header class="header">
     <h1>🌟 Campañas MHAC</h1>

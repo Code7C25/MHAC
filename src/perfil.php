@@ -75,11 +75,14 @@ $whatsapp_link = !empty($telefono) ? "https://wa.me/$telefono" : "";
     <meta charset="UTF-8">
     <title>Perfil de <?php echo htmlspecialchars($usuario['nombre']); ?> - MHAC</title>
     <link rel="stylesheet" href="css/perfil.css">
+    <link rel="stylesheet" href="css/base.css">
+
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
 </head>
 
 <body>
-    <a href="index.php" class="btn-volver"><span>←</span> Volver</a>
-
     <div class="perfil-container">
         <h1>Perfil de <?php echo htmlspecialchars($usuario['nombre']); ?></h1>
 

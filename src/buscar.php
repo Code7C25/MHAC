@@ -39,13 +39,14 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <title>Resultados de búsqueda - MHAC</title>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/buscar.css">
+    <a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
 </head>
 
 <body>
-<a href="index.php" class="btn-volver">
-    <span>←</span> Volver
-</a>
 <main class="contenido-principal">
     <div class="resultados-busqueda">
         <h1>Resultados de búsqueda</h1>

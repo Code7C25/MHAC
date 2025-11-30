@@ -37,8 +37,12 @@ $historia_detalle = $result->fetch_assoc();
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($historia_detalle['titulo_historia']) ?> - MHAC</title>
     <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/rescates.css"> 
-    </head>
+    <link rel="stylesheet" href="css/rescates.css">
+
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
+</head>
 
 <body>
 <header>
