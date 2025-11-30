@@ -12,6 +12,7 @@ session_start();
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/consejo_module.css">
+    <link rel="stylesheet" href="css/footer.css">
 </head>
 
 <body>
@@ -53,7 +54,7 @@ session_start();
     
     <div class="hero-wag-content">
         <div class="hero-wag-logo">
-            <img src="../assets/imagenes/logo.svg" alt="Logo MHAC">
+            <img src="../assets/imagenes/Logo.svg" alt="Logo MHAC">
         </div>
         <div class="hero-wag-text">
             <h1 data-es="Encuentra tu nuevo mejor amigo" data-en="Find your new best friend">Encuentra tu nuevo mejor amigo</h1>
@@ -289,10 +290,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <footer class="footer">
     <div class="footer-container">
+        
         <div class="footer-logo">
             <h3 data-es="MHAC - Mis Huellitas a Casa" data-en="MHAC - My Paws at Home">MHAC - Mis Huellitas a Casa</h3>
-            <p data-es="Un puente entre peluditos y hogares llenos de amor." data-en="A bridge between animals and homes full of love.">Un puente entre peluditos y hogares llenos de amor.</p>
         </div>
+
+        <div class="footer-inline-links">
+            
+            <span class="inline-slogan" data-es="Un puente entre peluditos y hogares llenos de amor." data-en="A bridge between animals and homes full of love.">
+                Un puente entre peluditos y hogares llenos de amor.
+            </span> 
+            
+            <span class="separador">|</span>
+            
+            <a href="../docs/manual_usuario_MHAC.pdf" download="Manual_Usuario_MHAC.pdf" class="footer-action-link">
+                Ayuda
+            </a>
+
+            <span class="separador">|</span>
+            
+            <button onclick="iniciarTour()" class="footer-action-link">
+                Tour Interactivo
+            </button>
+        </div>
+
         <div class="footer-bottom">
             <p data-es="© 2025 MHAC. Todos los derechos reservados." data-en="© 2025 MHAC. All rights reserved.">© 2025 MHAC. Todos los derechos reservados.</p>
         </div>
