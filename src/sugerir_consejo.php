@@ -75,17 +75,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <title>Sugerir Consejo - MHAC</title>
-  <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/sugerir_consejo.css">
-
-  <a href="#" onclick="history.back(); return false;" class="volver-inicio">
-    <span>←</span> Volver
-</a>
 </head>
 
 <body>
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
+
 <header>
-  <h1>🐾 Sugerir un Nuevo Consejo</h1>
+  <h1>Sugerir un Nuevo Consejo/Dato</h1>
 </header>
 
 <main>

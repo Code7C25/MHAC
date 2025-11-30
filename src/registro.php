@@ -7,12 +7,8 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <title>Registro - MHAC</title>
-    <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/registro.css">
 
-<a href="#" onclick="history.back(); return false;" class="volver-inicio">
-    <span>←</span> Volver
-</a>
     <style>
       .hidden { display: none; }
     </style>

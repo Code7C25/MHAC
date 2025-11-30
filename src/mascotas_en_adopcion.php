@@ -82,7 +82,6 @@ $result = $conn->query($sql);
     <title>Mascotas en Adopción - MHAC</title>
     <link rel="stylesheet" href="css/mascotas_en_adopcion.css">
     <link rel="stylesheet" href="css/consejo_module.css">
-    <link rel="stylesheet" href="css/base.css">
 
 <a href="#" onclick="history.back(); return false;" class="volver-inicio">
     <span>←</span> Volver

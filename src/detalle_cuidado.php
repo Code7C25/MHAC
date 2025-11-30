@@ -37,7 +37,7 @@ $cuidado_detalle = $result->fetch_assoc();
   <meta charset="UTF-8">
   <title><?= htmlspecialchars($cuidado_detalle['titulo']) ?> - MHAC</title>
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/info.css">
+  <link rel="stylesheet" href="css/detalle_cuidado.css">
 <a href="#" onclick="history.back(); return false;" class="volver-inicio">
     <span>←</span> Volver
 </a>

@@ -2,129 +2,101 @@
 include("conexion.php");
 session_start();
 
-// Función para obtener ruta de imagen (siempre disponible)
+// --- 1. ACTUALIZACIÓN AUTOMÁTICA DE ESTADOS BASADA EN FECHAS ---
+$hoy = date('Y-m-d');
+
+// Actualizar estados
+$conn->query("UPDATE campañas SET estado = 'finalizada' WHERE fecha_fin < '$hoy' AND estado != 'finalizada'");
+$conn->query("UPDATE campañas SET estado = 'en_curso' WHERE fecha_inicio <= '$hoy' AND fecha_fin >= '$hoy' AND estado != 'en_curso'");
+$conn->query("UPDATE campañas SET estado = 'proxima' WHERE fecha_inicio > '$hoy' AND estado != 'proxima'");
+
+// Función para obtener ruta de imagen
 function obtenerRutaImagen($nombreImagen) {
-    $carpeta = "uploads/campañas/";
+    $carpeta = "../assets/uploads/campañas/";
     $ruta = $carpeta . $nombreImagen;
-    return (!empty($nombreImagen) && file_exists($ruta)) ? $ruta : "imagenes/default.jpg";
+    return (!empty($nombreImagen) && file_exists($ruta)) ? $ruta : "../assets/imagenes/default_campaign.jpg";
 }
 
-// Verificar si el usuario está logueado
+// Verificar login
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
     exit();
 }
 
-// Obtener información del usuario actual
+// Obtener usuario
 $usuario_id = $_SESSION['usuario_id'];
-$sql_usuario = "SELECT rol FROM usuarios WHERE id = ?";
-$stmt_usuario = $conn->prepare($sql_usuario);
-$stmt_usuario->bind_param("i", $usuario_id);
-$stmt_usuario->execute();
-$resultado_usuario = $stmt_usuario->get_result();
-$usuario = $resultado_usuario->fetch_assoc();
-
-// Verificar si el usuario tiene rol de refugio
+$stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = ?");
+$stmt->bind_param("i", $usuario_id);
+$stmt->execute();
+$usuario = $stmt->get_result()->fetch_assoc();
 $es_refugio = ($usuario['rol'] == 'refugio');
 
-// Obtener filtros
+// Filtros
 $q = isset($_GET['q']) ? trim($_GET['q']) : '';
-$estado = isset($_GET['estado']) ? $_GET['estado'] : '';
+$estado_filtro = isset($_GET['estado']) ? $_GET['estado'] : '';
 
-// Construcción dinámica del WHERE
 $where = [];
 $params = [];
 $types = '';
 
 if ($q !== '') {
     $where[] = "(c.titulo LIKE ? OR c.descripcion LIKE ?)";
-    $params[] = "%$q%";
-    $params[] = "%$q%";
+    $params[] = "%$q%"; $params[] = "%$q%";
     $types .= 'ss';
 }
-if ($estado !== '') {
+if ($estado_filtro !== '') {
     $where[] = "c.estado = ?";
-    $params[] = $estado;
+    $params[] = $estado_filtro;
     $types .= 's';
 }
 
-// --------------------- Campañas activas ---------------------
+// Campañas activas
 $where_activas = $where;
 $where_activas[] = "c.estado IN ('proxima','en_curso')";
 $where_sql_activas = $where_activas ? 'WHERE ' . implode(' AND ', $where_activas) : '';
-$sql_activas = "SELECT c.*, u.nombre AS organizador_nombre 
-                FROM `campañas` c 
-                JOIN usuarios u ON c.organizador_id = u.id 
-                $where_sql_activas 
-                ORDER BY c.fecha_inicio ASC";
-
+$sql_activas = "SELECT c.*, u.nombre AS organizador_nombre FROM `campañas` c JOIN usuarios u ON c.organizador_id = u.id $where_sql_activas ORDER BY c.estado ASC, c.fecha_inicio ASC";
 $stmt_activas = $conn->prepare($sql_activas);
-if (!$stmt_activas) {
-    die("Error en la query activas: " . $conn->error . " | SQL: " . $sql_activas);
-}
 if ($params) $stmt_activas->bind_param($types, ...$params);
 $stmt_activas->execute();
 $campanias_activas = $stmt_activas->get_result();
 
-// ------------------- Campañas finalizadas -------------------
+// Campañas finalizadas
 $where_finalizadas = $where;
 $where_finalizadas[] = "c.estado = 'finalizada'";
 $where_sql_finalizadas = $where_finalizadas ? 'WHERE ' . implode(' AND ', $where_finalizadas) : '';
-$sql_finalizadas = "SELECT c.*, u.nombre AS organizador_nombre 
-                    FROM `campañas` c 
-                    JOIN usuarios u ON c.organizador_id = u.id 
-                    $where_sql_finalizadas 
-                    ORDER BY c.fecha_fin DESC";
-
+$sql_finalizadas = "SELECT c.*, u.nombre AS organizador_nombre FROM `campañas` c JOIN usuarios u ON c.organizador_id = u.id $where_sql_finalizadas ORDER BY c.fecha_fin DESC";
 $stmt_finalizadas = $conn->prepare($sql_finalizadas);
-if (!$stmt_finalizadas) {
-    die("Error en la query finalizadas: " . $conn->error . " | SQL: " . $sql_finalizadas);
-}
 if ($params) $stmt_finalizadas->bind_param($types, ...$params);
 $stmt_finalizadas->execute();
 $campanias_finalizadas = $stmt_finalizadas->get_result();
 
-// ------------------ Crear campaña (solo refugio) ------------------
+// Crear campaña
 if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_campania'])) {
     $titulo = $_POST['titulo'];
     $descripcion = $_POST['descripcion'];
     $fecha_inicio = $_POST['fecha_inicio'];
     $fecha_fin = $_POST['fecha_fin'];
     $lugar = $_POST['lugar'];
-    $estado_nuevo = $_POST['estado'];
     
-    // Imagen
+    $estado_nuevo = 'proxima';
+    if ($fecha_inicio <= $hoy && $fecha_fin >= $hoy) $estado_nuevo = 'en_curso';
+    elseif ($fecha_fin < $hoy) $estado_nuevo = 'finalizada';
+    
     $imagen_nombre = '';
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
-        $directorio_imagenes = '../assets/uploads/campañas/';
-        if (!file_exists($directorio_imagenes)) {
-            mkdir($directorio_imagenes, 0777, true);
-        }
-        
-        $extension = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
-        $imagen_nombre = uniqid() . '.' . $extension;
-        $ruta_imagen = $directorio_imagenes . $imagen_nombre;
-        
-        move_uploaded_file($_FILES['imagen']['tmp_name'], $ruta_imagen);
+        $dir = '../assets/uploads/campañas/';
+        if (!file_exists($dir)) mkdir($dir, 0777, true);
+        $ext = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
+        $imagen_nombre = uniqid() . '.' . $ext;
+        move_uploaded_file($_FILES['imagen']['tmp_name'], $dir . $imagen_nombre);
     }
 
-    // Insertar en BD
-    $sql_insert = "INSERT INTO `campañas` 
-        (titulo, descripcion, fecha_inicio, fecha_fin, lugar, organizador_id, imagen, estado) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt_insert = $conn->prepare($sql_insert);
-    if (!$stmt_insert) {
-        die("Error en la query insert: " . $conn->error);
-    }
-    $stmt_insert->bind_param("ssssisss", 
-        $titulo, $descripcion, $fecha_inicio, $fecha_fin, $lugar, $usuario_id, $imagen_nombre, $estado_nuevo);
+    $stmt_ins = $conn->prepare("INSERT INTO `campañas` (titulo, descripcion, fecha_inicio, fecha_fin, lugar, organizador_id, imagen, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt_ins->bind_param("ssssisss", $titulo, $descripcion, $fecha_inicio, $fecha_fin, $lugar, $usuario_id, $imagen_nombre, $estado_nuevo);
     
-    if ($stmt_insert->execute()) {
-        $mensaje_exito = "Campaña creada exitosamente!";
-        header("Location: campañas.php");
+    if ($stmt_ins->execute()) {
+        header("Location: campañas.php?msg=creada");
         exit();
-    } else {
-        $mensaje_error = "Error al crear la campaña: " . $conn->error;
     }
 }
 ?>
@@ -133,104 +105,115 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
 <head>
   <meta charset="UTF-8">
   <title>Campañas - MHAC</title>
-  <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/campañas.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<a href="#" onclick="history.back(); return false;" class="volver-inicio">
-    <span>←</span> Volver
-</a>
 </head>
-
 <body>
+
+  <a href="index.php" class="volver-inicio">
+      <span>←</span> Volver al Inicio
+  </a>
+
   <header class="header">
-    <h1>🌟 Campañas MHAC</h1>
+    <h1>Campañas MHAC</h1>
     <p>Unite a nuestras iniciativas para el cuidado y adopción responsable de mascotas</p>
     <?php if ($es_refugio): ?>
-      <button class="btn-crear" onclick="abrirModal()"><i class="fas fa-plus"></i> Crear Nueva Campaña</button>
+      <button class="btn-crear-header" onclick="abrirModal()">
+        <i class="fas fa-plus"></i> Crear Nueva Campaña
+      </button>
     <?php endif; ?>
   </header>
 
-  <!-- Buscador y filtros -->
   <section class="buscador">
     <form method="GET" action="campañas.php">
-      <input type="text" name="q" placeholder="🔍 Buscar campañas..." value="<?= htmlspecialchars($q) ?>">
+      <input type="text" name="q" placeholder="Buscar campañas..." value="<?= htmlspecialchars($q) ?>">
       <select name="estado">
         <option value="">-- Filtrar por estado --</option>
-        <option value="proxima" <?= $estado === 'proxima' ? 'selected' : '' ?>>Próximas</option>
-        <option value="en_curso" <?= $estado === 'en_curso' ? 'selected' : '' ?>>En curso</option>
-        <option value="finalizada" <?= $estado === 'finalizada' ? 'selected' : '' ?>>Finalizadas</option>
+        <option value="proxima" <?= $estado_filtro === 'proxima' ? 'selected' : '' ?>>Próximas</option>
+        <option value="en_curso" <?= $estado_filtro === 'en_curso' ? 'selected' : '' ?>>En curso</option>
+        <option value="finalizada" <?= $estado_filtro === 'finalizada' ? 'selected' : '' ?>>Finalizadas</option>
       </select>
-      <button type="submit" class="btn"><i class="fas fa-search"></i> Buscar</button>
+      <button type="submit" class="btn-buscar"><i class="fas fa-search"></i> Buscar</button>
+      <?php if($q || $estado_filtro): ?>
+          <a href="campañas.php" class="btn-limpiar">Limpiar</a>
+      <?php endif; ?>
     </form>
   </section>
 
-
-  <!-- Mensajes de éxito/error -->
-  <?php if (isset($mensaje_exito)): ?>
-    <div class="mensaje exito"><i class="fas fa-check-circle"></i> <?= $mensaje_exito ?></div>
-  <?php endif; ?>
-  <?php if (isset($mensaje_error)): ?>
-    <div class="mensaje error"><i class="fas fa-times-circle"></i> <?= $mensaje_error ?></div>
+  <?php if (isset($_GET['msg']) && $_GET['msg'] == 'creada'): ?>
+    <div class="mensaje-exito">
+        <i class="fas fa-check-circle"></i> ¡Campaña creada exitosamente!
+    </div>
   <?php endif; ?>
 
-<!-- Campañas activas -->
-<section class="campanias-activas">
-  <h2>🚀 Campañas Activas</h2>
-  <div class="grid">
-    <?php if ($campanias_activas->num_rows > 0): ?>
-      <?php while($c = $campanias_activas->fetch_assoc()): ?>
-        <div class="card">
-          <img src="<?= obtenerRutaImagen($c['imagen']) ?>" alt="Imagen campaña">
-          <div class="card-body">
-            <h3><?= htmlspecialchars($c['titulo']) ?> 
-              <span class="badge <?= $c['estado'] ?>"><?= ucfirst($c['estado']) ?></span>
-            </h3>
-            <p><?= htmlspecialchars(substr($c['descripcion'], 0, 100)) ?>...</p>
-            <p><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($c['lugar']) ?></p>
-            <p><i class="fas fa-user"></i> Organiza: <?= htmlspecialchars($c['organizador_nombre']) ?></p>
-            <p><strong><?= date('d/m/Y', strtotime($c['fecha_inicio'])) ?> - <?= date('d/m/Y', strtotime($c['fecha_fin'])) ?></strong></p>
-            <div class="acciones">
-              <a href="participar.php?id=<?= $c['id'] ?>" class="btn"><i class="fas fa-hand-paper"></i> Participar</a>
-              <a href="detalle_campania.php?id=<?= $c['id'] ?>" class="btn secundario"><i class="fas fa-info-circle"></i> Ver más</a>
-              <a href="donar.php?id=<?= $c['id'] ?>" class="btn terciario"><i class="fas fa-heart"></i> Donar</a>
+  <section class="seccion-campanias">
+    <h2>🚀 Campañas Activas</h2>
+    <div class="grid">
+      <?php if ($campanias_activas->num_rows > 0): ?>
+        <?php while($c = $campanias_activas->fetch_assoc()): ?>
+          <div class="card">
+            <div class="card-img-container">
+                <img src="<?= obtenerRutaImagen($c['imagen']) ?>" alt="Imagen campaña">
+            </div>
+            <div class="card-body">
+              <h3>
+                  <?= htmlspecialchars($c['titulo']) ?> 
+                  <?php if($c['estado'] == 'en_curso'): ?>
+                      <span class="badge en-curso">En Curso</span>
+                  <?php else: ?>
+                      <span class="badge proxima">Próxima</span>
+                  <?php endif; ?>
+              </h3>
+              
+              <p class="descripcion"><?= htmlspecialchars(substr($c['descripcion'], 0, 100)) ?>...</p>
+              
+              <div class="info-meta">
+                  <p><i class="fas fa-map-marker-alt"></i> <strong>Lugar:</strong> <?= htmlspecialchars($c['lugar']) ?></p>
+                  <p><i class="fas fa-calendar-alt"></i> <strong>Desde:</strong> <?= date('d/m/Y', strtotime($c['fecha_inicio'])) ?></p>
+                  <p><i class="fas fa-flag-checkered"></i> <strong>Hasta:</strong> <?= date('d/m/Y', strtotime($c['fecha_fin'])) ?></p>
+              </div>
+              
+              <div class="acciones">
+                <a href="donaciones.php?campana_id=<?= $c['id'] ?>" class="btn-colaborar">
+                    <i class="fas fa-heart"></i> Colaborar
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      <?php endwhile; ?>
-    <?php else: ?>
-      <p>No hay campañas activas en este momento.</p>
-    <?php endif; ?>
-  </div>
-</section>
+        <?php endwhile; ?>
+      <?php else: ?>
+        <p class="sin-resultados">No hay campañas activas en este momento.</p>
+      <?php endif; ?>
+    </div>
+  </section>
 
-  <!-- Campañas finalizadas -->
-  <section class="campanias-finalizadas">
-    <h2> Historial de Campañas</h2>
+  <section class="seccion-finalizadas">
+    <h2>🏁 Historial de Campañas (Finalizadas)</h2>
     <div class="grid">
       <?php if ($campanias_finalizadas->num_rows > 0): ?>
         <?php while($c = $campanias_finalizadas->fetch_assoc()): ?>
           <div class="card finalizada">
-            <img src="<?= $c['imagen'] ?: 'imagenes/default.jpg' ?>" alt="Imagen campaña">
-            <h3><?= htmlspecialchars($c['titulo']) ?> <span class="badge">Finalizada</span></h3>
-            <p><?= htmlspecialchars($c['descripcion']) ?></p>
-            <p><strong> <?= $c['fecha_inicio'] ?> - <?= $c['fecha_fin'] ?></strong></p>
+            <div class="card-img-container">
+                <img src="<?= obtenerRutaImagen($c['imagen']) ?>" alt="Imagen campaña">
+            </div>
+            <div class="card-body">
+                <h3><?= htmlspecialchars($c['titulo']) ?> <span class="badge finalizada-badge">Finalizada</span></h3>
+                <p><strong>Finalizó el:</strong> <?= date('d/m/Y', strtotime($c['fecha_fin'])) ?></p>
+            </div>
           </div>
-        </div>
-      <?php endwhile; ?>
-    <?php else: ?>
-      <p>Aún no hay campañas finalizadas registradas.</p>
-    <?php endif; ?>
-  </div>
-</section>
+        <?php endwhile; ?>
+      <?php else: ?>
+        <p class="sin-resultados">Aún no hay campañas finalizadas registradas.</p>
+      <?php endif; ?>
+    </div>
+  </section>
 
-<!-- Modal para crear campaña (solo visible para refugios) -->
- <?php if ($es_refugio): ?>
+  <?php if ($es_refugio): ?>
   <div id="modalCrear" class="modal">
     <div class="modal-contenido">
       <span class="cerrar" onclick="cerrarModal()">&times;</span>
       <h2>Crear Nueva Campaña</h2>
-      <form method="POST" action="campañas.php" enctype="multipart/form-data">
+      <form method="POST" action="campañas.php" enctype="multipart/form-data" class="form-modal">
         <input type="hidden" name="crear_campania" value="1">
         
         <div class="form-group">
@@ -244,52 +227,38 @@ if ($es_refugio && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_
         </div>
         
         <div class="form-group">
-          <label for="fecha_inicio">Fecha de inicio:</label>
-          <input type="date" id="fecha_inicio" name="fecha_inicio" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="fecha_fin">Fecha de finalización:</label>
-          <input type="date" id="fecha_fin" name="fecha_fin" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="lugar">Lugar:</label>
+          <label for="lugar">Lugar / Dirección:</label>
           <input type="text" id="lugar" name="lugar" required>
         </div>
         
-        <div class="form-group">
-          <label for="estado">Estado:</label>
-          <select id="estado" name="estado" required>
-            <option value="proxima">Próxima</option>
-            <option value="en_curso">En curso</option>
-          </select>
+        <div class="form-row">
+            <div class="form-group">
+            <label for="fecha_inicio">Fecha inicio:</label>
+            <input type="date" id="fecha_inicio" name="fecha_inicio" required>
+            </div>
+            <div class="form-group">
+            <label for="fecha_fin">Fecha fin:</label>
+            <input type="date" id="fecha_fin" name="fecha_fin" required>
+            </div>
         </div>
         
         <div class="form-group">
           <label for="imagen">Imagen de la campaña:</label>
-          <input type="file" id="imagen" name="imagen" accept="image/*">
+          <input type="file" id="imagen" name="imagen" accept="image/*" required>
         </div>
         
-        <button type="submit" class="btn-crear">Crear Campaña</button>
+        <button type="submit" class="btn-submit-modal">Publicar Campaña</button>
       </form>
     </div>
   </div>
   <?php endif; ?>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>🐾 Mis Huellitas a Casa - Proyecto Educativo</p>
-    <p>Síguenos en 
-      <a href="#"><i class="fab fa-facebook"></i></a> 
-      <a href="#"><i class="fab fa-instagram"></i></a> 
-      <a href="#"><i class="fab fa-twitter"></i></a>
-    </p>
-  </footer>
-
-  <!-- Botón volver arriba -->
-  <button id="btnTop" onclick="window.scrollTo({top:0, behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
-
-  <script src="js/campanias.js"></script>
+  <script>
+    function abrirModal() { document.getElementById("modalCrear").style.display = "block"; }
+    function cerrarModal() { document.getElementById("modalCrear").style.display = "none"; }
+    window.onclick = function(e) {
+        if (e.target == document.getElementById("modalCrear")) cerrarModal();
+    }
+  </script>
 </body>
 </html>

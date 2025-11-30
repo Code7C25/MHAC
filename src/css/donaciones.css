@@ -184,27 +184,6 @@ section:nth-child(3) h2 {
     color: var(--color-acento);
 }
 
-/* Footer */
-footer {
-    background-color: var(--color-texto);
-    color: white;
-    text-align: center;
-    padding: 2rem;
-    margin-top: 3rem;
-}
-
-footer hr {
-    border: none;
-    height: 1px;
-    background-color: rgba(255, 255, 255, 0.2);
-    width: 80%;
-    margin: 0 auto 1.5rem;
-}
-
-footer p {
-    opacity: 0.9;
-}
-
 /* Elementos decorativos */
 .corazon-latido {
     display: inline-block;
@@ -267,4 +246,43 @@ footer p {
     textarea {
         padding: 12px;
     }
+}
+
+/* ===== BOTÓN VOLVER AL INICIO ===== */
+.volver-inicio {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;             /* Reemplazado var(--spacing-sm) */
+    margin: 1rem 1.5rem;     /* Reemplazado var(--spacing-lg) */
+    padding: 0.5rem 1.5rem;  /* Reemplazado var(--spacing-sm/lg) */
+    background: white;
+    color: var(--color-primario);
+    text-decoration: none;
+    border-radius: 50px;     /* Reemplazado var(--border-radius-xl) */
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Reemplazado var(--shadow-sm) */
+    border: 2px solid var(--color-primario);
+    transition: all 0.3s ease; /* Reemplazado var(--transition-base) */
+    font-size: 0.95rem;
+    
+    /* Aseguramos que se ponga encima del fondo */
+    position: relative; 
+    z-index: 10;
+}
+
+.volver-inicio span {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.volver-inicio:hover {
+    background: var(--color-primario);
+    color: white;
+    transform: translateX(-4px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    text-decoration: none;
+}
+
+.volver-inicio:hover span {
+    transform: translateX(-2px);
 }

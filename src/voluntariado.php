@@ -24,8 +24,8 @@ session_start();
 
 <body>
   <header>
-    <h1>🌟 Voluntariado</h1>
-    <p>Únete como voluntario y marca la diferencia en la vida de nuestros peludos 🐶🐱</p>
+    <h1>Voluntariado</h1>
+    <p>Únete como voluntario y marca la diferencia en la vida de nuestros peludos.</p>
     <hr>
   </header>
 
@@ -80,25 +80,10 @@ session_start();
           <textarea id="intereses" name="Intereses" placeholder="Ej: paseos, alimentación, eventos..." rows="4"></textarea>
         </div><br>
 
-        <button type="submit">Enviar 🐾</button>
+        <button type="submit">Enviar</button>
       </form>
     </section>
-
-    <hr>
-
-    <!-- Inspiración -->
-    <section>
-      <h2>Historias de voluntarios 💛</h2>
-      <p>
-        Cada voluntario deja una huella imborrable. Conoce cómo otros cambiaron vidas y cómo vos también podés hacerlo.
-      </p>
-    </section>
   </main>
-
-  <footer>
-    <hr>
-    <p>&copy; <?= date("Y") ?> Mis Huellitas a Casa - Todos los derechos reservados</p>
-  </footer>
-
+  
 </body>
 </html>
