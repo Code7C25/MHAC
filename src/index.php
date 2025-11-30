@@ -13,6 +13,9 @@ session_start();
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/consejo_module.css">
     <link rel="stylesheet" href="css/footer.css">
+<link rel="stylesheet" href="../manual_interactivo/introjs.min.css"> 
+<script src="../manual_interactivo/intromin.js"></script>
+<script src="../manual_interactivo/manual_interactivo.js"></script>
 </head>
 
 <body>
@@ -310,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <span class="separador">|</span>
             
             <button onclick="iniciarTour()" class="footer-action-link">
-                Tour Interactivo
+                Manual Interactivo
             </button>
         </div>
 
