@@ -41,6 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['mascota_id'])) {
         <meta charset="UTF-8">
         <title>Editar Mascota</title>
         <link rel="stylesheet" href="css/adopcion.css">
+        <link rel="stylesheet" href="css/base.css">
+        <a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
     </head>
     <body>
     <h1>Editar <?= htmlspecialchars($m['nombre']) ?></h1>

@@ -23,6 +23,11 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <title>Mis Publicaciones</title>
     <link rel="stylesheet" href="css/adopcion.css">
+    <link rel="stylesheet" href="css/base.css">
+
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
 </head>
 <body>
 <h1>🐾 Mis Publicaciones</h1>

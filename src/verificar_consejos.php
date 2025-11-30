@@ -52,8 +52,13 @@ $result = $conn->query($sql);
   <meta charset="UTF-8">
   <title>Moderación de Consejos - MHAC</title>
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/info.css"> 
+  <link rel="stylesheet" href="css/info.css">
+
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
 </head>
+
 <body>
 <header>
   <h1>Moderación de Consejos de la Comunidad</h1>

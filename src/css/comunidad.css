@@ -70,41 +70,6 @@ body {
     to { opacity: 1; }
 }
 
-/* ===== BOTÓN VOLVER AL INICIO ===== */
-.volver-inicio {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    margin: var(--spacing-lg);
-    padding: var(--spacing-sm) var(--spacing-lg);
-    background: white;
-    color: var(--color-primario);
-    text-decoration: none;
-    border-radius: var(--border-radius-xl);
-    font-weight: 600;
-    box-shadow: var(--shadow-sm);
-    border: 2px solid var(--color-primario);
-    transition: all var(--transition-base);
-    font-size: 0.95rem;
-}
-
-.volver-inicio span {
-    font-size: 1.2rem;
-    transition: transform var(--transition-base);
-}
-
-.volver-inicio:hover {
-    background: var(--color-primario);
-    color: white;
-    transform: translateX(-4px);
-    box-shadow: var(--shadow-base);
-    text-decoration: none;
-}
-
-.volver-inicio:hover span {
-    transform: translateX(-2px);
-}
-
 /* ===== CONTENEDOR PRINCIPAL ===== */
 .comunidad-container {
     max-width: 1400px;
@@ -466,10 +431,6 @@ body {
     .form-post {
         padding: var(--spacing-lg);
     }
-    
-    .volver-inicio {
-        margin: var(--spacing-base);
-    }
 }
 
 @media (max-width: 600px) {
@@ -523,8 +484,7 @@ body {
 .form-post textarea:focus-visible,
 .form-post button:focus-visible,
 .like-btn:focus-visible,
-.delete-btn:focus-visible,
-.volver-inicio:focus-visible {
+.delete-btn:focus-visible {
     outline: 2px solid var(--color-primario);
     outline-offset: 2px;
 }

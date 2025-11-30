@@ -99,7 +99,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Editar Perfil</title>
+    <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/editar_perfil.css">
+    <a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
 </head>
 <body>
 

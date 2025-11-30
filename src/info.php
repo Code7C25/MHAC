@@ -52,6 +52,11 @@ $categorias = [
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/info.css">
     <link rel="stylesheet" href="css/consejo_module.css">
+    <link rel="stylesheet" href="css/base.css">
+
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
 </head>
 
 <body>

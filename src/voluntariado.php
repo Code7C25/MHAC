@@ -10,17 +10,19 @@ session_start();
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/voluntariado.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <a href="index.php" class="volver-inicio">
-    <span>←</span> Volver al inicio
-  </a>
+
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
+
   <style>
     .like-btn {background:none;border:none;cursor:pointer;padding:0;}
     .like-btn img {width:34px;height:34px;vertical-align:middle;}
     .likes-count {margin-left:4px;font-size:14px;}
   </style>
 </head>
-<body>
 
+<body>
   <header>
     <h1>🌟 Voluntariado</h1>
     <p>Únete como voluntario y marca la diferencia en la vida de nuestros peludos 🐶🐱</p>

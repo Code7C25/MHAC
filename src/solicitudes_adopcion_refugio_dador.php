@@ -54,14 +54,14 @@ unset($_SESSION['mensaje']);
   <title>Solicitudes de Adopción - Mis Publicaciones</title>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/solicitudes_adopcion_refugio_dador.css">
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
 </head>
-</head>
+
 <body>
   <header>
     <h1>🐾 Solicitudes de Adopción - Tus Publicaciones</h1>
-    <div>
-      <a class="btn-volver" href="adopcion.php">Volver</a>
-    </div>
   </header>
 
   <main>

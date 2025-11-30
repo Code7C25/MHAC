@@ -6,10 +6,10 @@ require_once 'moderacion.php';
 // --- Definición de Rutas ---
 // Ruta física para guardar el archivo (necesaria para move_uploaded_file)
 // Esto navega desde /src/ hacia /assets/imagenes/posts/
-$CARPETA_UPLOADS_FISICA = __DIR__ . '/../assets/imagenes/posts/';
+$CARPETA_UPLOADS_FISICA = __DIR__ . '/../assets/uploads/posts/';
 
 // Ruta de navegación/Browser para guardar en la DB y para mostrar
-$RUTA_GUARDAR_DB = '../assets/imagenes/posts/'; 
+$RUTA_GUARDAR_DB = '../assets/uploads/posts/'; 
 
 // ---------- Subir un nuevo post ----------
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['usuario_id'])) {
@@ -76,7 +76,7 @@ $posts = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/comunidad.css">
     <a href="index.php" class="volver-inicio">
-        <span>←</span> Volver al inicio
+        <span>←</span> Volver
     </a>
     <style>
         .like-btn {background:none;border:none;cursor:pointer;padding:0;}
@@ -118,7 +118,7 @@ $posts = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
             <p><?= nl2br(htmlspecialchars($post['contenido'])) ?></p>
             
             <?php if ($post['imagen']): 
-                // La DB ya almacena la ruta completa: ../assets/imagenes/posts/nombre.jpg
+                // La DB ya almacena la ruta completa: ../assets/uploads/posts/nombre.jpg
                 $rutaImg = htmlspecialchars($post['imagen']);
             ?>
                 <img class="post-img" src="<?= $rutaImg ?>" alt="imagen del post" onerror="this.style.display='none'">

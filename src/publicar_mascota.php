@@ -146,13 +146,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publicar Mascota - MHAC</title>
     <link rel="stylesheet" href="css/publicar-mascota.css">
-</head>
-<body>
-    <a href="adopcion.php" class="btn-volver">
-        <span>←</span>
-        Volver al inicio
-    </a>
+    <link rel="stylesheet" href="css/base.css">
 
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
+</head>
+
+<body>
     <header>
         <h1>Publicar Mascota en Adopción</h1>
         <p>Ayudá a esta mascota a encontrar su hogar para siempre</p>

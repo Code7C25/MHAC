@@ -18,9 +18,11 @@ $result = $conn->query($sql);
   <title>Voluntariado - MHAC</title>
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/refugios.css">
-  <a href="index.php" class="volver-inicio">
-    <span>←</span> Volver al inicio
-  </a>
+
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
+
   <style>
     .like-btn {background:none;border:none;cursor:pointer;padding:0;}
     .like-btn img {width:34px;height:34px;vertical-align:middle;}

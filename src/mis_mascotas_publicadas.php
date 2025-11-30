@@ -29,6 +29,11 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis publicaciones - MHAC</title>
     <link rel="stylesheet" href="css/mis_mascotas_publicadas.css">
+    <link rel="stylesheet" href="css/base.css">
+
+<a href="#" onclick="history.back(); return false;" class="volver-inicio">
+    <span>←</span> Volver
+</a>
 </head>
 <body>
     <a href="adopcion.php" class="btn-volver">Volver</a>
