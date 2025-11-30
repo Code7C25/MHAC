@@ -57,12 +57,9 @@ Siguiendo los requisitos de entrega, el proyecto se organiza así:
 
 * 📂 **/src** → Código fuente completo del sistema (PHP, HTML, CSS, JS).
 * 📂 **/docs** → Documentación técnica, Documento Final y Testing.
-    * *manual_usuario.pdf*
     * 📂 */testing* (Planillas de prueba y reportes de bugs).
 * 📂 **/assets** → Recursos gráficos, capturas de pantalla y logos.
-* 📂 **/difusion** → Material promocional:
-    * Video de presentación y Spot publicitario (Reel).
-    * Flyer oficial.
+* 📂 **/difusion** → Material promocional.
 * 📂 **/manual_interactivo** → Scripts y recursos del recorrido guiado paso a paso.
 
 ---
@@ -72,14 +69,30 @@ Siguiendo los requisitos de entrega, el proyecto se organiza así:
 | Vista Inicio | Vista Adopción |
 |:---:|:---:|
 | ![Inicio](assets/captura_index.png) | ![Adopción](assets/captura_mascotas.png) |
-*(Estas imágenes muestran la interfaz limpia y amigable que diseñamos)*
 
 ---
 
-## Enlaces Multimedia
-**Spot Publicitario (Reel):** https://www.instagram.com/reel/DRqIRCCDpuh/?igsh=MTJsbXh5eWNhM2szOA==
-**Manual de Usuario:** Disponible en la carpeta `/docs`.
+## Enlaces Multimedia y Redes
+* **Spot Publicitario (Reel):** [https://www.instagram.com/reel/DRqIRCCDpuh/?igsh=MTJsbXh5eWNhM2szOA==]
+* **Instagram del Proyecto:** [https://www.instagram.com/mhac.adopta?igsh=dngxdnM2aTB2NXp3]
+* **Manual de Usuario:** [Ver/Descargar PDF desde el repositorio](docs/manual_usuario_MHAC.pdf)
 
+---
+
+## Cómo usar el sistema (Acceso Web)
+
+El proyecto se encuentra **desplegado y 100% funcional en línea**.
+
+**Acceso directo a la plataforma:**
+### [https://mishuellitasacasa.gt.tc/index.php]
+
+**Guía rápida:**
+1.  Ingresá al enlace desde tu navegador.
+2.  Podés navegar como invitado o **registrarte** para probar todas las funciones.
+3.  Explora las secciones de Adopción, Refugios y Comunidad.
+4.  **¿Necesitás ayuda?** En el **pie de página** encontrarás dos botones:
+    * **Ayuda (PDF):** Para descargar el manual de usuario completo.
+    * **Tour Interactivo:** Para activar el recorrido guiado en pantalla.
 ---
 
 Hecho con ❤️ por Sol, Dani & Tomi.

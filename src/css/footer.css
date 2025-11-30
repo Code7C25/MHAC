@@ -1,0 +1,75 @@
+/* ===== FOOTER CENTRADO Y FUENTE CONSISTENTE ===== */
+.footer {
+    background: linear-gradient(135deg, var(--color-texto) 0%, #1a202c 100%);
+    color: white;
+    padding: var(--spacing-3xl) var(--spacing-base);
+    margin-top: var(--spacing-3xl);
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: auto;
+    /* Aplicamos la fuente principal a todo el contenedor */
+    font-family: 'Baloo 2', cursive; 
+    text-align: center; 
+}
+
+.footer-logo h3 {
+    /* No es necesario repetir la fuente aquí, pero lo mantenemos limpio */
+    font-size: 1.8rem;
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+}
+
+/* ZONA DE ENLACES INLINE */
+.footer-inline-links {
+    display: flex; 
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center;
+    gap: 10px; /* Espacio entre los elementos */
+    font-size: 1rem;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+}
+
+.inline-slogan {
+    color: rgba(255, 255, 255, 0.8);
+    /* Fuente Baloo 2 aplicada por herencia */
+}
+
+/* Estilo para los botones/links de acción (minimalista) */
+.footer-action-link {
+    background: none;
+    border: none;
+    color: white; 
+    font-size: 1rem;
+    font-weight: bold; 
+    text-decoration: none; 
+    padding: 0;
+    cursor: pointer;
+    transition: color 0.2s;
+    /* Aseguramos la herencia de la fuente en botones */
+    font-family: inherit; 
+}
+
+.footer-action-link:hover, .footer-action-link:focus {
+    color: #ffd700; /* Color de énfasis para el hover */
+    text-decoration: underline; 
+}
+
+.separador {
+    color: rgba(255, 255, 255, 0.5); 
+    font-size: 1rem;
+}
+
+/* Restaura el margen superior, el padding y la línea divisora */
+.footer-bottom {
+    /* Agregamos el borde superior de vuelta: ¡LA LÍNEA SEPARADORA! */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); 
+    
+    margin-top: var(--spacing-base);
+    padding-top: var(--spacing-base);
+    
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+}
