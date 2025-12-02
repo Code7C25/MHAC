@@ -47,6 +47,7 @@ $result = $conn->query($sql);
     <span>←</span> Volver
 </a>
 </head>
+<script src="translate.js"></script>
 
 <body>
 <header>

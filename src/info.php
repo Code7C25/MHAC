@@ -165,5 +165,6 @@ $categorias = [
         }
     });
 </script>
+<script src="translate.js"></script>
 </body>
 </html>

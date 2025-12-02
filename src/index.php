@@ -44,10 +44,10 @@ session_start();
 
 <!-- Menú principal con navegación -->
 <nav class="menu-principal">
-    <a href="adopcion.php" data-es="ADOPTAR O INVOLUCRARSE" data-en="ADOPT OR GET INVOLVED">ADOPTAR O INVOLUCRARSE</a>
-    <a href="perros.php" data-es="PERROS Y CACHORROS" data-en="DOGS AND PUPPIES">PERROS Y CACHORROS</a>
-    <a href="gatos.php" data-es="GATOS Y GATITOS" data-en="CATS AND KITTENS">GATOS Y GATITOS</a>
-    <a href="otros.php" data-es="OTROS TIPOS DE MASCOTAS" data-en="OTHER TYPES OF PETS">OTROS TIPOS DE MASCOTAS</a>
+    <a href="adopcion.php">ADOPTAR O INVOLUCRARSE</a>
+    <a href="perros.php">PERROS Y CACHORROS</a>
+    <a href="gatos.php">GATOS Y GATITOS</a>
+    <a href="otros.php">OTROS TIPOS DE MASCOTAS</a>
 </nav>
 
 <!-- Hero section con imagen de fondo -->
@@ -60,8 +60,8 @@ session_start();
             <img src="../assets/imagenes/Logo.svg" alt="Logo MHAC">
         </div>
         <div class="hero-wag-text">
-            <h1 data-es="Encuentra tu nuevo mejor amigo" data-en="Find your new best friend">Encuentra tu nuevo mejor amigo</h1>
-            <p data-es="Explora mascotas de nuestra red de refugios y rescates." data-en="Explore pets from our network of over 100 shelters and rescues.">Explora mascotas de nuestra red de más de 100 refugios y rescates.</p>
+            <h1>Encuentra tu nuevo mejor amigo</h1>
+            <p>Explora mascotas de nuestra red de más de 100 refugios y rescates.</p>
         </div>
     </div>
 
@@ -69,8 +69,8 @@ session_start();
     <div class="search-container">
         <form class="search-form" action="buscar.php" method="GET">
             <div class="search-inputs">
-                <input type="text" name="tipo" placeholder="Buscar Perro, Gato, etc." class="search-input" data-es-placeholder="Buscar Perro, Gato, etc." data-en-placeholder="Search Dog, Cat, etc.">
-                <input type="text" name="ubicacion" placeholder="Ingresa raza" class="search-input" data-es-placeholder="Ingresa raza" data-en-placeholder="Enter breed">
+                <input type="text" name="tipo" placeholder="Buscar Perro, Gato, etc." class="search-input">
+                <input type="text" name="ubicacion" placeholder="Ingresa raza" class="search-input">
                 <button type="submit" class="search-button">🔍</button>
             </div>
         </form>
@@ -84,66 +84,66 @@ session_start();
             <div class="categoria-icon">
                 <img src="../assets/imagenes/icono-adopcion.png" alt="Adopciones">
             </div>
-            <h3 data-es="Adopciones" data-en="Adoptions">Adopciones</h3>
+            <h3>Adopciones</h3>
         </a>
         
         <a href="refugios.php" class="categoria-card">
             <div class="categoria-icon">
                 <img src="../assets/imagenes/icono-refugios.png" alt="Refugios">
             </div>
-            <h3 data-es="Refugios" data-en="Shelters">Refugios</h3>
+            <h3>Refugios</h3>
         </a>
         
         <a href="rescates.php" class="categoria-card">
             <div class="categoria-icon">
                 <img src="../assets/imagenes/icono-rescates.png" alt="Rescates/Historias">
             </div>
-            <h3 data-es="Rescates" data-en="Rescues">Rescates</h3>
+            <h3>Rescates</h3>
         </a>
         
         <a href="comunidad.php" class="categoria-card">
             <div class="categoria-icon">
                 <img src="../assets/imagenes/icono-comunidad.png" alt="Comunidad">
             </div>
-            <h3 data-es="Comunidad" data-en="Community">Comunidad</h3>
+            <h3>Comunidad</h3>
         </a>
     </div>
 </section>
 
 <?php if (!isset($_SESSION['usuario_id'])): ?>
     <section class="alerta-inicio">
-        <h2 data-es="¿Todavía no iniciaste sesión?" data-en="Haven't logged in yet?">¿Todavía no iniciaste sesión?</h2>
-        <p data-es="Únete a nuestra comunidad y ayuda a conectar corazones con patitas" data-en="Join our community and help connect hearts with paws">Únete a nuestra comunidad y ayuda a conectar corazones con patitas</p>
-        <a href="login.php" class="cta" data-es="Iniciar sesión" data-en="Log in">Iniciar sesión</a>
+        <h2>¿Todavía no iniciaste sesión?</h2>
+        <p>Únete a nuestra comunidad y ayuda a conectar corazones con patitas</p>
+        <a href="login.php" class="cta">Iniciar sesión</a>
     </section>
 <?php endif; ?>
 
 <!-- Sección de servicios adicionales -->
 <section class="servicios-adicionales">
-    <h2 data-es="¿Cómo más podés ayudar?" data-en="How else can you help?">¿Cómo más podés ayudar?</h2>
+    <h2>¿Cómo más podés ayudar?</h2>
     <div class="servicios-grid">
         <a href="donaciones.php" class="servicio-card">
             <div class="icono">
                 <img src="../assets/imagenes/icono-donaciones.png" alt="Donaciones">
             </div>
-            <h3 data-es="Donaciones" data-en="Donations">Donaciones</h3>
-            <p data-es="Ayuda con donaciones para el cuidado de los animales" data-en="Help with donations for animal care">Ayuda con donaciones para el cuidado de los animales</p>
+            <h3>Donaciones</h3>
+            <p>Ayuda con donaciones para el cuidado de los animales</p>
         </a>
 
         <a href="campañas.php" class="servicio-card">
             <div class="icono">
                 <img src="../assets/imagenes/icono-campañas.png" alt="Campañas">
             </div>
-            <h3 data-es="Campañas" data-en="Campaigns">Campañas</h3>
-            <p data-es="Participa en las campañas de concientización" data-en="Participate in our awareness campaigns">Participa en nuestras campañas de concientización</p>
+            <h3>Campañas</h3>
+            <p>Participa en nuestras campañas de concientización</p>
         </a>
         
         <a href="voluntariado.php" class="servicio-card">
             <div class="icono">
                 <img src="../assets/imagenes/icono-voluntariado.png" alt="Voluntariado">
             </div>
-            <h3 data-es="Voluntariado" data-en="Volunteering">Voluntariado</h3>
-            <p data-es="Únete como voluntario y marca la diferencia" data-en="Join as a volunteer and make a difference">Únete como voluntario y marca la diferencia</p>
+            <h3>Voluntariado</h3>
+            <p>Únete como voluntario y marca la diferencia</p>
         </a>
     </div>
 </section>
@@ -163,13 +163,8 @@ session_start();
 <!-- Mapa de veterinarias en Alta Gracia -->
 <section class="mapa-veterinarias">
     <div class="mapa-veterinarias-header">
-        <h2 data-es="Veterinarias en Alta Gracia 🐾" data-en="Veterinary Clinics in Alta Gracia 🐾">
-            Veterinarias en Alta Gracia 🐾
-        </h2>
-        <p data-es="Encuentra las clínicas veterinarias más cercanas para el cuidado de tu mascota" 
-           data-en="Find the nearest veterinary clinics for your pet's care">
-            Encuentra las clínicas veterinarias más cercanas para el cuidado de tu mascota
-        </p>
+        <h2>Veterinarias en Alta Gracia 🐾</h2>
+        <p>Encuentra las clínicas veterinarias más cercanas para el cuidado de tu mascota</p>
     </div>
     
     <div class="mapa-container">
@@ -186,8 +181,8 @@ session_start();
 <!-- Carrusel dinámico de mascotas en adopción -->
 <section class="novedades-carrusel">
     <div class="carrusel-header">
-        <h3 data-es="Mascotas en adopción" data-en="Pets for Adoption">MASCOTAS EN ADOPCIÓN</h3>
-        <a href="mascotas_en_adopcion.php" class="btn-saber-mas" data-es="Saber más" data-en="Learn more">SABER MÁS</a>
+        <h3>MASCOTAS EN ADOPCIÓN</h3>
+        <a href="mascotas_en_adopcion.php" class="btn-saber-mas">SABER MÁS</a>
     </div>
 
     <div class="carrusel-wrapper">
@@ -214,7 +209,6 @@ session_start();
         <button class="carrusel-nav next" aria-label="Siguiente">›</button>
     </div>
 </section>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const container = document.querySelector('.carrusel-container');
@@ -295,12 +289,12 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="footer-container">
         
         <div class="footer-logo">
-            <h3 data-es="MHAC - Mis Huellitas a Casa" data-en="MHAC - My Paws at Home">MHAC - Mis Huellitas a Casa</h3>
+            <h3>MHAC - Mis Huellitas a Casa</h3>
         </div>
 
         <div class="footer-inline-links">
             
-            <span class="inline-slogan" data-es="Un puente entre peluditos y hogares llenos de amor." data-en="A bridge between animals and homes full of love.">
+            <span class="inline-slogan">
                 Un puente entre peluditos y hogares llenos de amor.
             </span> 
             
@@ -318,10 +312,17 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
 
         <div class="footer-bottom">
-            <p data-es="© 2025 MHAC. Todos los derechos reservados." data-en="© 2025 MHAC. All rights reserved.">© 2025 MHAC. Todos los derechos reservados.</p>
+            <p>© 2025 MHAC. Todos los derechos reservados.</p>
         </div>
     </div>
 </footer>
+
+<a href="denuncias.html" 
+   class="btn-denuncias-flotante" 
+   data-tooltip="Denunciar maltrato animal"
+   aria-label="Denunciar maltrato animal">
+    <img src="../assets/imagenes/amar.png" alt="Denuncias" class="icono-denuncias">
+</a>
 
 <style>
     .user-session {
@@ -347,98 +348,84 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 </style>
 
+<!-- ⭐⭐⭐ GOOGLE TRANSLATE (GLOBAL) ⭐⭐⭐ -->
+<div id="google_translate_element" style="display:none;"></div>
+
 <script>
-  // Sistema de traducción con persistencia en localStorage
-  const btnIdioma = document.getElementById('btnIdioma');
-  let idiomaActual = 'es';
-
-  // Función que traduce la página
-  function traducirPagina(idioma) {
-    // Traducir texto
-    document.querySelectorAll('[data-es][data-en]').forEach(elemento => {
-      const texto = idioma === 'es' ? elemento.dataset.es : elemento.dataset.en;
-      if (elemento.tagName === 'INPUT' || elemento.tagName === 'TEXTAREA') {
-        elemento.placeholder = texto;
-      } else {
-        elemento.textContent = texto;
-      }
-    });
-
-    // Traducir placeholders
-    document.querySelectorAll('[data-es-placeholder][data-en-placeholder]').forEach(input => {
-      input.placeholder = idioma === 'es' ? input.dataset.esPlaceholder : input.dataset.enPlaceholder;
-    });
-
-    // Cambiar texto del botón si existe
-    if (btnIdioma) btnIdioma.textContent = idioma === 'es' ? '🌐 English' : '🌐 Español';
-  }
-
-  // Leer idioma guardado en localStorage
-  window.addEventListener('DOMContentLoaded', () => {
-    const idiomaGuardado = localStorage.getItem('idioma') || 'es';
-    idiomaActual = idiomaGuardado;
-    traducirPagina(idiomaActual);
-  });
-
-  // Cambiar idioma al hacer click en el botón
-  btnIdioma.addEventListener('click', () => {
-    idiomaActual = idiomaActual === 'es' ? 'en' : 'es';
-    localStorage.setItem('idioma', idiomaActual);
-    traducirPagina(idiomaActual);
-  });
-
-  // Toggle menú usuario
-  document.querySelectorAll('.menu-toggle').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const menu = btn.nextElementSibling;
-      if (menu.style.display === 'block') {
-        menu.style.display = 'none';
-      } else {
-        menu.style.display = 'block';
-      }
-    });
-  });
-
-  // Slider simple
-  let slides = document.querySelectorAll('.slider-novedades .slide');
-  let currentSlide = 0;
-  setInterval(() => {
-    slides[currentSlide].classList.remove('activo');
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].classList.add('activo');
-  }, 4000);
-
-  // Cambio automático del fondo en hero-wag
-  const heroBg = document.querySelector('.hero-wag-bg');
-  const imagenesFondo = [
-    '../assets/imagenes/slide1.jpg',
-    '../assets/imagenes/slide2.jpg', 
-    '../assets/imagenes/slide3.jpg'
-  ];
-  let fondoIndex = 0;
-  setInterval(() => {
-    fondoIndex = (fondoIndex + 1) % imagenesFondo.length;
-    heroBg.style.backgroundImage = `url('${imagenesFondo[fondoIndex]}')`;
-  }, 5000);
-
-  function cerrarConsejo() {
-    const popup = document.getElementById("consejoPopup");
-    if (popup) popup.style.display = 'none';
-  }
-
-  window.addEventListener("DOMContentLoaded", () => {
-    const popup = document.getElementById("consejoPopup");
-    if (popup) {
-      setTimeout(() => { popup.classList.add('visible'); }, 100); 
-      setTimeout(() => { popup.style.display = 'none'; }, 15000); 
-    }
-  });
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'es',
+    includedLanguages: 'en',
+    autoDisplay: false
+  }, 'google_translate_element');
+}
 </script>
-<a href="denuncias.html" 
-   class="btn-denuncias-flotante" 
-   data-tooltip="Denunciar maltrato animal"
-   aria-label="Denunciar maltrato animal">
-    <img src="../assets/imagenes/amar.png" alt="Denuncias" class="icono-denuncias">
-</a>
+
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<style>
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+body { top: 0 !important; }
+.goog-te-gadget-simple { display: none !important; }
+.goog-te-gadget-icon { display: none !important; }
+</style>
+
+<script>
+// ⭐ Cambiar idioma desde el botón
+function setLanguage(lang) {
+    const select = document.querySelector("select.goog-te-combo");
+    if (select) {
+        select.value = lang;
+        select.dispatchEvent(new Event("change"));
+    }
+}
+
+// ⭐ Botón 🌐 ES ↔ EN
+document.getElementById("btnIdioma").addEventListener("click", function () {
+    const current = localStorage.getItem("mhac_lang") || "es";
+    const next = current === "es" ? "en" : "es";
+    localStorage.setItem("mhac_lang", next);
+    setLanguage(next);
+
+    document.getElementById("btnIdioma").textContent =
+        next === "es" ? "🌐 English" : "🌐 Español";
+});
+
+// ⭐ Aplicar idioma guardado (cuando recarga)
+window.addEventListener("load", () => {
+    const saved = localStorage.getItem("mhac_lang");
+    if (saved) {
+        setTimeout(() => setLanguage(saved), 500);
+        document.getElementById("btnIdioma").textContent =
+            saved === "es" ? "🌐 English" : "🌐 Español";
+    }
+});
+</script>
+<script>
+// 🔧 REPARA el menú plegable (Google Translate Safe)
+
+document.addEventListener("click", function(e) {
+
+    // Si se clickea el botón del menú
+    if (e.target.classList.contains("menu-toggle")) {
+        const menu = e.target.nextElementSibling;
+        
+        // Alternar el menú
+        menu.style.display = 
+            (menu.style.display === "block") ? "none" : "block";
+
+        return; // Importante: no dejar que Google Translate capture esto
+    }
+
+    // Cerrar el menú si se clickea afuera
+    document.querySelectorAll(".menu-contenido").forEach(menu => {
+        if (!menu.contains(e.target) && !e.target.classList.contains("menu-toggle")) {
+            menu.style.display = "none";
+        }
+    });
+
+});
+</script>
+
 </body>
 </html>

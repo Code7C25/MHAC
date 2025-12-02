@@ -29,7 +29,7 @@ $result = $conn->query($sql);
     .likes-count {margin-left:4px;font-size:14px;}
   </style>
 </head>
-
+<script src="translate.js"></script>
 <body>
 <header>
 <h1>Refugios</h1>

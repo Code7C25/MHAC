@@ -177,5 +177,6 @@ $result = $conn->query($sql);
             <?php endif; ?>
     </section>
 </main>
+<script src="translate.js"></script>
 </body>
 </html>

@@ -75,5 +75,6 @@ $result = $stmt->get_result();
         <?php endif; ?>
     </div>
 </main>
+<script src="translate.js"></script>
 </body>
 </html>

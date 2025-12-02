@@ -84,6 +84,7 @@ session_start();
       </form>
     </section>
   </main>
-  
+<script src="translate.js"></script>
+
 </body>
 </html>

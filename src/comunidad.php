@@ -84,6 +84,8 @@ $posts = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
         .likes-count {margin-left:4px;font-size:14px;}
     </style>
 </head>
+<script src="translate.js"></script>
+
 <body>
 
 <main class="comunidad-container">

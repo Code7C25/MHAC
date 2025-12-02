@@ -194,5 +194,6 @@ $result = $conn->query($sql);
         </section>
 
     </main>
+<script src="translate.js"></script>
 </body>
 </html>
