@@ -141,6 +141,6 @@ textarea.addEventListener("input", () => {
   charCount.style.color = count < 20 ? "#b30000" : (count > 250 ? "#b30000" : "#555");
 });
 </script>
-
+<script src="translate.js"></script>
 </body>
 </html>

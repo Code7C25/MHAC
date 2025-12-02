@@ -35,6 +35,7 @@ $result_listado = $conn->query($sql_listado);
     
     <script src="https://cdn.tiny.cloud/1/lqoycqy6vgr0fym1udkfuqvgxz5nfoa5mu1v2mtjcco049yl/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
+<script src="translate.js"></script>
 <body>
 
 <a href="index.php" class="volver-inicio">

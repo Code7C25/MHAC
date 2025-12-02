@@ -81,7 +81,7 @@ $whatsapp_link = !empty($telefono) ? "https://wa.me/$telefono" : "";
     <span>←</span> Volver
 </a>
 </head>
-
+<script src="translate.js"></script>
 <body>
     <div class="perfil-container">
         <h1>Perfil de <?php echo htmlspecialchars($usuario['nombre']); ?></h1>

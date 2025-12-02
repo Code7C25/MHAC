@@ -33,6 +33,7 @@ if ($refugios_stmt) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
+
 <body>
 <a href="#" onclick="history.back(); return false;" class="volver-inicio">
     <span>←</span> Volver
@@ -143,6 +144,7 @@ if ($refugios_stmt) {
             </p>
         </section>
     </main>
+<script src="translate.js"></script>
 
 </body>
 </html>

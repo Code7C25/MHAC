@@ -610,3 +610,264 @@ main {
 .volver-inicio:hover span {
     transform: translateX(-2px);
 }
+/* ===== ACCIONES DE TARJETA ===== */
+.acciones-card {
+    margin-top: auto;
+    padding-top: var(--spacing-base);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* ===== BOTONES DE ACCIÓN ===== */
+.btn-adoptar-card,
+.btn-perfil-card {
+    flex: 1;
+    text-align: center;
+    padding: var(--spacing-sm) var(--spacing-base);
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+}
+
+/* Efecto de brillo al pasar el mouse */
+.btn-adoptar-card::before,
+.btn-perfil-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: left 0.5s ease;
+}
+
+.btn-adoptar-card:hover::before,
+.btn-perfil-card:hover::before {
+    left: 100%;
+}
+
+/* Botón Adoptar - Verde primario */
+.btn-adoptar-card {
+    background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-suave) 100%);
+    border-color: var(--color-primario);
+}
+
+.btn-adoptar-card::after {
+    content: '';
+    margin-left: 4px;
+    transition: transform var(--transition-base);
+}
+
+.btn-adoptar-card:hover {
+    background: linear-gradient(135deg, var(--color-hover) 0%, var(--color-primario) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(92, 139, 57, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-adoptar-card:hover::after {
+    transform: scale(1.2);
+    animation: heartBeat 0.6s ease;
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.3); }
+    50% { transform: scale(1.1); }
+    75% { transform: scale(1.25); }
+}
+
+/* Botón Ver Perfil - Acento marrón/dorado */
+.btn-perfil-card {
+    background: linear-gradient(135deg, var(--color-acento2) 0%, var(--color-boton) 100%);
+    border-color: var(--color-acento2);
+}
+
+.btn-perfil-card::after {
+    content: '👁️';
+    margin-left: 4px;
+    transition: transform var(--transition-base);
+}
+
+.btn-perfil-card:hover {
+    background: linear-gradient(135deg, var(--color-boton) 0%, var(--color-boton-hover) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(163, 132, 93, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-perfil-card:hover::after {
+    transform: scale(1.2);
+}
+
+/* Estado activo (al hacer click) */
+.btn-adoptar-card:active,
+.btn-perfil-card:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Estados de focus para accesibilidad */
+.btn-adoptar-card:focus,
+.btn-perfil-card:focus {
+    outline: 3px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+}
+
+/* Versión con iconos de texto (opcional) */
+.btn-adoptar-card.with-icon::after,
+.btn-perfil-card.with-icon::after {
+    content: '→';
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .acciones-card {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+    
+    .btn-adoptar-card,
+    .btn-perfil-card {
+        font-size: 0.85rem;
+        padding: var(--spacing-sm);
+    }
+}
+
+/* ===== ESTADOS ALTERNATIVOS ===== */
+
+/* Botón deshabilitado */
+.btn-adoptar-card:disabled,
+.btn-perfil-card:disabled,
+.btn-adoptar-card.disabled,
+.btn-perfil-card.disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none !important;
+    box-shadow: none;
+}
+
+.btn-adoptar-card:disabled:hover,
+.btn-perfil-card:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Botón de carga */
+.btn-adoptar-card.loading,
+.btn-perfil-card.loading {
+    pointer-events: none;
+    position: relative;
+}
+
+.btn-adoptar-card.loading::after,
+.btn-perfil-card.loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin: 0;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===== VARIANTES DE ESTILO ===== */
+
+/* Estilo outline (opcional) */
+.btn-adoptar-card.outline {
+    background: white;
+    color: var(--color-primario);
+    border: 2px solid var(--color-primario);
+}
+
+.btn-adoptar-card.outline:hover {
+    background: var(--color-primario);
+    color: white;
+}
+
+.btn-perfil-card.outline {
+    background: white;
+    color: var(--color-acento2);
+    border: 2px solid var(--color-acento2);
+}
+
+.btn-perfil-card.outline:hover {
+    background: var(--color-acento2);
+    color: white;
+}
+
+/* Estilo con sombra intensa (llamativo) */
+.btn-adoptar-card.intense {
+    box-shadow: 0 8px 20px rgba(92, 139, 57, 0.3);
+}
+
+.btn-perfil-card.intense {
+    box-shadow: 0 8px 20px rgba(163, 132, 93, 0.3);
+}
+
+/* ===== ANIMACIONES ADICIONALES ===== */
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 6px 20px rgba(92, 139, 57, 0.4);
+    }
+    50% {
+        box-shadow: 0 6px 30px rgba(92, 139, 57, 0.6);
+    }
+}
+
+.btn-adoptar-card.pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Efecto de onda al hacer click */
+.btn-adoptar-card,
+.btn-perfil-card {
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0);
+    animation: ripple-effect 0.6s ease-out;
+    pointer-events: none;
+}
+
+@keyframes ripple-effect {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}

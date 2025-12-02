@@ -78,5 +78,6 @@ $cuidado_detalle = $result->fetch_assoc();
         <a href="info.php" class="volver-listado">← Volver al Listado de Consejos</a>
     </article>
 </main>
+<script src="translate.js"></script>
 </body>
 </html>

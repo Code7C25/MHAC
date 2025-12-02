@@ -112,6 +112,7 @@ $result = $conn->query($sql);
         <p>No tienes solicitudes de adopción registradas.</p>
     <?php endif; ?>
 </main>
+<script src="translate.js"></script>
 
 </body>
 </html>
