@@ -705,7 +705,6 @@ main {
 }
 
 .btn-perfil-card::after {
-    content: '👁️';
     margin-left: 4px;
     transition: transform var(--transition-base);
 }
